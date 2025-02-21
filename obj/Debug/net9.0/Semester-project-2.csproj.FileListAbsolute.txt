@@ -1,0 +1,15 @@
+C:\Users\manis\Desktop\Semester-project-2\bin\Debug\net9.0\Semester-project-2.exe
+C:\Users\manis\Desktop\Semester-project-2\bin\Debug\net9.0\Semester-project-2.deps.json
+C:\Users\manis\Desktop\Semester-project-2\bin\Debug\net9.0\Semester-project-2.runtimeconfig.json
+C:\Users\manis\Desktop\Semester-project-2\bin\Debug\net9.0\Semester-project-2.dll
+C:\Users\manis\Desktop\Semester-project-2\bin\Debug\net9.0\Semester-project-2.pdb
+C:\Users\manis\Desktop\Semester-project-2\obj\Debug\net9.0\Semester-project-2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\manis\Desktop\Semester-project-2\obj\Debug\net9.0\Semester-project-2.AssemblyInfoInputs.cache
+C:\Users\manis\Desktop\Semester-project-2\obj\Debug\net9.0\Semester-project-2.AssemblyInfo.cs
+C:\Users\manis\Desktop\Semester-project-2\obj\Debug\net9.0\Semester-project-2.csproj.CoreCompileInputs.cache
+C:\Users\manis\Desktop\Semester-project-2\obj\Debug\net9.0\Semester-project-2.sourcelink.json
+C:\Users\manis\Desktop\Semester-project-2\obj\Debug\net9.0\Semester-project-2.dll
+C:\Users\manis\Desktop\Semester-project-2\obj\Debug\net9.0\refint\Semester-project-2.dll
+C:\Users\manis\Desktop\Semester-project-2\obj\Debug\net9.0\Semester-project-2.pdb
+C:\Users\manis\Desktop\Semester-project-2\obj\Debug\net9.0\Semester-project-2.genruntimeconfig.cache
+C:\Users\manis\Desktop\Semester-project-2\obj\Debug\net9.0\ref\Semester-project-2.dll
