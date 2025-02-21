@@ -6,16 +6,16 @@ This is the **Group 3** repository for Semester Project 2. Below is the structur
 
 ## 📁 **Project Structure**  
 SEMESTER-PROJECT-2/
-├── Data/ # Contains system-related datasets
-│ ├── heat_demand.csv # Heating demand data
-│ ├── production_units.json # Information about production units
-├── obj/ # Build artifacts and temporary files
-├── bin/ # Compiled binaries and executable files
-├── Source/ # Core source files
-│ ├── AssetManager.cs # Manages static system data
-│ ├── Program.cs # Main application logic
-├── README.md # Project documentation
-├── Semester-project.sln # Solution file
+├── Data/                   # Contains system-related datasets
+│   ├── heat_demand.csv      # Heating demand data
+│   ├── production_units.json # Information about production units
+├── obj/                    # Build artifacts and temporary files
+├── bin/                    # Compiled binaries and executable files
+├── Source/                 # Core source files
+│   ├── AssetManager.cs      # Manages static system data
+│   ├── Program.cs           # Main application logic
+├── README.md               # Project documentation
+├── Semester-project.sln    # Solution file
 └── Semester-project-2.csproj # Project file
 
 ---
