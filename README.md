@@ -5,6 +5,7 @@ This is the **Group 3** repository for Semester Project 2. Below is the structur
 ---
 
 ## 📁 **Project Structure**  
+```plaintext
 SEMESTER-PROJECT-2/
 ├── Data/                   # Contains system-related datasets
 │   ├── heat_demand.csv      # Heating demand data
@@ -17,6 +18,7 @@ SEMESTER-PROJECT-2/
 ├── README.md               # Project documentation
 ├── Semester-project.sln    # Solution file
 └── Semester-project-2.csproj # Project file
+```
 
 ---
 
