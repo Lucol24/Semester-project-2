@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/lara/workspace/Semester 2 project/Semester-project-2/Semester-project-2.csproj": {}
+    "C:\\Users\\39380\\Semester-project-2\\Semester-project-2.csproj": {}
   },
   "projects": {
-    "/Users/lara/workspace/Semester 2 project/Semester-project-2/Semester-project-2.csproj": {
+    "C:\\Users\\39380\\Semester-project-2\\Semester-project-2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/lara/workspace/Semester 2 project/Semester-project-2/Semester-project-2.csproj",
+        "projectUniqueName": "C:\\Users\\39380\\Semester-project-2\\Semester-project-2.csproj",
         "projectName": "Semester-project-2",
-        "projectPath": "/Users/lara/workspace/Semester 2 project/Semester-project-2/Semester-project-2.csproj",
-        "packagesPath": "/Users/lara/.nuget/packages/",
-        "outputPath": "/Users/lara/workspace/Semester 2 project/Semester-project-2/obj/",
+        "projectPath": "C:\\Users\\39380\\Semester-project-2\\Semester-project-2.csproj",
+        "packagesPath": "C:\\Users\\39380\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\39380\\Semester-project-2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/lara/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\39380\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -43,6 +43,12 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[33.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -59,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

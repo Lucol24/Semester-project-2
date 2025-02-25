@@ -1,4 +1,4 @@
-﻿Time from,Time to,Heat Demand,Electricity Price
+﻿TimeFrom,TimeTo,Heat,ElectricityPrice
 8/11/24 0:00,8/11/24 1:00,1.79,752.03
 8/11/24 1:00,8/11/24 2:00,1.85,691.05
 8/11/24 2:00,8/11/24 3:00,1.76,674.78

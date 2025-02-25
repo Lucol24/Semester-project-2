@@ -1,4 +1,4 @@
-﻿Time from,Time to,Heat Demand,Electricity Price
+﻿TimeFrom,TimeTo,Heat,ElectricityPrice
 3/1/24 0:00,3/1/24 1:00,6.62,1190.94
 3/1/24 1:00,3/1/24 2:00,6.85,1154.55
 3/1/24 2:00,3/1/24 3:00,6.98,1116.22
