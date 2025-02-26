@@ -1,21 +1,20 @@
 using System.Globalization;
 using System.Text.Json;
 using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace DanfossHeating;
 
 public class AssetManager
 {
-    private List<ProductionUnit> productionUnits = new();
-
-    private List<HeatDemand> WinterHeatDemand = new();
-
-    private List<HeatDemand> SummerHeatDemand = new();
+    private List<ProductionUnit> productionUnits = [];
+    private List<HeatDemand> winterHeatDemands = [];
+    private List<HeatDemand> summerHeatDemands = [];
 
     public AssetManager()
     {
-        LoadProductionUnits();
-        LoadHeatDemand();
+        LoadProductionUnits(); // Load production unit data from JSON file
+        LoadHeatDemand(); // Load heat demand data from CSV file
     }
 
     private void LoadProductionUnits()
@@ -36,68 +35,66 @@ public class AssetManager
 
     private void LoadHeatDemand()
     {
-        using var readerS = new StreamReader("Data/SummerHeatDemand.csv");
-        using var csvS = new CsvReader(readerS, CultureInfo.InvariantCulture);
-
-        var heatDemandDataS = csvS.GetRecords<HeatDemand>();
-
-        foreach(var h in heatDemandDataS)
+        string filePath = "Data/heat_demand.csv";
+        if (!File.Exists(filePath))
         {
-            Console.WriteLine($"{h.TimeFrom,-10}{h.TimeTo,-10}{h.Heat,-10}{h.ElectricityPrice,-10}");
+            Console.WriteLine("Error: Heat demand file not found.");
+            return;
         }
 
-        Console.WriteLine();
+        using var reader = new StreamReader(filePath);
+        using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false }); // "HasHeaderRecord = false" Dont expect headers
 
-        using var readerW = new StreamReader("Data/WinterHeatDemand.csv");
-        using var csvW = new CsvReader(readerW, CultureInfo.InvariantCulture);
+        // Skip the first three header lines
+        for (int i = 0; i < 3; i++) reader.ReadLine(); // "reader.ReadLine()" reads one line of the file at a time
 
-        var heatDemandDataW = csvW.GetRecords<HeatDemand>();
-
-        foreach(var h in heatDemandDataW)
+        while (csv.Read()) // Keep reading the next row until there are no more rows
         {
-            Console.WriteLine($"{h.TimeFrom,-10}{h.TimeTo,-10}{h.Heat,-10}{h.ElectricityPrice,-10}");
+            winterHeatDemands.Add(new HeatDemand
+            {
+                // TimeFrom = csv.GetField<DateTime>(0),
+            });
+
+            summerHeatDemands.Add(new HeatDemand
+            {
+                
+            });
         }
     }
 
+    /// <summary>
+    /// Displays the loaded data in the Console.
+    /// </summary>
     public void DisplayData()
     {
+        // JSON data - Production Units
         Console.WriteLine("\n--- Production Units ---");
         foreach (var unit in productionUnits)
         {
-            Console.WriteLine($"Name: {unit.Name ?? "N/A"}");
-            Console.WriteLine($"  Max Heat: {(unit.MaxHeat.HasValue ? unit.MaxHeat + " MW" : "N/A")}");
+            Console.WriteLine($"Name: {unit.Name}");
+            Console.WriteLine($"  Max Heat: {unit.MaxHeat} MW");
             Console.WriteLine($"  Max Electricity: {(unit.MaxElectricity.HasValue ? unit.MaxElectricity + " MW" : "N/A")}");
-            Console.WriteLine($"  Production Costs: {(unit.ProductionCosts.HasValue ? unit.ProductionCosts + " DKK/MWh" : "N/A")}");
-            Console.WriteLine($"  CO2 Emissions: {(unit.CO2Emissions.HasValue ? unit.CO2Emissions + " kg/MWh" : "N/A")}");
-            Console.WriteLine($"  Fuel Consumption: {(unit.FuelConsumption.HasValue ? unit.FuelConsumption + " kg/MWh" : "N/A")}");
+            Console.WriteLine($"  Production Costs: {unit.ProductionCosts} DKK/MWh");
+            Console.WriteLine($"  CO2 Emissions: {unit.CO2Emissions} kg/MWh");
+            Console.WriteLine($"  Fuel Consumption: {unit.FuelConsumption} kg/MWh");
             Console.WriteLine("----------------------------------");
         }
 
-        Console.WriteLine("Winter Data");
-        foreach(var demand in WinterHeatDemand)
-        {
-            Console.WriteLine($"  Time From: {demand.TimeFrom}");
-            Console.WriteLine($"  Time To: {demand.TimeTo}");
-            Console.WriteLine($"  Heat Demand: {demand.Heat}");
-            Console.WriteLine($"  Electricity Price: {demand.ElectricityPrice}");
-            Console.WriteLine("----------------------------------");
-        }
+        // CSV data - Winter/Summer Heat Demands
+        Console.WriteLine("\n--- ❄️  Winter Heat Demand ❄️  ---\n");
+        
+            Console.WriteLine($"Print winter demand data");
+        
 
-        Console.WriteLine("Summer Data");
-        foreach(var demand in SummerHeatDemand)
-        {
-            Console.WriteLine($"  Time From: {demand.TimeFrom}");
-            Console.WriteLine($"  Time To: {demand.TimeTo}");
-            Console.WriteLine($"  Heat Demand: {demand.Heat}");
-            Console.WriteLine($"  Electricity Price: {demand.ElectricityPrice}");
-            Console.WriteLine("----------------------------------");
-        }
+        Console.WriteLine("\n\n--- ☀️  Summer Heat Demand ☀️  ---\n");
+        
+            Console.WriteLine($"Print winter demand data");   
     }
-
-
-    
 }
 
+/// <summary>
+/// Stores JSON data about the production units (Boilers, Motor and Pump)
+/// </summary>
 public class ProductionUnit
 {
     public string? Name { get; set; } = null; // Nullable string
@@ -108,6 +105,9 @@ public class ProductionUnit
     public double? FuelConsumption { get; set; } = null;
 }
 
+/// <summary>
+/// Stores winter and summer heat demand records from the CSV
+/// </summary>
 public class HeatDemand
 {
     public DateTime TimeFrom { get; set; } 
