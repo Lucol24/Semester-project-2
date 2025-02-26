@@ -14,8 +14,8 @@ SEMESTER-PROJECT-2/
 ├── bin/                        # Compiled binaries and executable files
 ├── Source/                     # Core source files
 │   ├── AssetManager.cs         # Manages static system data
-│   ├── ProductionUnit.cs       # JSON for the production units (Boilers, Motor and Pump)
-│   ├── HeatDemand.cs           # Seasons heat demand records from CSV
+│   ├── ProductionUnit.cs       # Production units class (Boilers, Motor and Pump)
+│   ├── HeatDemand.cs           # Seasons heat demand records class
 │   ├── Program.cs              # Main application logic
 ├── README.md                   # Project documentation
 ├── Semester-project.sln        # Solution file
