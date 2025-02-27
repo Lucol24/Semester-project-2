@@ -14,6 +14,8 @@ SEMESTER-PROJECT-2/
 ├── bin/                        # Compiled binaries and executable files
 ├── Source/                     # Core source files
 │   ├── AssetManager.cs         # Manages static system data
+│   ├── ProductionUnit.cs       # Production units class (Boilers, Motor and Pump)
+│   ├── HeatDemand.cs           # Seasons heat demand records class
 │   ├── Program.cs              # Main application logic
 ├── README.md                   # Project documentation
 ├── Semester-project.sln        # Solution file
@@ -28,8 +30,10 @@ SEMESTER-PROJECT-2/
 - **`heat_demand.csv`** – Stores heating demand data for analysis.  
 - **`production_units.json`** – Contains details about production units, such as energy production, consumption, and costs.  
 
-### **🔧 Source Files**  
-- **`AssetManager.cs`** – Stores and organizes static system information, including heating grid details and production unit data (e.g., energy production, costs, and emissions).  
+### 🔧 Source Files  
+- **`AssetManager.cs`** – Manages and loads static system data, including production units and heat demand from JSON and CSV files.  
+- **`ProductionUnit.cs`** – Defines the `ProductionUnit` class, which stores data about energy production units, including max heat, electricity, costs, and emissions.  
+- **`HeatDemand.cs`** – Defines the `HeatDemand` class, which stores winter and summer heat demand records.  
 - **`Program.cs`** – Main application logic and execution flow.  
 
 ---
