@@ -1,3 +1,18 @@
+# Ignore NuGet packages
+packages/
+*.nupkg
+*.snupkg
+
+# Ignore build artifacts
+bin/
+obj/
+
+# Ignore user-specific files
+.vs/
+*.user
+*.suo
+*.userprefs
+
 # .NET Core
 project.lock.json
 project.fragment.lock.json

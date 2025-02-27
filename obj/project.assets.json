@@ -53,19 +53,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\manis\\.nuget\\packages\\": {}
+    "/Users/lara/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\manis\\OneDrive\\Desktop\\Semester-project-2\\Semester-project-2.csproj",
+      "projectUniqueName": "/Users/lara/workspace/Semester-project-2/Semester-project-2.csproj",
       "projectName": "Semester-project-2",
-      "projectPath": "C:\\Users\\manis\\OneDrive\\Desktop\\Semester-project-2\\Semester-project-2.csproj",
-      "packagesPath": "C:\\Users\\manis\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\manis\\OneDrive\\Desktop\\Semester-project-2\\obj\\",
+      "projectPath": "/Users/lara/workspace/Semester-project-2/Semester-project-2.csproj",
+      "packagesPath": "/Users/lara/.nuget/packages/",
+      "outputPath": "/Users/lara/workspace/Semester-project-2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\manis\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/lara/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -116,7 +116,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

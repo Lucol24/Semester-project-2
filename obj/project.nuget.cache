@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "oTRVH5t6mcA=",
+  "dgSpecHash": "bDDV6uZwOVA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\manis\\OneDrive\\Desktop\\Semester-project-2\\Semester-project-2.csproj",
+  "projectFilePath": "/Users/lara/workspace/Semester-project-2/Semester-project-2.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\manis\\.nuget\\packages\\csvhelper\\33.0.1\\csvhelper.33.0.1.nupkg.sha512"
+    "/Users/lara/.nuget/packages/csvhelper/33.0.1/csvhelper.33.0.1.nupkg.sha512"
   ],
   "logs": []
 }
