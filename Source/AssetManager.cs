@@ -20,53 +20,127 @@ public class AssetManager
     private void LoadProductionUnits()
     {
         string filePath = "Data/production_units.json";
-        if (File.Exists(filePath))
+        
+        try
         {
-            string json = File.ReadAllText(filePath);
-            productionUnits = JsonSerializer.Deserialize<List<ProductionUnit>>(json) ?? new();
+            if (File.Exists(filePath))
+            {
+                string json = File.ReadAllText(filePath);
+                productionUnits = JsonSerializer.Deserialize<List<ProductionUnit>>(json) ?? new();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Error: Production units file not found.");
+                Console.ResetColor();
+            }
         }
-        else
+        catch (IOException ex)
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Error: Production units file not found.");
+            Console.WriteLine($"I/O Error: {ex.Message}");
+        }
+        catch (JsonException ex)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine($"JSON Parsing Error: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine($"Unexpected Error: {ex.Message}");
+        }
+        finally
+        {
             Console.ResetColor();
         }
     }
 
-    private void LoadHeatDemand()
+        private void LoadHeatDemand()
     {
         string filePath = "Data/heat_demand.csv";
-        if (!File.Exists(filePath))
+        
+        try
         {
-            Console.WriteLine("Error: Heat demand file not found.");
-            return;
+            if (!File.Exists(filePath))
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Error: Heat demand file not found.");
+                Console.ResetColor();
+                return;
+            }
+
+            using var reader = new StreamReader(filePath);
+            using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false });
+
+            // Skip the first three header lines
+            for (int i = 0; i < 3; i++) 
+            {
+                if (reader.ReadLine() == null)
+                {
+                    throw new InvalidDataException("Error: Unexpected end of file while skipping header lines.");
+                }
+            }
+
+            while (csv.Read()) // Keep reading the next row until there are no more rows
+            {
+                try
+                {
+                    winterHeatDemands.Add(new HeatDemand
+                    {
+                        TimeFrom = csv.GetField<DateTime>(0),
+                        TimeTo = csv.GetField<DateTime>(1),
+                        Heat = csv.GetField<double>(2),
+                        ElectricityPrice = csv.GetField<double>(3),
+                    });
+
+                    summerHeatDemands.Add(new HeatDemand
+                    {
+                        TimeFrom = csv.GetField<DateTime>(5),
+                        TimeTo = csv.GetField<DateTime>(6),
+                        Heat = csv.GetField<double>(7),
+                        ElectricityPrice = csv.GetField<double>(8),
+                    });
+                }
+                catch (CsvHelperException ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine($"CSV Parsing Error: {ex.Message}");
+                    Console.ResetColor();
+                }
+            }
         }
-
-        using var reader = new StreamReader(filePath);
-        using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false }); // "HasHeaderRecord = false" Dont expect headers
-
-        // Skip the first three header lines
-        for (int i = 0; i < 3; i++) reader.ReadLine(); // "reader.ReadLine()" reads one line of the file at a time
-
-        while (csv.Read()) // Keep reading the next row until there are no more rows
+        catch (FileNotFoundException ex)
         {
-            winterHeatDemands.Add(new HeatDemand
-            {
-                TimeFrom = csv.GetField<DateTime>(0),
-                TimeTo = csv.GetField<DateTime>(1),
-                Heat = csv.GetField<double>(2),
-                ElectricityPrice = csv.GetField<double>(3),
-            });
-
-            summerHeatDemands.Add(new HeatDemand
-            {
-                TimeFrom = csv.GetField<DateTime>(5),
-                TimeTo = csv.GetField<DateTime>(6),
-                Heat = csv.GetField<double>(7),
-                ElectricityPrice = csv.GetField<double>(8),
-            });
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine($"File Not Found: {ex.Message}");
+        }
+        catch (IOException ex)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine($"I/O Error: {ex.Message}");
+        }
+        catch (CsvHelperException ex)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine($"CSV Parsing Error: {ex.Message}");
+        }
+        catch (InvalidDataException ex)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine($"Invalid Data: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine($"Unexpected Error: {ex.Message}");
+        }
+        finally
+        {
+            Console.ResetColor();
         }
     }
+
 
     /// <summary>
     /// Displays the loaded data in the Console.
@@ -87,7 +161,7 @@ public class AssetManager
         }
 
         // CSV data - Winter/Summer Heat Demands
-        Console.WriteLine("\n--- ❄️  Winter Heat Demand ❄️  ---\n");
+        Console.WriteLine("\n---❄️  Winter Heat Demand ❄️  ---\n");
         foreach (var demand in winterHeatDemands)
         {
             Console.WriteLine($"From {demand.TimeFrom} to {demand.TimeTo}, Heat: {demand.Heat} MWh, Electricity Price: {demand.ElectricityPrice} DKK/MWh");
