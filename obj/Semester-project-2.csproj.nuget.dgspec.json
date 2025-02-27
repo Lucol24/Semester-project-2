@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\collu\\Documents\\GitHub\\Semester-project-2\\Semester-project-2.csproj": {}
+    "C:\\Users\\39380\\OneDrive - Syddansk Universitet\\Desktop\\Semester-project-2\\Semester-project-2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\collu\\Documents\\GitHub\\Semester-project-2\\Semester-project-2.csproj": {
+    "C:\\Users\\39380\\OneDrive - Syddansk Universitet\\Desktop\\Semester-project-2\\Semester-project-2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\collu\\Documents\\GitHub\\Semester-project-2\\Semester-project-2.csproj",
+        "projectUniqueName": "C:\\Users\\39380\\OneDrive - Syddansk Universitet\\Desktop\\Semester-project-2\\Semester-project-2.csproj",
         "projectName": "Semester-project-2",
-        "projectPath": "C:\\Users\\collu\\Documents\\GitHub\\Semester-project-2\\Semester-project-2.csproj",
-        "packagesPath": "C:\\Users\\collu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\collu\\Documents\\GitHub\\Semester-project-2\\obj\\",
+        "projectPath": "C:\\Users\\39380\\OneDrive - Syddansk Universitet\\Desktop\\Semester-project-2\\Semester-project-2.csproj",
+        "packagesPath": "C:\\Users\\39380\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\39380\\OneDrive - Syddansk Universitet\\Desktop\\Semester-project-2\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\collu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\39380\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -71,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
