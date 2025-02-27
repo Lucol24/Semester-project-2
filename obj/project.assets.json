@@ -53,19 +53,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\39380\\.nuget\\packages\\": {}
+    "C:\\Users\\manis\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\39380\\OneDrive - Syddansk Universitet\\Desktop\\Semester-project-2\\Semester-project-2.csproj",
+      "projectUniqueName": "C:\\Users\\manis\\OneDrive\\Desktop\\Semester-project-2\\Semester-project-2.csproj",
       "projectName": "Semester-project-2",
-      "projectPath": "C:\\Users\\39380\\OneDrive - Syddansk Universitet\\Desktop\\Semester-project-2\\Semester-project-2.csproj",
-      "packagesPath": "C:\\Users\\39380\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\39380\\OneDrive - Syddansk Universitet\\Desktop\\Semester-project-2\\obj\\",
+      "projectPath": "C:\\Users\\manis\\OneDrive\\Desktop\\Semester-project-2\\Semester-project-2.csproj",
+      "packagesPath": "C:\\Users\\manis\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\manis\\OneDrive\\Desktop\\Semester-project-2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\39380\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\manis\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -116,7 +116,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.103/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -90,21 +90,14 @@ public class AssetManager
         Console.WriteLine("\n--- ❄️  Winter Heat Demand ❄️  ---\n");
         foreach (var demand in winterHeatDemands)
         {
-            Console.WriteLine($"Time From: {demand.TimeFrom}");
-            Console.WriteLine($"Time To: {demand.TimeTo}");
-            Console.WriteLine($"Heat: {demand.Heat} MW");
-            Console.WriteLine($"Electricity Price: {demand.ElectricityPrice} DKK/MWh");
-            Console.WriteLine("----------------------------------");
+            Console.WriteLine($"From {demand.TimeFrom} to {demand.TimeTo}, Heat: {demand.Heat} MWh, Electricity Price: {demand.ElectricityPrice} DKK/MWh");
         }        
         
-
         Console.WriteLine("\n\n--- ☀️  Summer Heat Demand ☀️  ---\n");
         foreach (var demand in summerHeatDemands)
         {
-            Console.WriteLine($"Time From: {demand.TimeFrom}");
-            Console.WriteLine($"Time To: {demand.TimeTo}");
-            Console.WriteLine($"Heat: {demand.Heat} MW");
-            Console.WriteLine($"Electricity Price: {demand.ElectricityPrice} DKK/MWh");        }        
+            Console.WriteLine($"From {demand.TimeFrom} to {demand.TimeTo}, Heat: {demand.Heat} MWh, Electricity Price: {demand.ElectricityPrice} DKK/MWh");
+        }        
     }
 }
 
