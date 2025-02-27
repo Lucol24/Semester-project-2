@@ -52,12 +52,18 @@ public class AssetManager
         {
             winterHeatDemands.Add(new HeatDemand
             {
-                // TimeFrom = csv.GetField<DateTime>(0),
+                TimeFrom = csv.GetField<DateTime>(0),
+                TimeTo = csv.GetField<DateTime>(1),
+                Heat = csv.GetField<double>(2),
+                ElectricityPrice = csv.GetField<double>(3),
             });
 
             summerHeatDemands.Add(new HeatDemand
             {
-                
+                TimeFrom = csv.GetField<DateTime>(5),
+                TimeTo = csv.GetField<DateTime>(6),
+                Heat = csv.GetField<double>(7),
+                ElectricityPrice = csv.GetField<double>(8),
             });
         }
     }
@@ -82,13 +88,23 @@ public class AssetManager
 
         // CSV data - Winter/Summer Heat Demands
         Console.WriteLine("\n--- ❄️  Winter Heat Demand ❄️  ---\n");
-        
-            Console.WriteLine($"Print winter demand data");
+        foreach (var demand in winterHeatDemands)
+        {
+            Console.WriteLine($"Time From: {demand.TimeFrom}");
+            Console.WriteLine($"Time To: {demand.TimeTo}");
+            Console.WriteLine($"Heat: {demand.Heat} MW");
+            Console.WriteLine($"Electricity Price: {demand.ElectricityPrice} DKK/MWh");
+            Console.WriteLine("----------------------------------");
+        }        
         
 
         Console.WriteLine("\n\n--- ☀️  Summer Heat Demand ☀️  ---\n");
-        
-            Console.WriteLine($"Print winter demand data");   
+        foreach (var demand in summerHeatDemands)
+        {
+            Console.WriteLine($"Time From: {demand.TimeFrom}");
+            Console.WriteLine($"Time To: {demand.TimeTo}");
+            Console.WriteLine($"Heat: {demand.Heat} MW");
+            Console.WriteLine($"Electricity Price: {demand.ElectricityPrice} DKK/MWh");        }        
     }
 }
 
