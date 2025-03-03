@@ -17,6 +17,13 @@ public class AssetManager
         LoadHeatDemand(); // Load heat demand data from CSV file
     }
 
+    private void LogError(string message) // Method for printing red error messages
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine(message);
+        Console.ResetColor();
+    }
+
     private void LoadProductionUnits()
     {
         string filePath = "Data/production_units.json";
@@ -30,33 +37,24 @@ public class AssetManager
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("Error: Production units file not found.");
-                Console.ResetColor();
+                LogError("Error: Production units file not found.");
             }
         }
-        catch (IOException ex)
+        catch (IOException ex) // Catches errors related to file reading/writing
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine($"I/O Error: {ex.Message}");
+            LogError($"I/O Error: {ex.Message}");
         }
-        catch (JsonException ex)
+        catch (JsonException ex) // Catches errors when JSON format is incorrect or corrupted
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine($"JSON Parsing Error: {ex.Message}");
+            LogError($"JSON Parsing Error: {ex.Message}");
         }
-        catch (Exception ex)
+        catch (Exception ex) // Catches any other unexpected errors
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine($"Unexpected Error: {ex.Message}");
-        }
-        finally
-        {
-            Console.ResetColor();
+            LogError($"Unexpected Error: {ex.Message}");
         }
     }
 
-        private void LoadHeatDemand()
+    private void LoadHeatDemand()
     {
         string filePath = "Data/heat_demand.csv";
         
@@ -64,9 +62,7 @@ public class AssetManager
         {
             if (!File.Exists(filePath))
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("Error: Heat demand file not found.");
-                Console.ResetColor();
+                LogError("Error: Heat demand file not found.");
                 return;
             }
 
@@ -102,45 +98,33 @@ public class AssetManager
                         ElectricityPrice = csv.GetField<double>(8),
                     });
                 }
-                catch (CsvHelperException ex)
+                catch (CsvHelperException ex) // Catches errors when parsing CSV rows -> like wrong alues or missing types
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine($"CSV Parsing Error: {ex.Message}");
-                    Console.ResetColor();
+                    LogError($"CSV Parsing Error at row {csv.Context.Row}: {ex.Message}");
                 }
             }
         }
-        catch (FileNotFoundException ex)
+        catch (FileNotFoundException ex) // Catches errors if file is missing
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine($"File Not Found: {ex.Message}");
+            LogError($"File Not Found: {ex.Message}");
         }
-        catch (IOException ex)
+        catch (IOException ex) // Catches errors related to file reading/writing
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine($"I/O Error: {ex.Message}");
+            LogError($"I/O Error: {ex.Message}");
         }
-        catch (CsvHelperException ex)
+        catch (CsvHelperException ex) // Catches CSV parsing errors that occur outside of the row-level try-catch
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine($"CSV Parsing Error: {ex.Message}");
+            LogError($"CSV Parsing Error: {ex.Message}");
         }
-        catch (InvalidDataException ex)
+        catch (InvalidDataException ex) // Catches manually thrown errors when CSV structure is unexpected
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine($"Invalid Data: {ex.Message}");
+            LogError($"Invalid Data: {ex.Message}");
         }
-        catch (Exception ex)
+        catch (Exception ex) // Catches any other unexpected errors
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine($"Unexpected Error: {ex.Message}");
-        }
-        finally
-        {
-            Console.ResetColor();
+            LogError($"Unexpected Error: {ex.Message}");
         }
     }
-
 
     /// <summary>
     /// Displays the loaded data in the Console.
@@ -174,4 +158,3 @@ public class AssetManager
         }        
     }
 }
-
