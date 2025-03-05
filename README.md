@@ -41,7 +41,7 @@ SEMESTER-PROJECT-2/
 ### **📂 Data Files**  
 - 📄 **`heat_demand.csv`** – Stores heating demand data for analysis.  
 - 📄 **`production_units.json`** – Contains details about production units, such as energy production, consumption, and costs.  
---------------------------------------------------
+
 
 ### 📦 Source Files
 🏢 **`AssetManager`**  
@@ -57,7 +57,6 @@ SEMESTER-PROJECT-2/
 - 📝 **`SourceDataManager.cs`** – 
 
 - 🚀 **`Program.cs`** – Main application logic and execution flow.
---------------------------------------------------
 ---
 
 ## 👥 **Contribution Guidelines**  
