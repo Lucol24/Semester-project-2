@@ -44,15 +44,15 @@ SEMESTER-PROJECT-2/
 
 
 ### 📦 Source Files
-**`🏢 AssetManager`**  
+**`🏢 AssetManager/`**  
 - 📜 **`AssetManager.cs`** – Manages and loads static system data, including production units and heat demand from JSON and CSV files.  
 - 🏭 **`ProductionUnit.cs`** – Defines the `ProductionUnit` class, which stores data about energy production units, including max heat, electricity, costs, and emissions.
 
-**`🔍 SourceDataManager`**  
+**`🔍 SourceDataManager/`**  
 - 🔥 **`HeatDemand.cs`** – Defines the `HeatDemand` class, which stores winter and summer heat demand records.
 - 📊 **`SourceDataManager.cs`** – Handles dynamic data processing and ensures efficient management of system-related information.
 
-**`✔️ Tests`**  
+**`✔️ Tests/`**  
 - 📝 **`AssetManagerTests.cs`** – Validates JSON file loading, error handling, and production unit data display.
 - 📝 **`SourceDataManager.cs`** – 
 
