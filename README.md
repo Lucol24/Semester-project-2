@@ -56,7 +56,6 @@ SEMESTER-PROJECT-2/
 - 📝 **`AssetManagerTests.cs`** – Validates JSON file loading, error handling, and production unit data display.
 - 📝 **`SourceDataManager.cs`** – 
 
-- 🚀 **`Program.cs`** – Main application logic and execution flow.
 ---
 
 ## 👥 **Contribution Guidelines**  
