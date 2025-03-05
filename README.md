@@ -7,18 +7,22 @@ This is the **Group 3** repository for Semester Project 2. Below is the structur
 ## 📁 **Project Structure**  
 ```plaintext
 SEMESTER-PROJECT-2/
+├── bin/                        # Compiled binaries and executable files
 ├── Data/                       # Contains system-related datasets
 │   ├── heat_demand.csv         # Heating demand data
 │   ├── production_units.json   # Information about production units
 ├── obj/                        # Build artifacts and temporary files
-├── bin/                        # Compiled binaries and executable files
 ├── Source/                     # Core source files
-│   ├── AssetManager.cs         # Manages static system data
-│   ├── ProductionUnit.cs       # Production units class (Boilers, Motor and Pump)
-│   ├── HeatDemand.cs           # Seasons heat demand records class
+│   ├── AssetManager/           # Asset Manager module
+│   │   ├── AssetManager.cs     # Manages static system data
+│   │   ├── ProductionUnit.cs   # Production units class (Boilers, Motor, and Pump)
+│   ├── SourceDataManager/      # Source Data Manager module
+│   │   ├── HeatDemand.cs       # Seasons heat demand records class
+│   │   ├── SourceDataManager.cs # Manages dynamic system data
 │   ├── Program.cs              # Main application logic
+├── .gitignore                   # Git ignore file
 ├── README.md                   # Project documentation
-├── Semester-project.sln        # Solution file
+├── Semester-project-2.sln      # Solution file
 └── Semester-project-2.csproj   # Project file
 ```
 
