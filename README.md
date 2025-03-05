@@ -7,44 +7,57 @@ This is the **Group 3** repository for Semester Project 2. Below is the structur
 ## 📁 **Project Structure**  
 ```plaintext
 SEMESTER-PROJECT-2/
-├── 🏗️ bin/                           # Compiled binaries and executable files
+├── 🏗️ bin/                          
 ├── 📂 Data/                          # Contains system-related datasets
-│   ├── 📄 heat_demand.csv            # Heating demand data
-│   ├── 📄 production_units.json      # Information about production units
+│   ├── 📄 heat_demand.csv           
+│   ├── 📄 production_units.json      
 │   │
-├── ⚙️ obj/                           # Build artifacts and temporary files
+├── ⚙️ obj/                           
 ├── 📦 Source/                        # Core source files
 │   ├── 🏢 AssetManager/              # Asset Manager module
-│   │   ├── 📜 AssetManager.cs        # Manages static system data
-│   │   ├── 🏭 ProductionUnit.cs      # Defines production units (Boilers, Motor, and Pump)
+│   │   ├── 📜 AssetManager.cs        
+│   │   ├── 🏭 ProductionUnit.cs    
 │   │   │
 │   ├── 🔍 SourceDataManager/         # Source Data Manager module
-│   │   ├── 🔥 HeatDemand.cs          # Stores seasonal heat demand records
-│   │   ├── 📊 SourceDataManager.cs   # Manages dynamic system data
+│   │   ├── 🔥 HeatDemand.cs          
+│   │   ├── 📊 SourceDataManager.cs   
 │   │   │
-│   ├── 🚀 Program.cs                 # Main application logic
+│   ├── ✔️ Tests/                     # Xunit tests for all modules
+│   │   ├── 📝 AssetManagerTests.cs  
+│   │   ├── 📝 SourceDataManagerTests.cs 
+│   │   │
+│   ├── 🚀 Program.cs                 
 │   │
-├── 📄 .gitignore                     # Git ignore file
-├── 📘 README.md                      # Project documentation
-├── 📝 Semester-project-2.sln         # Solution file
-└── 🔧 Semester-project-2.csproj      # Project file
+├── 📄 .gitignore                     
+├── 📘 README.md                      
+├── 🔧 Semester-project-2.sln        
+└── 🔧 Semester-project-2.csproj 
 ```
 
 ---
 
 ## 📜 **Key Components**  
 
-### **📊 Data Files**  
+### **📂 Data Files**  
 - 📄 **`heat_demand.csv`** – Stores heating demand data for analysis.  
 - 📄 **`production_units.json`** – Contains details about production units, such as energy production, consumption, and costs.  
+--------------------------------------------------
 
-### 🔧 Source Files  
+### 📦 Source Files
+🏢 **`AssetManager`**  
 - 📜 **`AssetManager.cs`** – Manages and loads static system data, including production units and heat demand from JSON and CSV files.  
-- 🏭 **`ProductionUnit.cs`** – Defines the `ProductionUnit` class, which stores data about energy production units, including max heat, electricity, costs, and emissions.  
-- 🔥 **`HeatDemand.cs`** – Defines the `HeatDemand` class, which stores winter and summer heat demand records.
-- 📊 **`SourceDataManager.cs`** – Handles dynamic data processing and ensures efficient management of system-related information.  
-- 🚀 **`Program.cs`** – Main application logic and execution flow.
+- 🏭 **`ProductionUnit.cs`** – Defines the `ProductionUnit` class, which stores data about energy production units, including max heat, electricity, costs, and emissions.
 
+🔍 **`SourceDataManager`**  
+- 🔥 **`HeatDemand.cs`** – Defines the `HeatDemand` class, which stores winter and summer heat demand records.
+- 📊 **`SourceDataManager.cs`** – Handles dynamic data processing and ensures efficient management of system-related information.
+
+**`✔️ Tests`**  
+- 📝 **`AssetManagerTests.cs`** – Validates JSON file loading, error handling, and production unit data display.
+- 📝 **`SourceDataManager.cs`** – 
+
+- 🚀 **`Program.cs`** – Main application logic and execution flow.
+--------------------------------------------------
 ---
 
 ## 👥 **Contribution Guidelines**  
