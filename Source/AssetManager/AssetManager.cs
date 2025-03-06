@@ -5,7 +5,6 @@ namespace DanfossHeating;
 public class AssetManager
 {
     private List<ProductionUnit> productionUnits = [];
-    
     public AssetManager()
     {
         LoadProductionUnits(); // Load production unit data from JSON file
@@ -45,21 +44,6 @@ public class AssetManager
         catch (Exception ex)
         {
             LogError($"Unexpected Error: {ex.Message}");
-        }
-    }
-
-    public void DisplayData()
-    {
-        Console.WriteLine("\n--- Production Units ---");
-        foreach (var unit in productionUnits)
-        {
-            Console.WriteLine($"Name: {unit.Name ?? "N/A"}");
-            Console.WriteLine($"  Max Heat: {(unit.MaxHeat.HasValue ? unit.MaxHeat + " MW" : "N/A")}");
-            Console.WriteLine($"  Max Electricity: {(unit.MaxElectricity.HasValue ? unit.MaxElectricity + " MW" : "N/A")}");
-            Console.WriteLine($"  Production Costs: {(unit.ProductionCosts.HasValue ? unit.ProductionCosts + " DKK/MWh" : "N/A")}");
-            Console.WriteLine($"  CO2 Emissions: {(unit.CO2Emissions.HasValue ? unit.CO2Emissions + " kg/MWh" : "N/A")}");
-            Console.WriteLine($"  Fuel Consumption: {(unit.FuelConsumption.HasValue ? unit.FuelConsumption + " kg/MWh" : "N/A")}");
-            Console.WriteLine("----------------------------------");
         }
     }
 }
