@@ -1,7 +1,6 @@
 using Xunit;
 using DanfossHeating;
 using System.Reflection;
-using Xunit.Priority;
 
 public class AssetManagerTests
 {
@@ -13,8 +12,11 @@ public class AssetManagerTests
         // Arrange: Setting the work directory and file path
         Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\");
         _filePath = Path.GetFullPath("Data/production_units.json");
+
+        // Act: Check file existence
         _fileExists = File.Exists(_filePath);
 
+        // Assert/Logging: Report if file is missing
         if (!_fileExists)
         {
             Console.WriteLine("||-> Production Units JSON file is missing!");

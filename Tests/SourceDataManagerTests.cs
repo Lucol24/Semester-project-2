@@ -1,7 +1,5 @@
 using Xunit;
 using DanfossHeating;
-using System.Reflection;
-using Xunit.Priority;
 
 public class SourceDataManagerTests
 {
@@ -13,8 +11,11 @@ public class SourceDataManagerTests
         // Arrange: Setting the work directory and file path
         Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\");
         _filePath = Path.GetFullPath("Data/heat_demand.csv");
+
+        // Act: Check file existence
         _fileExists = File.Exists(_filePath);
 
+        // Assert/Logging: Report if file is missing
         if (!_fileExists)
         {
             Console.WriteLine("||-> Heat Demand CSV file is missing!");
@@ -67,6 +68,10 @@ public class SourceDataManagerTests
         Console.WriteLine("||-> Summer heat demand data exists and is not empty"); 
     }
 
+    /// <summary>
+    /// Ensures that all heat demands have a valid time range.
+    /// If data is available, it prints the heat demand details.
+    /// </summary>
     [SkippableFact]
     public void AllHeatDemands_ShouldHaveElectricityPriceGreaterThanZero()
     {
