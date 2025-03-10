@@ -1,9 +1,26 @@
 using Xunit;
 using DanfossHeating;
 using System.Reflection;
+using Xunit.Priority;
 
 public class SourceDataManagerTests
 {
+    private readonly string _filePath;
+    private readonly bool _fileExists;
+
+    public SourceDataManagerTests()
+    {
+        // Arrange: Setting the work directory and file path
+        Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\");
+        _filePath = Path.GetFullPath("Data/heat_demand.csv");
+        _fileExists = File.Exists(_filePath);
+
+        if (!_fileExists)
+        {
+            Console.WriteLine("||-> Heat Demand CSV file is missing!");
+        }
+    }
+
     /// <summary>
     /// Ensures that the CSV file exists.
     /// </summary>
@@ -11,15 +28,14 @@ public class SourceDataManagerTests
     public void File_Exists_WhenCSVFileIsPresent()
     {
         // Arrange: Setting the work directory and file path
-        Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\");
-        string filePath = Path.GetFullPath("Data/heat_demand.csv");
+        // Arrangement is done in the constructor
 
         // Act: Check if the file exists
-        bool fileExists = File.Exists(filePath);
+        // Act is done in the constructor
 
         // Assert: Ensure the file exists
         Console.WriteLine("> Checking if the CSV file exists...");
-        Assert.True(fileExists, "||-> Heat Demand CSV file is missing!");
+        Assert.True(_fileExists, "||-> Heat Demand CSV file is missing!");
         Console.WriteLine("||-> CSV file exists");
     }
 
@@ -28,9 +44,10 @@ public class SourceDataManagerTests
     /// Ensures that winter and summer heat demand data exist and are not null.
     /// If data is available, it prints the heat demand details.
     /// </summary>
-    [Fact]
+    [SkippableFact]
     public void LoadHeatDemand_EnsuresWinterAndSummerDataExist()
     {
+        Skip.IfNot(_fileExists, "Skipping test: Heat Demand CSV file is missing!");
         // Arrange: Create an instance of SourceDataManager
        var sourceDataManager = new SourceDataManager();
        
@@ -50,9 +67,10 @@ public class SourceDataManagerTests
         Console.WriteLine("||-> Summer heat demand data exists and is not empty"); 
     }
 
-    [Fact]
+    [SkippableFact]
     public void AllHeatDemands_ShouldHaveElectricityPriceGreaterThanZero()
     {
+        Skip.IfNot(_fileExists, "Skipping test: Heat Demand CSV file is missing!");
         // Arrange
         var sourceDataManager = new SourceDataManager();
         List<HeatDemand> winterHeatDemands = sourceDataManager.GetWinterHeatDemands();
