@@ -39,21 +39,31 @@ SEMESTER-PROJECT-2/
 
 ## 📜 **Key Components**  
 
-### **📊 Data Files**  
+### **📂 Data Files**  
 
-- **`heat_demand.csv`** – Stores heating demand data for analysis.  
-- **`production_units.json`** – Contains details about production units, such as energy production, consumption, and costs.  
+- 📄 **`heat_demand.csv`** – Stores heating demand data for analysis.  
+- 📄 **`production_units.json`** – Contains details about production units, such as energy production, consumption, and costs.  
 
-### 🔧 Source Files  
+### 📦 Source Files
 
-- **`AssetManager.cs`** – Manages and loads static system data, including production units and heat demand from JSON and CSV files.  
-- **`ProductionUnit.cs`** – Defines the `ProductionUnit` class, which stores data about energy production units, including max heat, electricity, costs, and emissions.  
-- **`HeatDemand.cs`** – Defines the `HeatDemand` class, which stores winter and summer heat demand records.  
-- **`Program.cs`** – Main application logic and execution flow.  
+**`🏢 AssetManager/`**  
+
+- 📜 **`AssetManager.cs`** – Manages and loads static system data, including production units and heat demand from JSON and CSV files.  
+- 🏭 **`ProductionUnit.cs`** – Defines the `ProductionUnit` class, which stores data about energy production units, including max heat, electricity, costs, and emissions.
+
+**`🔍 SourceDataManager/`**  
+
+- 🔥 **`HeatDemand.cs`** – Defines the `HeatDemand` class, which stores winter and summer heat demand records.
+- 📊 **`SourceDataManager.cs`** – Handles dynamic data processing and ensures efficient management of system-related information.
+
+**`✔️ Tests/`**  
+
+- 📝 **`AssetManagerTests.cs`** – Validates JSON file loading, error handling, and production unit data display.
+- 📝 **`SourceDataManager.cs`** –
 
 ---
 
-## 🚀 **Contribution Guidelines**  
+## 👥 **Contribution Guidelines**  
 
 💡 When contributing, make sure your comments are clear, and your changes are isolated to your assigned area. This helps avoid conflicts and ensures smooth integration of everyone’s work.  
 
