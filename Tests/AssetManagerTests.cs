@@ -4,6 +4,22 @@ using System.Reflection;
 
 public class AssetManagerTests
 {
+    private readonly string _filePath;
+    private readonly bool _fileExists;
+
+    public AssetManagerTests()
+    {
+        // Arrange: Setting the work directory and file path
+        Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\");
+        _filePath = Path.GetFullPath("Data/production_units.json");
+        _fileExists = File.Exists(_filePath);
+
+        if (!_fileExists)
+        {
+            Console.WriteLine("||-> Production Units JSON file is missing!");
+        }
+    }
+
     /// <summary>
     /// Ensures that the JSON file exists.
     /// </summary>
@@ -11,24 +27,25 @@ public class AssetManagerTests
     public void File_Exists_WhenJsonFileIsPresent()
     {
         // Arrange: Setting the work directory and file path
-        Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\");
-        string filePath = Path.GetFullPath("Data/production_units.json");
+        //Arrangement is done in the constructor
 
         // Act: Check if the file exists
-        bool fileExists = File.Exists(filePath);
+        //Act is done in the constructor
 
         // Assert: Ensure the file exists
         Console.WriteLine("> Checking if the JSON file exists...");
-        Assert.True(fileExists, "||-> Production Units JSON file is missing!");
+        Assert.True(_fileExists, "||-> Production Units JSON file is missing!");
         Console.WriteLine("||-> JSON file exists");
     }
 
     /// <summary>
     /// Verifies the correct number of production units are loaded from the JSON file.
     /// </summary>
-    [Fact]
+    [SkippableFact]
     public void LoadProductionUnits_ChecksCorrectNumber()
     {
+        Skip.IfNot(_fileExists, "Skipping test: production Units JSON file is missing!");
+
         // Arrange: Create a new AssetManager instance
         var assetManager = new AssetManager();
         var productionUnitsField = typeof(AssetManager)
@@ -47,9 +64,10 @@ public class AssetManagerTests
     /// <summary>
     /// Verifies that the MaxHeat property is correctly populated for each production unit.
     /// </summary>
-    [Fact]
+    [SkippableFact]
     public void LoadProductionUnits_ValidatesMaxHeatIsPresent()
     {
+        Skip.IfNot(_fileExists, "Skipping test: production Units JSON file is missing!");
         // Arrange: Create a new AssetManager instance
         var assetManager = new AssetManager();
         
@@ -92,9 +110,10 @@ public class AssetManagerTests
     /// <summary>
     /// AssetManager handles a JSON file with data (edge case), check if it has any data (succeed).
     /// </summary>
-    [Fact]
+    [SkippableFact]
     public void LoadProductionUnits_HandlesNonEmptyJsonFile()
     {
+        Skip.IfNot(_fileExists, "Skipping test: production Units JSON file is missing!");
         // Edge Case: Simulating a JSON file with data to test how AssetManager behaves when data is present.
         
         // Act: Create a new AssetManager instance
