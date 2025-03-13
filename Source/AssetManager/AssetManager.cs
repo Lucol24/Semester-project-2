@@ -46,4 +46,6 @@ public class AssetManager
             LogError($"Unexpected Error: {ex.Message}");
         }
     }
+
+    public List<ProductionUnit> GetProductionUnits() => productionUnits;
 }

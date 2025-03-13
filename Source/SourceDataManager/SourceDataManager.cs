@@ -78,4 +78,9 @@ public class SourceDataManager
 
     public List<HeatDemand> GetWinterHeatDemands() => winterHeatDemands;
     public List<HeatDemand> GetSummerHeatDemands() => summerHeatDemands;
+
+    public List<HeatDemand> GetHeatDemand(DateTime start, DateTime end)
+    {
+        return [.. winterHeatDemands.Concat(summerHeatDemands).Where(d => d.TimeFrom >= start && d.TimeTo <= end)];
+    }
 }
