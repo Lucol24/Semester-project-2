@@ -9,5 +9,9 @@ class Program
 
         Console.WriteLine("\nInitializing Source Data Manager...\n");
         SourceDataManager sourceDataManager = new();
+
+        Console.WriteLine("\nInitializing Optimizer...\n");
+        Optimizer optimizer = new();
+        
     }
 }

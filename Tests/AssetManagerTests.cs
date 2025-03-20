@@ -70,7 +70,7 @@ public class AssetManagerTests
             foreach (var unit in productionUnits)
             {
                 Console.WriteLine($"Name: {unit.Name ?? "N/A"}");
-                Console.WriteLine($"  Max Heat: {(unit.MaxHeat.HasValue ? unit.MaxHeat + " MW" : "N/A")}");
+                Console.WriteLine($"  Max Heat: {unit.MaxHeat}");
                 Console.WriteLine($"  Max Electricity: {(unit.MaxElectricity.HasValue ? unit.MaxElectricity + " MW" : "N/A")}");
                 Console.WriteLine($"  Production Costs: {(unit.ProductionCosts.HasValue ? unit.ProductionCosts + " DKK/MWh" : "N/A")}");
                 Console.WriteLine($"  CO2 Emissions: {(unit.CO2Emissions.HasValue ? unit.CO2Emissions + " kg/MWh" : "N/A")}");
@@ -127,7 +127,7 @@ public class AssetManagerTests
         {
             foreach (var unit in productionUnits)
             {
-                if (!unit.MaxHeat.HasValue || unit.MaxHeat == 0)
+                if (unit.MaxHeat == 0)
                 {
                     allMaxHeatValid = false;
                     Console.WriteLine($"||-> Production unit '{unit.Name}' has an invalid MaxHeat value.");

@@ -6,7 +6,7 @@ namespace DanfossHeating;
 public class ProductionUnit
 {
     public string? Name { get; set; } = null; // Nullable string
-    public double? MaxHeat { get; set; } = null; // Nullable double
+    public required double MaxHeat { get; set; } 
     public double? MaxElectricity { get; set; } = null;
     public double? ProductionCosts { get; set; } = null;
     public double? CO2Emissions { get; set; } = null;
