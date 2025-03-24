@@ -6,7 +6,6 @@ public class Optimizer
 {
     SourceDataManager sourceDataManager = new SourceDataManager();
     AssetManager assetManager = new AssetManager();
-    private List<ProductionUnit> productionUnits = [];
     private List<ProductionUnit> productionUnitsByCost = [];
     private List<ProductionUnit> productionUnitsByCO2Emissions = [];
     private List<HeatDemand> winterHeatDemands = [];
@@ -16,32 +15,19 @@ public class Optimizer
     {
         winterHeatDemands = sourceDataManager.GetWinterHeatDemands();
         summerHeatDemands = sourceDataManager.GetSummerHeatDemands();
-        SortingProductionUnitsByCost();
-        SortingProductionUnitsByCO2Emissions();
+        SortingProductionUnitsSC1ByCost();
+        SortingProductionUnitsSC1ByCO2Emissions();
         ProduceDemandedHeat(true, true);
     }
 
-    private void SortingProductionUnitsByCost()
+    private void SortingProductionUnitsSC1ByCost() // makes more money for the company (scenario 1)
     {
-        productionUnits = assetManager.GetProductionUnits();
-        productionUnitsByCost = productionUnits.OrderBy(p => p.ProductionCosts).ToList();
-
-        Console.WriteLine("Production Units sorted by Production Costs:");
-        foreach (var productionUnit in productionUnitsByCost)
-        {
-            Console.WriteLine($"{productionUnit.Name} - {productionUnit.ProductionCosts}");
-        }
+        productionUnitsByCost = assetManager.GetProductionUnits().Take(3).OrderBy(p => p.ProductionCosts).ToList();
     }
 
-    private void SortingProductionUnitsByCO2Emissions()
+    private void SortingProductionUnitsSC1ByCO2Emissions() // better for the planet (scenario 1)
     {
-        productionUnits = assetManager.GetProductionUnits();
-        productionUnitsByCO2Emissions = productionUnits.OrderBy(p => p.CO2Emissions).ToList();
-        Console.WriteLine("Production Units sorted by CO2 Emissions:");
-        foreach (var productionUnit in productionUnitsByCO2Emissions)
-        {
-            Console.WriteLine($"{productionUnit.Name} - {productionUnit.CO2Emissions}");
-        }
+        productionUnitsByCO2Emissions = assetManager.GetProductionUnits().Take(3).OrderBy(p => p.CO2Emissions).ToList();
     }
 
     private void ProduceDemandedHeat(bool isWinter, bool isOptimezedByCost)
@@ -52,18 +38,22 @@ public class Optimizer
         foreach (var heatDemand in heatDemands)
         {
             double heat = heatDemand.Heat;
-            int i = 0;
-            while (heat > 0)
+
+            if (8 < heat)
             {
-                if (productionUnits[i].Name == "HP1")
-                {
-                    Console.WriteLine("Error: Not enough production units to meet the heat demand.");
-                    break;
-                }
-                Console.WriteLine($"Heat demand: {heat}");
-                Console.WriteLine($"Production Unit used: {productionUnits[i].Name}");
-                heat -= productionUnits[i].MaxHeat;
-                i += 1;
+                heat -= productionUnits[0].MaxHeat + productionUnits[1].MaxHeat  + productionUnits[2].MaxHeat;
+            }
+            else if (7 < heat)
+            {
+                heat -= productionUnits[0].MaxHeat + productionUnits[2].MaxHeat;
+            }
+            else if (heat <= 4)
+            {
+                heat -= productionUnits[0].MaxHeat;
+            }
+            else
+            {
+                heat -= productionUnits[0].MaxHeat + productionUnits[1].MaxHeat;
             }
         }
     }
