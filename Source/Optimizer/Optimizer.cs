@@ -22,7 +22,7 @@ public class Optimizer
 
     private void SortingProductionUnitsSC1ByCost() // makes more money for the company (scenario 1)
     {
-        productionUnitsByCost = assetManager.GetProductionUnits().Take(3).OrderBy(p => p.ProductionCosts).ToList();
+        productionUnitsByCost = assetManager.GetProductionUnits().Take(3).OrderBy(p => p.ProductionCosts).ToList(); // take everything and remove HP and GM
     }
 
     private void SortingProductionUnitsSC1ByCO2Emissions() // better for the planet (scenario 1)
