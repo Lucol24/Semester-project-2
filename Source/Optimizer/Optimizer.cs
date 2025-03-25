@@ -77,14 +77,15 @@ public class Optimizer
         foreach (var heatDemand in heatDemands)
         {
             double heat = heatDemand.Heat;
+            double cost = 0;
             int i = 0;
             while (heat > 0)
             {
                 Console.WriteLine($"Heat demand: {heat}");
                 Console.WriteLine($"Production Unit used: {productionUnits[i].Name}");
                 heat -= productionUnits[i].MaxHeat;
+                cost += productionUnits[i].ProductionCosts;
                 i += 1;
-                
             }
         }
     }
@@ -94,7 +95,7 @@ public class Optimizer
         // Calculate production costs for each production unit.
         foreach (var productionUnit in productionUnits)
         {
-            productionUnit.ProductionCosts = productionUnit.HeatProductionCost + productionUnit.ElectricityProductionCost;
+            productionUnit.ProductionCosts = productionUnit.ProductionCosts;
         }
     }
 }
