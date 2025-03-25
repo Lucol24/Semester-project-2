@@ -71,10 +71,10 @@ public class AssetManagerTests
             {
                 Console.WriteLine($"Name: {unit.Name ?? "N/A"}");
                 Console.WriteLine($"  Max Heat: {unit.MaxHeat}");
-                Console.WriteLine($"  Max Electricity: {(unit.MaxElectricity.HasValue ? unit.MaxElectricity + " MW" : "N/A")}");
-                Console.WriteLine($"  Production Costs: {(unit.ProductionCosts.HasValue ? unit.ProductionCosts + " DKK/MWh" : "N/A")}");
-                Console.WriteLine($"  CO2 Emissions: {(unit.CO2Emissions.HasValue ? unit.CO2Emissions + " kg/MWh" : "N/A")}");
-                Console.WriteLine($"  Fuel Consumption: {(unit.FuelConsumption.HasValue ? unit.FuelConsumption + " kg/MWh" : "N/A")}");
+                Console.WriteLine($"  Max Electricity: {unit.MaxElectricity + " MW"}");
+                Console.WriteLine($"  Production Costs: {unit.ProductionCosts + " DKK/MWh"}");
+                Console.WriteLine($"  CO2 Emissions: {unit.CO2Emissions + " kg/MWh"}");
+                Console.WriteLine($"  Fuel Consumption: {unit.FuelConsumption + " kg/MWh"}");
                 Console.WriteLine("----------------------------------");
             }
         }

@@ -11,7 +11,9 @@ class Program
         SourceDataManager sourceDataManager = new();
 
         Console.WriteLine("\nInitializing Optimizer...\n");
-        Optimizer optimizer = new();
+        ResultDataManager resultDataManager = new();
+        Optimizer optimizer = new(assetManager, sourceDataManager, resultDataManager);
+
         
     }
 }

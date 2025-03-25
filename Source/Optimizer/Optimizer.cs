@@ -33,13 +33,9 @@ public class Optimizer
     /// </summary>
     /// <param name="season">The season for which optimization is performed ("summer" or "winter").</param>
     /// <returns>A list of production schedules for each unit.</returns>
-    public List<ProductionSchedule> OptimizeHeatProduction(string season)
-    {
-        var schedules = new List<ProductionSchedule>(); // Stores schedules for all production units.
-        var results = new List<ResultEntry>(); // Stores individual result entries for the optimization.
 
         
-    }
+    
     private List<ProductionUnit> productionUnits = [];
     private List<ProductionUnit> productionUnitsByCost = [];
     private List<ProductionUnit> productionUnitsByCO2Emissions = [];
@@ -78,15 +74,26 @@ public class Optimizer
         {
             double heat = heatDemand.Heat;
             double cost = 0;
+            List<ProductionUnit> usedProductionUnits = [];
             int i = 0;
+            Console.WriteLine($"Heat demand: {heat} MWh");
             while (heat > 0)
             {
-                Console.WriteLine($"Heat demand: {heat}");
-                Console.WriteLine($"Production Unit used: {productionUnits[i].Name}");
+                if (heat > productionUnits[i].MaxHeat)
+                {
+                    cost += productionUnits[i].ProductionCosts * productionUnits[i].MaxHeat;
+                }
+                else
+                {
+                    cost += productionUnits[i].ProductionCosts * heat;
+                }
                 heat -= productionUnits[i].MaxHeat;
-                cost += productionUnits[i].ProductionCosts;
+                usedProductionUnits.Add(productionUnits[i]);
                 i += 1;
             }
+            Console.WriteLine($"Total cost: {Math.Round(cost)} DKK");
+            Console.WriteLine($"Used production units: {string.Join(", ", usedProductionUnits.Select(u => u.Name))}");
+            Console.WriteLine("-------------------------------------------------");
         }
     }
 
