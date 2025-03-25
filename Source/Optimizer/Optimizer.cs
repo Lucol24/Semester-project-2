@@ -24,7 +24,7 @@ using Microsoft.VisualBasic;
      private void SortingProductionUnitsByCost()
      {
          productionUnits = assetManager.GetProductionUnits();
-         productionUnitsByCost = productionUnits.OrderBy(p => p.ProductionCosts).ToList();
+         productionUnitsByCost = productionUnits.Take(3).OrderBy(p => p.ProductionCosts).ToList();
  
          Console.WriteLine("Production Units sorted by Production Costs:");
          foreach (var productionUnit in productionUnitsByCost)
@@ -36,7 +36,7 @@ using Microsoft.VisualBasic;
      private void SortingProductionUnitsByCO2Emissions()
      {
          productionUnits = assetManager.GetProductionUnits();
-         productionUnitsByCO2Emissions = productionUnits.OrderBy(p => p.CO2Emissions).ToList();
+         productionUnitsByCO2Emissions = productionUnits.Take(3).OrderBy(p => p.CO2Emissions).ToList();
          Console.WriteLine("Production Units sorted by CO2 Emissions:");
          foreach (var productionUnit in productionUnitsByCO2Emissions)
          {
@@ -55,11 +55,6 @@ using Microsoft.VisualBasic;
              int i = 0;
              while (heat > 0)
              {
-                 if (productionUnits[i].Name == "HP1")
-                 {
-                     Console.WriteLine("Error: Not enough production units to meet the heat demand.");
-                     break;
-                 }
                  Console.WriteLine($"Heat demand: {heat}");
                  Console.WriteLine($"Production Unit used: {productionUnits[i].Name}");
                  heat -= productionUnits[i].MaxHeat;
