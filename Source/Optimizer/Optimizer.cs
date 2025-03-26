@@ -90,12 +90,4 @@ public class Optimizer
             Console.WriteLine("-------------------------------------------------");
         }
     }
-
-    private void CalculateProductionCosts()
-    {
-        foreach (var productionUnit in productionUnits)
-        {
-            productionUnit.ProductionCosts = productionUnit.ProductionCosts;
-        }
-    }
 }
