@@ -7,13 +7,10 @@ namespace DanfossHeating;
 public class Optimizer
 {
     // These are dependencies required for the optimization process.
-    private readonly AssetManager _assetManager; // Provides access to production units (boilers, motors, etc.).
-    private readonly SourceDataManager _sourceDataManager; // Provides heat demand data (csv information).
-    private readonly ResultDataManager _resultDataManager; // Stores the optimization results.
+    private readonly AssetManager _assetManager;
+    private readonly SourceDataManager _sourceDataManager;
+    private readonly ResultDataManager _resultDataManager;
     
-    /// <summary>
-    /// Constructor to initialize the Optimizer with its required dependencies.
-    /// </summary>
     public Optimizer(AssetManager assetManager, SourceDataManager sourceDataManager, ResultDataManager resultDataManager)
     {
         _assetManager = assetManager;
@@ -32,10 +29,7 @@ public class Optimizer
     /// Runs the optimization process to determine the best heat production schedule based on the given season.
     /// </summary>
     /// <param name="season">The season for which optimization is performed ("summer" or "winter").</param>
-    /// <returns>A list of production schedules for each unit.</returns>
-
-        
-    
+    /// <returns>A list of production schedules for each unit.</returns>    
     private List<ProductionUnit> productionUnits = [];
     private List<ProductionUnit> productionUnitsByCost = [];
     private List<ProductionUnit> productionUnitsByCO2Emissions = [];
@@ -99,7 +93,6 @@ public class Optimizer
 
     private void CalculateProductionCosts()
     {
-        // Calculate production costs for each production unit.
         foreach (var productionUnit in productionUnits)
         {
             productionUnit.ProductionCosts = productionUnit.ProductionCosts;
