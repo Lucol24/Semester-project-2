@@ -1,168 +1,111 @@
 namespace DanfossHeating;
 
-/// <summary>
-/// The Optimizer class is responsible for calculating the optimal heat production schedule.
-/// It determines which production units should be used based on cost and efficiency.
-/// </summary>
 public class Optimizer
 {
-    // These are dependencies required for the optimization process.
     private readonly AssetManager _assetManager;
     private readonly SourceDataManager _sourceDataManager;
     private readonly ResultDataManager _resultDataManager;
-    
+
     public Optimizer(AssetManager assetManager, SourceDataManager sourceDataManager, ResultDataManager resultDataManager)
     {
         _assetManager = assetManager;
         _sourceDataManager = sourceDataManager;
         _resultDataManager = resultDataManager;
-
-        winterHeatDemands = _sourceDataManager.GetWinterHeatDemands();
-        summerHeatDemands = _sourceDataManager.GetSummerHeatDemands();
-        
-        SortingProductionUnitsByCost();
-        SortingProductionUnitsByCO2Emissions();
-        SortingProductionUnitsByCost2(true);
-        SortingProductionUnitsByCO2Emissions2();
-        UnitProduceDemandedHeat(true, true);
-        Scenario2(true, true);
     }
-    
-    /// <summary>
-    /// Runs the optimization process to determine the best heat production schedule based on the given season.
-    /// </summary>
-    /// <param name="season">The season for which optimization is performed ("summer" or "winter").</param>
-    /// <returns>A list of production schedules for each unit.</returns>    
-    private List<ProductionUnit> productionUnits = [];
-    private List<ProductionUnit> productionUnitsByCost = [];
-    private List<ProductionUnit> productionUnitsByCO2Emissions = [];
-    private List<ProductionUnit> productionUnitsByCost2 = [];
-    private List<ProductionUnit> productionUnitsByCO2Emissions2 = [];
-    private List<HeatDemand> winterHeatDemands = [];
-    private List<HeatDemand> summerHeatDemands = [];
-    private List<double> electricityPrices = [];
 
-    private void SortingProductionUnitsByCost()
+    public enum OptimizationCriteria
     {
-        productionUnits = _assetManager.GetProductionUnits();
-        productionUnitsByCost = productionUnits.Take(3).OrderBy(p => p.ProductionCosts).ToList(); // TODO: Not scalable, should be refactored!
+        Cost,
+        CO2Emissions
+    }
 
-        Console.WriteLine("Production Units sorted by Production Costs:");
-        foreach (var productionUnit in productionUnitsByCost)
+    public List<ProductionSchedule> OptimizeHeatProduction(string season, OptimizationCriteria criteria = OptimizationCriteria.Cost)
+    {
+        var schedules = new List<ProductionSchedule>();
+        var results = new List<ResultEntry>();
+
+        var heatDemands = season.ToLower() == "summer" // To be changed when UI is implemented
+            ? _sourceDataManager.GetSummerHeatDemands() 
+            : _sourceDataManager.GetWinterHeatDemands();
+
+        if (heatDemands.Count == 0)
         {
-            Console.WriteLine($"{productionUnit.Name} - {productionUnit.ProductionCosts}");
+            Console.WriteLine($"No heat demand data found for {season}. Optimization cannot proceed.");
+            return schedules;
         }
-    }
 
-    private void SortingProductionUnitsByCO2Emissions()
-    {
-        productionUnits = _assetManager.GetProductionUnits();
-        productionUnitsByCO2Emissions = productionUnits.Take(3).OrderBy(p => p.CO2Emissions).ToList(); // TODO: Not scalable, should be refactored!
-        Console.WriteLine("Production Units sorted by CO2 Emissions:");
-        foreach (var productionUnit in productionUnitsByCO2Emissions)
-        {
-            Console.WriteLine($"{productionUnit.Name} - {productionUnit.CO2Emissions}");
-        }
-    }
+        var productionUnits = GetScenario1Units(); // Implement bool for scenario 2 here
 
-    private void UnitProduceDemandedHeat(bool isWinter, bool isOptimizedByCost)
-    {
-        List<HeatDemand> heatDemands = isWinter ? winterHeatDemands : summerHeatDemands;
-        List<ProductionUnit> productionUnits = isOptimizedByCost ? productionUnitsByCost : productionUnitsByCO2Emissions;
-    
-        foreach (var heatDemand in heatDemands)
+        foreach (var demand in heatDemands)
         {
-            double heat = heatDemand.Heat;
-            double cost = 0;
-            double co2Emissions = 0;
-            List<ProductionUnit> usedProductionUnits = [];
-            int i = 0;
-            Console.WriteLine($"Heat demand: {heat} MWh");
-            while (heat > 0) // TODO: Add check for heat demand superior than maxheat that can be provided from all the machines combined
+            double remainingHeat = demand.Heat;
+
+            var sortedUnits = criteria == OptimizationCriteria.CO2Emissions 
+                ? SortUnitsByEcologicalImpact(productionUnits)
+                : SortUnitsByCost(productionUnits);
+
+            foreach (var unit in sortedUnits)
             {
-                if (heat > productionUnits[i].MaxHeat)
-                {
-                    cost += productionUnits[i].ProductionCosts * productionUnits[i].MaxHeat;
-                    co2Emissions += productionUnits[i].CO2Emissions * productionUnits[i].MaxHeat;
-                }
-                else
-                {
-                    cost += productionUnits[i].ProductionCosts * heat;
-                    co2Emissions += productionUnits[i].CO2Emissions * heat;
-                }
-                heat -= productionUnits[i].MaxHeat;
-                usedProductionUnits.Add(productionUnits[i]);
-                i += 1;
+                if (remainingHeat <= 0) break;
+
+                double allocatableHeat = Math.Min(remainingHeat, unit.MaxHeat ?? 0);
+                remainingHeat -= allocatableHeat;
+
+                var resultEntry = CreateResultEntry(unit, demand, allocatableHeat);
+                results.Add(resultEntry);
+                AddToSchedule(schedules, resultEntry);
             }
-            Console.WriteLine($"Total cost: {Math.Round(cost)} DKK");
-            Console.WriteLine($"Total CO2 emissions: {Math.Round(co2Emissions)} kg");
-            Console.WriteLine($"Used production units: {string.Join(", ", usedProductionUnits.Select(u => u.Name))}");
-            Console.WriteLine("-------------------------------------------------");
         }
+
+        _resultDataManager.SaveResults(results);
+        return schedules;
     }
 
-    private void SortingProductionUnitsByCost2(bool isWinter)
+    private List<ProductionUnit> SortUnitsByCost(List<ProductionUnit> units)
     {
-        List<HeatDemand> heatDemands = isWinter ? winterHeatDemands : summerHeatDemands;
-        foreach(var heatDemand in heatDemands)
-        {
-            electricityPrices.Add(heatDemand.ElectricityPrice);
-        }
-
-        productionUnits = _assetManager.GetProductionUnits();
-        productionUnits = productionUnits.Where(p => p.Name != "GB2").ToList(); // TODO: Not scalable, should be refactored!
-
-        Console.WriteLine("Production Units sorted by Production Costs:");
-        foreach (var productionUnit in productionUnitsByCost2)
-        {
-            Console.WriteLine($"{productionUnit.Name} - {productionUnit.ProductionCosts}");
-        }
+        return units
+            .OrderBy(unit => unit.ProductionCosts ?? double.MaxValue)
+            .ToList();
     }
 
-    private void SortingProductionUnitsByCO2Emissions2()
+    private List<ProductionUnit> SortUnitsByEcologicalImpact(List<ProductionUnit> units)
     {
-        productionUnits = _assetManager.GetProductionUnits();
-        productionUnitsByCO2Emissions2 = productionUnits.Where(p => p.Name != "GB2").OrderBy(p => p.CO2Emissions).ToList(); // TODO: Not scalable, should be refactored!
-        Console.WriteLine("Production Units sorted by CO2 Emissions:");
-        foreach (var productionUnit in productionUnitsByCO2Emissions2)
-        {
-            Console.WriteLine($"{productionUnit.Name} - {productionUnit.CO2Emissions}");
-        }
+        return units
+            .OrderBy(unit => unit.CO2Emissions ?? double.MaxValue)
+            .ToList();
     }
 
-    private void Scenario2(bool isWinter, bool isOptimizedByCost)
+    private List<ProductionUnit> GetScenario1Units()
     {
-        List<HeatDemand> heatDemands = isWinter ? winterHeatDemands : summerHeatDemands;
-        List<ProductionUnit> productionUnits = isOptimizedByCost ? productionUnitsByCost2 : productionUnitsByCO2Emissions2;
+        var allUnits = _assetManager.GetProductionUnits();
+        return allUnits.Where(u => u.Name == "GB1" || u.Name == "GB2" || u.Name == "OB1").ToList();
+    }
 
-        foreach (var heatDemand in heatDemands)
+    private ResultEntry CreateResultEntry(ProductionUnit unit, HeatDemand demand, double heatProduced)
+    {
+        double productionCost = (unit.ProductionCosts ?? 0) * heatProduced;
+        double fuelConsumption = (unit.FuelConsumption ?? 0) * heatProduced;
+        double co2Emissions = (unit.CO2Emissions ?? 0) * heatProduced;
+
+        return new ResultEntry(
+            unit.Name ?? "Unknown",
+            demand.TimeFrom,
+            Math.Round(heatProduced, 2),
+            0, // Here goes the electricity produced, if applicable
+            Math.Round(productionCost, 2),
+            Math.Round(fuelConsumption, 2),
+            Math.Round(co2Emissions, 2)
+        );
+    }
+
+    private void AddToSchedule(List<ProductionSchedule> schedules, ResultEntry resultEntry)
+    {
+        var schedule = schedules.FirstOrDefault(s => s.UnitName == resultEntry.UnitName);
+        if (schedule == null)
         {
-            double heat = heatDemand.Heat;
-            double cost = 0;
-            double co2Emissions = 0;
-            List<ProductionUnit> usedProductionUnits = [];
-            int i = 0;
-            Console.WriteLine($"Heat demand: {heat} MWh");
-            while (heat > 0)
-            {
-                if (heat > productionUnits[i].MaxHeat)
-                {
-                    cost += productionUnits[i].ProductionCosts * productionUnits[i].MaxHeat;
-                    co2Emissions += productionUnits[i].CO2Emissions * productionUnits[i].MaxHeat;
-                }
-                else
-                {
-                    cost += productionUnits[i].ProductionCosts * heat;
-                    co2Emissions += productionUnits[i].CO2Emissions * heat;
-                }
-                heat -= productionUnits[i].MaxHeat;
-                usedProductionUnits.Add(productionUnits[i]);
-                i += 1;
-            }
-            Console.WriteLine($"Total cost: {Math.Round(cost)} DKK");
-            Console.WriteLine($"Total CO2 emissions: {Math.Round(co2Emissions)} kg");
-            Console.WriteLine($"Used production units: {string.Join(", ", usedProductionUnits.Select(u => u.Name))}");
-            Console.WriteLine("-------------------------------------------------");
+            schedule = new ProductionSchedule(resultEntry.UnitName);
+            schedules.Add(schedule);
         }
+        schedule.AddEntry(resultEntry);
     }
 }
