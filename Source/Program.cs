@@ -4,34 +4,89 @@ class Program
 {
     static void Main()
     {
-        Console.WriteLine("\nInitializing Asset Manager...\n");
-        AssetManager assetManager = new();
+        // Application header
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("\n╔═══════════════════════════════════════════════╗");
+        Console.WriteLine("║       DANFOSS HEATING OPTIMIZATION SYSTEM     ║");
+        Console.WriteLine("╚═══════════════════════════════════════════════╝");
+        Console.ResetColor();
 
-        Console.WriteLine("\nInitializing Source Data Manager...\n");
-        SourceDataManager sourceDataManager = new();
-
-        Console.WriteLine("\nInitializing Optimizer...\n");
-        ResultDataManager resultDataManager = new();
+        // Initialize components
+        DisplaySectionHeader("Initializing System Components");
         
-        Console.WriteLine("Summer or Winter?");
-        string? season = Console.ReadLine()?.Trim().ToLower() == "summer" ? "summer" : "winter";
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("► Initializing Asset Manager");
+        Console.ResetColor();
+        AssetManager assetManager = new();
+        Console.WriteLine(" ✓");
 
-        /* Console.WriteLine("Scenario 1 or Scenario 2?");
-        bool IsScenario2 = Console.ReadLine()?.Trim().ToLower() == "2"; */
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("► Initializing Source Data Manager");
+        Console.ResetColor();
+        SourceDataManager sourceDataManager = new();
+        Console.WriteLine(" ✓");
 
-        Console.WriteLine("Cost or CO2?");
-        string? criteriaInput = Console.ReadLine();
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("► Initializing Result Data Manager");
+        Console.ResetColor();
+        ResultDataManager resultDataManager = new();
+        Console.WriteLine(" ✓");
 
+        // User input section
+        DisplaySectionHeader("Configuration Settings");
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write("Season [winter / summer]: ");
+        Console.ResetColor();
+        string season = Console.ReadLine()?.Trim().ToLower() == "summer" ? "summer" : "winter";
+        Console.WriteLine($"Selected: {season}");
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write("Scenario [1 or 2]: ");
+        Console.ResetColor();
+        bool isScenario2 = Console.ReadLine()?.Trim() == "2";
+        Console.WriteLine($"Selected: Scenario {(isScenario2 ? "2" : "1")}");
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write("Optimization Criteria [1 = Cost / 2 = CO2 Emissions]: ");
+        Console.ResetColor();
+        string criteriaInput = Console.ReadLine() ?? string.Empty;
         var criteria = Optimizer.OptimizationCriteria.Cost;
-        if (criteriaInput == "2") // Cost is 1 so CO2 is 2
+        
+        if (criteriaInput.Trim() == "2")
         {
             criteria = Optimizer.OptimizationCriteria.CO2Emissions;
         }
+        Console.WriteLine($"Selected: {criteria} optimization");
 
+        // Process section
+        DisplaySectionHeader("Optimization Process");
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine($"Running Heat Production Optimization with {criteria} criteria...");
+        Console.ResetColor();
+        
         Optimizer optimizer = new(assetManager, sourceDataManager, resultDataManager);
         optimizer.OptimizeHeatProduction(season, criteria);
-    
 
+        // Results section
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("\n✓ Optimization complete!");
+        Console.WriteLine("✓ Results saved to 'Data/result_data.csv'");
+        Console.ResetColor();
         
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("\n╔═══════════════════════════════════════════════╗");
+        Console.WriteLine("║                PROCESS COMPLETED              ║");
+        Console.WriteLine("╚═══════════════════════════════════════════════╝");
+        Console.ResetColor();
+    }
+
+    private static void DisplaySectionHeader(string title)
+    {
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($"■ {title} ".PadRight(50, '─'));
+        Console.ResetColor();
+        Console.WriteLine();
     }
 }
