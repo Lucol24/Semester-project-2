@@ -51,11 +51,11 @@ class Program
         Console.Write("Optimization Criteria [1 = Cost / 2 = CO2 Emissions]: ");
         Console.ResetColor();
         string criteriaInput = Console.ReadLine() ?? string.Empty;
-        var criteria = Optimizer.OptimizationCriteria.Cost;
+        var criteria = OptimizationCriteria.Cost;
         
         if (criteriaInput.Trim() == "2")
         {
-            criteria = Optimizer.OptimizationCriteria.CO2Emissions;
+            criteria = OptimizationCriteria.CO2Emissions;
         }
         Console.WriteLine($"Selected: {criteria} optimization");
 

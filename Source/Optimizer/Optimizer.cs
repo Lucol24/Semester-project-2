@@ -17,11 +17,6 @@ public class Optimizer
         _resultDataManager = resultDataManager;
     }
 
-    public enum OptimizationCriteria
-    {
-        Cost,
-        CO2Emissions
-    }
 
     public List<ProductionSchedule> OptimizeHeatProduction(string season, OptimizationCriteria criteria = OptimizationCriteria.Cost, bool isScenario2 = false)
     {
@@ -146,7 +141,7 @@ public class Optimizer
             unit.Name ?? "Unknown",
             demand.TimeFrom,
             Math.Round(heatProduced, 2),
-            Math.Round(isScenario2 ? (unit.MaxElectricity ?? 0) : 0, 2),
+            Math.Round(isScenario2 ? (unit.MaxElectricity ?? 0) : 0, 2), // Electricity produced has to be added
             Math.Round(totalProductionCost, 2),
             Math.Round(fuelConsumption, 2),
             Math.Round(co2Emissions, 2)
