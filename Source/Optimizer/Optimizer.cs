@@ -13,13 +13,7 @@ public class Optimizer
         _resultDataManager = resultDataManager;
     }
 
-    public enum OptimizationCriteria
-    {
-        Cost,
-        CO2Emissions
-    }
-
-    public List<ProductionSchedule> OptimizeHeatProduction(string season, OptimizationCriteria criteria = OptimizationCriteria.Cost)
+    public List<ProductionSchedule> OptimizeHeatProduction(string season, OptimizationCriteria criteria = OptimizationCriteria.Cost, bool isScenario2=false)
     {
         var schedules = new List<ProductionSchedule>();
         var results = new List<ResultEntry>();
@@ -34,7 +28,7 @@ public class Optimizer
             return schedules;
         }
 
-        var productionUnits = GetScenario1Units(); // Implement bool for scenario 2 here
+        var productionUnits = GetScenarioUnits(isScenario2); 
 
         foreach (var demand in heatDemands)
         {
@@ -42,7 +36,7 @@ public class Optimizer
 
             var sortedUnits = criteria == OptimizationCriteria.CO2Emissions 
                 ? SortUnitsByEcologicalImpact(productionUnits)
-                : SortUnitsByCost(productionUnits);
+                : SortUnitsByCost(productionUnits, isScenario2, demand);
 
             foreach (var unit in sortedUnits)
             {
@@ -51,7 +45,7 @@ public class Optimizer
                 double allocatableHeat = Math.Min(remainingHeat, unit.MaxHeat ?? 0);
                 remainingHeat -= allocatableHeat;
 
-                var resultEntry = CreateResultEntry(unit, demand, allocatableHeat);
+                var resultEntry = CreateResultEntry(unit, demand, allocatableHeat, isScenario2);
                 results.Add(resultEntry);
                 AddToSchedule(schedules, resultEntry);
             }
@@ -61,29 +55,68 @@ public class Optimizer
         return schedules;
     }
 
-    private List<ProductionUnit> SortUnitsByCost(List<ProductionUnit> units)
+    private List<dynamic> SortUnitsByCost(List<ProductionUnit> units, bool isScenario2, HeatDemand demand)
     {
         return units
-            .OrderBy(unit => unit.ProductionCosts ?? double.MaxValue)
-            .ToList();
+            .Select(unit => new 
+            {
+                Unit = unit,
+                NetCost = CalculateNetCost(unit, demand, isScenario2, demand.Heat)
+            })
+            .OrderBy(x => x.NetCost)
+            .ToList<dynamic>();
     }
 
-    private List<ProductionUnit> SortUnitsByEcologicalImpact(List<ProductionUnit> units)
+    private List<dynamic> SortUnitsByEcologicalImpact(List<ProductionUnit> units)
     {
         return units
-            .OrderBy(unit => unit.CO2Emissions ?? double.MaxValue)
-            .ToList();
+            .Select(unit => new
+            {
+                Unit = unit,
+                CO2Impact = unit.CO2Emissions ?? 0
+            })
+            .OrderBy(x => x.CO2Impact)
+            .ToList<dynamic>();
     }
 
-    private List<ProductionUnit> GetScenario1Units()
+    private List<ProductionUnit> GetScenarioUnits(bool isScenario2)
     {
+
         var allUnits = _assetManager.GetProductionUnits();
-        return allUnits.Where(u => u.Name == "GB1" || u.Name == "GB2" || u.Name == "OB1").ToList();
+        if(isScenario2)
+        {
+            // Scenario 2: Filter out GB2 and include only GB1, GB2, and OB1
+            return allUnits.Where(u => u.Name == "GB1" || u.Name == "OB1" || u.Name == "GM1" || u.Name == "HP1").ToList();
+        }
+        else
+        {
+            // Scenario 1: Filter out GM1 and HP1, include only GB1, GB2, and OB1
+            return allUnits.Where(u => u.Name == "GB1" || u.Name == "GB2" || u.Name == "OB1").ToList();
+        }
     }
 
-    private ResultEntry CreateResultEntry(ProductionUnit unit, HeatDemand demand, double heatProduced)
+    private double CalculateElectricityImpact(ProductionUnit unit, double heatAmount, HeatDemand demand, bool isScenario2)
     {
-        double productionCost = (unit.ProductionCosts ?? 0) * heatProduced;
+        if(!isScenario2 || !unit.MaxElectricity.HasValue) return 0;
+
+        double electricityImpactPerMWh = (unit.MaxHeat ?? 1) == 0 ? 0 : unit.MaxElectricity.Value / (unit.MaxHeat ?? 1);
+        double totalElectricityImpact = electricityImpactPerMWh * heatAmount * demand.ElectricityPrice;
+        return unit.MaxElectricity.Value < 0 ? 
+            Math.Abs(totalElectricityImpact) // HP1
+            : -totalElectricityImpact; // GM1
+    }
+
+    private double CalculateNetCost(ProductionUnit unit, HeatDemand demand, bool isScenario2, double heatAmount)
+    {
+        double baseCostPerMWh = unit.ProductionCosts ?? 0;
+        double netCost = baseCostPerMWh * heatAmount;
+        netCost += CalculateElectricityImpact(unit, heatAmount, demand, isScenario2);
+        return netCost;
+    }
+
+    private ResultEntry CreateResultEntry(ProductionUnit unit, HeatDemand demand, double heatProduced, bool isScenario2)
+    {
+        double totalProductionCost = CalculateNetCost(unit, demand, isScenario2, heatProduced);
         double fuelConsumption = (unit.FuelConsumption ?? 0) * heatProduced;
         double co2Emissions = (unit.CO2Emissions ?? 0) * heatProduced;
 
@@ -91,8 +124,8 @@ public class Optimizer
             unit.Name ?? "Unknown",
             demand.TimeFrom,
             Math.Round(heatProduced, 2),
-            0, // Here goes the electricity produced, if applicable
-            Math.Round(productionCost, 2),
+            Math.Round(isScenario2 ? (unit.MaxElectricity ?? 0) : 0, 2), // Add electricity produced if applicable
+            Math.Round(totalProductionCost, 2),
             Math.Round(fuelConsumption, 2),
             Math.Round(co2Emissions, 2)
         );
