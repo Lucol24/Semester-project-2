@@ -1,0 +1,285 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:DanfossHeating.ViewModels"
+             xmlns:converters="using:DanfossHeating.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DanfossHeating.Views.AboutUsPage"
+             x:DataType="vm:AboutUsViewModel">
+
+    <UserControl.Resources>
+        <converters:BoolToColorConverter x:Key="BoolToColorConverter" 
+                                        TrueValue="White" 
+                                        FalseValue="Black"/>
+    </UserControl.Resources>
+    
+    <!-- Background based on theme (light/dark) -->
+    <UserControl.Background>
+        <SolidColorBrush Color="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#1E1E1E:#F0F0F0'}" />
+    </UserControl.Background>
+    
+    <Grid>
+        <!-- Header Panel with Accent Background -->
+        <Border Height="70" 
+                VerticalAlignment="Top"
+                Background="#D40000"
+                BoxShadow="0 2 10 0 #40000000"
+                ZIndex="10">
+            <Grid>
+                <!-- User Profile (Left) -->
+                <StackPanel Orientation="Horizontal" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Left"
+                            Margin="20,0,0,0">
+                    <!-- Profile Circle -->
+                    <Border Width="50" Height="50" Background="#D40000" CornerRadius="25" 
+                            BorderThickness="2" BorderBrush="#FFFFFF"
+                            BoxShadow="0 2 8 0 #40000000">
+                        <TextBlock Text="{Binding UserInitial}" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"
+                                   FontSize="24" 
+                                   FontWeight="Bold" 
+                                   Foreground="White"/>
+                    </Border>
+                    
+                    <!-- User Name -->
+                    <TextBlock Text="{Binding UserName}" 
+                               Foreground="White"
+                               FontWeight="SemiBold"
+                               FontSize="20"
+                               Margin="10,0,0,0"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+                
+                <!-- Theme Toggle (Right) -->
+                <Button Command="{Binding ToggleThemeCommand}"
+                        Width="50" Height="50" CornerRadius="25"
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center"
+                        Margin="0,0,20,0"
+                        Padding="6"
+                        Background="#20FFFFFF"
+                        BorderBrush="#40FFFFFF"
+                        BorderThickness="1">
+                    <Panel>
+                        <!-- Light Theme Icon (Sun) - shown when in dark mode -->
+                        <PathIcon Data="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41.39.39 1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41.39.39 1.03.39 1.41 0l1.06-1.06z"
+                               IsVisible="{Binding IsDarkTheme}" 
+                               Foreground="#FFFF00"
+                               Width="30" Height="30"/>
+                        
+                        <!-- Dark Theme Icon (Moon) - shown when in light mode -->
+                        <PathIcon Data="M9.37 5.51c-.18.64-.27 1.31-.27 1.99 0 4.08 3.32 7.4 7.4 7.4.68 0 1.35-.09 1.99-.27C17.45 17.19 14.93 19 12 19c-3.86 0-7-3.14-7-7 0-2.93 1.81-5.45 4.37-6.49zM12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"
+                               IsVisible="{Binding !IsDarkTheme}" 
+                               Foreground="#004080"
+                               Width="30" Height="30"/>
+                    </Panel>
+                </Button>
+            </Grid>
+        </Border>
+        
+        <!-- Main Content Area -->
+        <Grid Margin="0,70,0,0">
+            <!-- Navigation Menu -->
+            <Border Width="240"
+                    Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#252525:#F8F8F8'}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}"
+                    BorderThickness="0,0,1,0">
+                <StackPanel Margin="0,15,0,0" Spacing="2">
+                    <!-- Home -->
+                    <Button Command="{Binding NavigateToHomeCommand}"
+                            Height="54" 
+                            Background="Transparent"
+                            BorderThickness="0" 
+                            Padding="15,5" 
+                            Margin="8,3"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            CornerRadius="8">
+                        <StackPanel Orientation="Horizontal">
+                            <PathIcon Data="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" 
+                                     Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" 
+                                     Width="22" Height="22"/>
+                            <TextBlock Text="Home" 
+                                      FontSize="16" 
+                                      FontWeight="Normal" 
+                                      Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" 
+                                      VerticalAlignment="Center" 
+                                      Margin="15,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <!-- Optimizer -->
+                    <Button Command="{Binding NavigateToOptimizerCommand}"
+                            Height="54" 
+                            Background="Transparent"
+                            BorderThickness="0" 
+                            Padding="15,5" 
+                            Margin="8,3"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            CornerRadius="8">
+                        <StackPanel Orientation="Horizontal">
+                            <PathIcon Data="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z" 
+                                     Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" 
+                                     Width="22" Height="22"/>
+                            <TextBlock Text="Optimizer" 
+                                      FontSize="16" 
+                                      FontWeight="Normal" 
+                                      Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" 
+                                      VerticalAlignment="Center" 
+                                      Margin="15,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <!-- Cost -->
+                    <Button Command="{Binding NavigateToCostCommand}"
+                            Height="54" 
+                            Background="Transparent"
+                            BorderThickness="0" 
+                            Padding="15,5" 
+                            Margin="8,3"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            CornerRadius="8">
+                        <StackPanel Orientation="Horizontal">
+                            <PathIcon Data="M12.5 6.9C11.91 6.9 11.42 7.39 11.42 8C11.42 8.59 11.91 9.09 12.5 9.09C13.09 9.09 13.58 8.59 13.58 8C13.58 7.39 13.09 6.9 12.5 6.9M6.01 7C5.45 7 5 7.45 5 8S5.45 9 6.01 9C6.57 9 7.02 8.55 7.02 8S6.57 7 6.01 7M10 4C11.86 4 13.41 5.28 13.86 7H14.9C15.5 7 16 7.62 16 8.35V10.35C16 11.09 15.5 11.7 14.9 11.7H13.03L12.5 11.33L12 11.7H8.91C8.45 11.7 7.9 11.26 7.9 10.5S8.45 9.3 8.91 9.3H11.11L14 10.89V8.75C13.55 9.05 13.03 9.2 12.5 9.2C11.27 9.2 10.3 8.25 10.3 7S11.27 4.8 12.5 4.8C13.2 4.8 13.8 5.12 14.24 5.67H15C14.08 4.67 12.85 4 11.5 4H10M2 8C2 10.36 3.61 12.25 5.8 12.8L6.21 12C4.21 11.5 2.65 9.75 2.65 7.65C2.65 5.24 4.61 3.3 7 3.3H10.5V2H7C3.75 2 1.1 4.34 1.1 7.5V8H2M17.65 7.65C17.65 9.75 16.09 11.5 14.09 12L14.5 12.8C16.69 12.25 18.3 10.36 18.3 8H19.2V7.5C19.2 4.34 16.55 2 13.3 2H10.5V3.3H13.3C15.7 3.3 17.65 5.24 17.65 7.65Z" 
+                                     Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" 
+                                     Width="22" Height="22"/>
+                            <TextBlock Text="Cost" 
+                                      FontSize="16" 
+                                      FontWeight="Normal" 
+                                      Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" 
+                                      VerticalAlignment="Center" 
+                                      Margin="15,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <!-- CO2 Emission -->
+                    <Button Command="{Binding NavigateToCO2EmissionCommand}"
+                            Height="54" 
+                            Background="Transparent"
+                            BorderThickness="0" 
+                            Padding="15,5" 
+                            Margin="8,3"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            CornerRadius="8">
+                        <StackPanel Orientation="Horizontal">
+                            <PathIcon Data="M12,16C12,15.7 11.8,15.5 11.5,15.5C11.2,15.5 11,15.7 11,16C11,16.3 11.2,16.5 11.5,16.5C11.8,16.5 12,16.3 12,16M19.5,16C19.5,15.7 19.3,15.5 19,15.5C18.7,15.5 18.5,15.7 18.5,16C18.5,16.3 18.7,16.5 19,16.5C19.3,16.5 19.5,16.3 19.5,16M13.2,12.1C14,12.5 14.7,13 15.3,13.6C15.4,13.7 15.5,13.8 15.6,13.9C16.1,14.4 16.5,15 16.9,15.7C17,15.8 17,15.9 17,16C17,16.1 16.9,16.2 16.8,16.2H5.1C5,16.2 4.9,16.1 4.8,16C4.8,15.9 4.9,15.8 4.9,15.7C5.3,15 5.8,14.4 6.3,13.9C6.4,13.8 6.5,13.7 6.5,13.6C7.1,13 7.9,12.5 8.6,12.1C8.7,12.1 8.8,12 8.9,12C9,11.9 9.1,11.8 9.1,11.7C9.2,11.6 9.3,11.4 9.3,11.2C9.3,11 9.4,10.8 9.4,10.5C9.4,10.3 9.3,10.1 9.3,9.9C9.3,9.7 9.2,9.5 9.1,9.4C9.1,9.3 9,9.1 8.9,9.1C8.8,9 8.7,9 8.6,8.9C7.9,8.5 7.2,7.9 6.6,7.3C6.5,7.2 6.4,7.1 6.3,7C5.8,6.5 5.4,5.9 5,5.3C4.9,5.1 4.9,5 4.9,4.9C4.9,4.8 5,4.7 5.1,4.7H16.8C16.9,4.7 17,4.8 17.1,4.9C17.1,5 17,5.1 17,5.3C16.6,5.9 16.2,6.5 15.6,7C15.5,7.1 15.5,7.2 15.4,7.3C14.8,7.9 14,8.5 13.3,8.9C13.2,9 13.1,9 13,9.1C12.9,9.1 12.8,9.3 12.8,9.4C12.7,9.5 12.6,9.7 12.6,9.9C12.6,10.1 12.5,10.3 12.5,10.5C12.5,10.8 12.6,11 12.6,11.2C12.6,11.4 12.7,11.6 12.8,11.7C12.8,11.8 12.9,11.9 13,12C13.1,12 13.1,12 13.2,12.1M10.5,16C10.5,15.7 10.3,15.5 10,15.5C9.7,15.5 9.5,15.7 9.5,16C9.5,16.3 9.7,16.5 10,16.5C10.3,16.5 10.5,16.3 10.5,16M14.5,16C14.5,15.7 14.3,15.5 14,15.5C13.7,15.5 13.5,15.7 13.5,16C13.5,16.3 13.7,16.5 14,16.5C14.3,16.5 14.5,16.3 14.5,16M16,16C16,15.7 15.8,15.5 15.5,15.5C15.2,15.5 15,15.7 15,16C15,16.3 15.2,16.5 15.5,16.5C15.8,16.5 16,16.3 16,16M7.5,16C7.5,15.7 7.3,15.5 7,15.5C6.7,15.5 6.5,15.7 6.5,16C6.5,16.3 6.7,16.5 7,16.5C7.3,16.5 7.5,16.3 7.5,16M9,16C9,15.7 8.8,15.5 8.5,15.5C8.2,15.5 8,15.7 8,16C8,16.3 8.2,16.5 8.5,16.5C8.8,16.5 9,16.3 9,16M18,16C18,15.7 17.8,15.5 17.5,15.5C17.2,15.5 17,15.7 17,16C17,16.3 17.2,16.5 17.5,16.5C17.8,16.5 18,16.3 18,16M7,9.8C7,9.8 7.8,9.7 9,10.9C9,10.9 9,8.9 11,9C11,9 11,7 14,7C14,7 17,7 17,10C18,10 18,11 18,11C18,11 18.5,11 18.5,12C18,11.5 17.5,11.5 17.5,11.5C17.5,11.5 17,9 14,9C14,9 11,9 11,11C11,11 10,11 10,12C9,11 7,10.8 7,9.8Z" 
+                                     Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" 
+                                     Width="22" Height="22"/>
+                            <TextBlock Text="CO2 Emission" 
+                                      FontSize="16" 
+                                      FontWeight="Normal" 
+                                      Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" 
+                                      VerticalAlignment="Center" 
+                                      Margin="15,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <!-- Settings -->
+                    <Button Command="{Binding NavigateToSettingsCommand}"
+                            Height="54" 
+                            Background="Transparent"
+                            BorderThickness="0" 
+                            Padding="15,5" 
+                            Margin="8,3"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            CornerRadius="8">
+                        <StackPanel Orientation="Horizontal">
+                            <PathIcon Data="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" 
+                                     Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" 
+                                     Width="22" Height="22"/>
+                            <TextBlock Text="Settings" 
+                                      FontSize="16" 
+                                      FontWeight="Normal" 
+                                      Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" 
+                                      VerticalAlignment="Center" 
+                                      Margin="15,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <!-- About Us (Current Page) -->
+                    <Button Height="54" 
+                            Background="#D40000"
+                            BorderThickness="0" 
+                            Padding="15,5" 
+                            Margin="8,3"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            CornerRadius="8">
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="10" Color="#40D40000" OffsetX="0" OffsetY="2"/>
+                        </Button.Effect>
+                        <StackPanel Orientation="Horizontal">
+                            <PathIcon Data="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" 
+                                     Foreground="White" 
+                                     Width="22" Height="22"/>
+                            <TextBlock Text="About Us" 
+                                      FontSize="16" 
+                                      FontWeight="SemiBold" 
+                                      Foreground="White" 
+                                      VerticalAlignment="Center" 
+                                      Margin="15,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+            
+            <!-- Content Area -->
+            <Border Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#252525:#FFFFFF'}"
+                    BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Margin="260,20,20,20"
+                    BoxShadow="0 2 10 0 #30000000"
+                    Padding="20">
+                <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Spacing="30" MaxWidth="500">
+                        <TextBlock Text="About Us" 
+                                   FontSize="32" 
+                                   FontWeight="Bold" 
+                                   Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
+                                   HorizontalAlignment="Center"/>
+                        
+                        <!-- Team Information -->
+                        <Border Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#303030:#F5F5F5'}"
+                                BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}"
+                                BorderThickness="1"
+                                CornerRadius="12"
+                                Padding="30"
+                                BoxShadow="0 2 15 0 #30000000">
+                            <StackPanel Spacing="20">
+                                <TextBlock Text="Our Team" 
+                                           FontSize="24" 
+                                           FontWeight="Bold" 
+                                           Foreground="#D40000"
+                                           HorizontalAlignment="Center"/>
+                                
+                                <TextBlock Text="Project made by:" 
+                                           FontSize="18"
+                                           FontWeight="SemiBold"
+                                           Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
+                                           HorizontalAlignment="Center"/>
+                                           
+                                <TextBlock Text="Lara, Carolina, Luigi, Mats, Gabriele and Manish" 
+                                           FontSize="20"
+                                           FontWeight="SemiBold"
+                                           Foreground="#D40000"
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
