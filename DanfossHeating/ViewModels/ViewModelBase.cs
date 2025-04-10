@@ -10,7 +10,7 @@ public enum PageType
     Optimizer,
     Cost,
     CO2Emission,
-    Settings,
+    Machinery,
     AboutUs,
     Login
 }

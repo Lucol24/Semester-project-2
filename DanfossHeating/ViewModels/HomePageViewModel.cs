@@ -26,7 +26,7 @@ public class HomePageViewModel : PageViewModelBase
     public ICommand NavigateToOptimizerCommand { get; }
     public ICommand NavigateToCostCommand { get; }
     public ICommand NavigateToCO2EmissionCommand { get; }
-    public ICommand NavigateToSettingsCommand { get; }
+    public ICommand NavigateToMachineryCommand { get; }
     public ICommand NavigateToAboutUsCommand { get; }
 
     public override PageType PageType => PageType.Home;
@@ -38,7 +38,7 @@ public class HomePageViewModel : PageViewModelBase
         NavigateToOptimizerCommand = new Command(NavigateToOptimizer);
         NavigateToCostCommand = new Command(NavigateToCost);
         NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
-        NavigateToSettingsCommand = new Command(NavigateToSettings);
+        NavigateToMachineryCommand = new Command(NavigateToMachinery);
         NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
 
         UpdateCurrentDate();
@@ -54,7 +54,7 @@ public class HomePageViewModel : PageViewModelBase
         NavigateToOptimizerCommand = new Command(NavigateToOptimizer);
         NavigateToCostCommand = new Command(NavigateToCost);
         NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
-        NavigateToSettingsCommand = new Command(NavigateToSettings);
+        NavigateToMachineryCommand = new Command(NavigateToMachinery);
         NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
 
         UpdateCurrentDate();
@@ -111,13 +111,13 @@ public class HomePageViewModel : PageViewModelBase
         }
     }
 
-    private void NavigateToSettings()
+    private void NavigateToMachinery()
     {
         if (MainViewModel != null)
         {
-            var settingsViewModel = new SettingsViewModel(UserName, IsDarkTheme);
-            settingsViewModel.SetMainViewModel(MainViewModel);
-            MainViewModel.NavigateTo(settingsViewModel);
+            var machineryViewModel = new MachineryViewModel(UserName, IsDarkTheme);
+            machineryViewModel.SetMainViewModel(MainViewModel);
+            MainViewModel.NavigateTo(machineryViewModel);
         }
     }
 

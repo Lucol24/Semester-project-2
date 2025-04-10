@@ -3,27 +3,27 @@ using System.Windows.Input;
 
 namespace DanfossHeating.ViewModels;
 
-public class SettingsViewModel : PageViewModelBase
+public class MachineryViewModel : PageViewModelBase
 {
-    public override PageType PageType => PageType.Settings;
+    public override PageType PageType => PageType.Machinery;
     
     public ICommand NavigateToHomeCommand { get; }
     public ICommand NavigateToOptimizerCommand { get; }
     public ICommand NavigateToCostCommand { get; }
     public ICommand NavigateToCO2EmissionCommand { get; }
-    public ICommand NavigateToSettingsCommand { get; }
+    public ICommand NavigateToMachineryCommand { get; }
     public ICommand NavigateToAboutUsCommand { get; }
     
-    public SettingsViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
+    public MachineryViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
     {
         NavigateToHomeCommand = new Command(NavigateToHome);
         NavigateToOptimizerCommand = new Command(NavigateToOptimizer);
         NavigateToCostCommand = new Command(NavigateToCost);
         NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
-        NavigateToSettingsCommand = new Command(() => { /* Already on settings page */ });
+        NavigateToMachineryCommand = new Command(() => { /* Already on settings page */ });
         NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
         
-        Console.WriteLine($"SettingsViewModel created for user: {userName}");
+        Console.WriteLine($"MachineryViewModel created for user: {userName}");
     }
     
     private void NavigateToHome()

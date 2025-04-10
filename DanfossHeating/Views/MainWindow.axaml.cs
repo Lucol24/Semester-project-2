@@ -125,8 +125,8 @@ public partial class MainWindow : Window
             case PageType.CO2Emission:
                 page = new CO2EmissionPage() { DataContext = viewModel };
                 break;
-            case PageType.Settings:
-                page = new SettingsPage() { DataContext = viewModel };
+            case PageType.Machinery:
+                page = new MachineryPage() { DataContext = viewModel };
                 break;
             case PageType.AboutUs:
                 page = new AboutUsPage() { DataContext = viewModel };

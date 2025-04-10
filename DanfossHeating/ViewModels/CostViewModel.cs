@@ -11,7 +11,7 @@ public class CostViewModel : PageViewModelBase
     public ICommand NavigateToOptimizerCommand { get; }
     public ICommand NavigateToCostCommand { get; }
     public ICommand NavigateToCO2EmissionCommand { get; }
-    public ICommand NavigateToSettingsCommand { get; }
+    public ICommand NavigateToMachineryCommand { get; }
     public ICommand NavigateToAboutUsCommand { get; }
     
     public CostViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
@@ -20,7 +20,7 @@ public class CostViewModel : PageViewModelBase
         NavigateToOptimizerCommand = new Command(NavigateToOptimizer);
         NavigateToCostCommand = new Command(() => { /* Already on cost page */ });
         NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
-        NavigateToSettingsCommand = new Command(NavigateToSettings);
+        NavigateToMachineryCommand = new Command(NavigateToMachinery);
         NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
         
         Console.WriteLine($"CostViewModel created for user: {userName}");
@@ -56,11 +56,11 @@ public class CostViewModel : PageViewModelBase
         }
     }
     
-    private void NavigateToSettings()
+    private void NavigateToMachinery()
     {
         if (MainViewModel != null)
         {
-            var viewModel = new SettingsViewModel(UserName, IsDarkTheme);
+            var viewModel = new MachineryViewModel(UserName, IsDarkTheme);
             viewModel.SetMainViewModel(MainViewModel);
             MainViewModel.NavigateTo(viewModel);
         }

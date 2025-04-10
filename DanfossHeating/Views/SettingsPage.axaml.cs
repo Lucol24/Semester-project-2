@@ -6,14 +6,14 @@ using System;
 
 namespace DanfossHeating.Views;
 
-public partial class SettingsPage : UserControl
+public partial class MachineryPage : UserControl
 {
-    private SettingsViewModel? _viewModel;
+    private MachineryViewModel? _viewModel;
     
-    public SettingsPage()
+    public MachineryPage()
     {
         InitializeComponent();
-        Console.WriteLine("SettingsPage constructed");
+        Console.WriteLine("MachineryPage constructed");
         
         Loaded += Page_Loaded;
         DataContextChanged += Page_DataContextChanged;
@@ -26,7 +26,7 @@ public partial class SettingsPage : UserControl
     
     private void Page_Loaded(object? sender, EventArgs e)
     {
-        Console.WriteLine("SettingsPage loaded and visible");
+        Console.WriteLine("MachineryPage loaded and visible");
         UpdateThemeClass();
     }
     
@@ -37,23 +37,23 @@ public partial class SettingsPage : UserControl
             _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         }
         
-        _viewModel = DataContext as SettingsViewModel;
+        _viewModel = DataContext as MachineryViewModel;
         
         if (_viewModel != null)
         {
-            Console.WriteLine($"SettingsPage received DataContext with userName: {_viewModel.UserName}");
+            Console.WriteLine($"MachineryPage received DataContext with userName: {_viewModel.UserName}");
             _viewModel.PropertyChanged += ViewModel_PropertyChanged;
             UpdateThemeClass();
         }
         else
         {
-            Console.WriteLine("WARNING: SettingsPage DataContext is not SettingsViewModel");
+            Console.WriteLine("WARNING: MachineryPage DataContext is not MachineryViewModel");
         }
     }
     
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(SettingsViewModel.IsDarkTheme))
+        if (e.PropertyName == nameof(MachineryViewModel.IsDarkTheme))
         {
             UpdateThemeClass();
         }
@@ -66,7 +66,7 @@ public partial class SettingsPage : UserControl
             if (_viewModel != null)
             {
                 Classes.Set("dark", _viewModel.IsDarkTheme);
-                Console.WriteLine($"Updated SettingsPage theme class: {(_viewModel.IsDarkTheme ? "dark" : "light")}");
+                Console.WriteLine($"Updated MachineryPage theme class: {(_viewModel.IsDarkTheme ? "dark" : "light")}");
             }
         }
         catch (Exception ex)

@@ -11,7 +11,7 @@ public class AboutUsViewModel : PageViewModelBase
     public ICommand NavigateToOptimizerCommand { get; }
     public ICommand NavigateToCostCommand { get; }
     public ICommand NavigateToCO2EmissionCommand { get; }
-    public ICommand NavigateToSettingsCommand { get; }
+    public ICommand NavigateToMachineryCommand { get; }
     public ICommand NavigateToAboutUsCommand { get; }
     
     public AboutUsViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
@@ -20,7 +20,7 @@ public class AboutUsViewModel : PageViewModelBase
         NavigateToOptimizerCommand = new Command(NavigateToOptimizer);
         NavigateToCostCommand = new Command(NavigateToCost);
         NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
-        NavigateToSettingsCommand = new Command(NavigateToSettings);
+        NavigateToMachineryCommand = new Command(NavigateToMachinery);
         NavigateToAboutUsCommand = new Command(() => { /* Already on about us page */ });
         
         Console.WriteLine($"AboutUsViewModel created for user: {userName}");
@@ -66,11 +66,11 @@ public class AboutUsViewModel : PageViewModelBase
         }
     }
     
-    private void NavigateToSettings()
+    private void NavigateToMachinery()
     {
         if (MainViewModel != null)
         {
-            var viewModel = new SettingsViewModel(UserName, IsDarkTheme);
+            var viewModel = new MachineryViewModel(UserName, IsDarkTheme);
             viewModel.SetMainViewModel(MainViewModel);
             MainViewModel.NavigateTo(viewModel);
         }
