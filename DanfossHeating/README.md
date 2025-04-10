@@ -68,3 +68,9 @@ SEMESTER-PROJECT-2/
 💡 When contributing, make sure your comments are clear, and your changes are isolated to your assigned area. This helps avoid conflicts and ensures smooth integration of everyone’s work.  
 
 ---
+
+## **Terminal Mode**
+- dotnet run -- --term
+
+## **To be added**
+- Graphs in the UI
