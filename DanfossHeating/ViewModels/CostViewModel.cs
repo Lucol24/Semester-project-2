@@ -1,5 +1,7 @@
 using System;
 using System.Windows.Input;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 
 namespace DanfossHeating.ViewModels;
 
@@ -75,4 +77,11 @@ public class CostViewModel : PageViewModelBase
             MainViewModel.NavigateTo(viewModel);
         }
     }
+
+    public ISeries[] Series { get; set; } = new ISeries[]
+    {
+        new StackedAreaSeries<double> { Values = new double[] { 3, 2, 3, 5, 3, 4, 6 } },
+        new StackedAreaSeries<double> { Values = new double[] { 6, 5, 6, 3, 8, 5, 2 } },
+        new StackedAreaSeries<double> { Values = new double[] { 4, 8, 2, 8, 9, 5, 3 } }
+    };
 }

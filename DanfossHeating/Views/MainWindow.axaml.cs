@@ -120,7 +120,7 @@ public partial class MainWindow : Window
                 page = new OptimizerPage() { DataContext = viewModel };
                 break;
             case PageType.Cost:
-                page = new CostPage() { DataContext = viewModel };
+                page = new CostPage("defaultUser", false) { DataContext = viewModel };
                 break;
             case PageType.CO2Emission:
                 page = new CO2EmissionPage() { DataContext = viewModel };

@@ -2,11 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="using:DanfossHeating.ViewModels"
+             xmlns:vm="clr-namespace:DanfossHeating.ViewModels"
              xmlns:converters="using:DanfossHeating.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DanfossHeating.Views.CostPage"
-             x:DataType="vm:CostViewModel">
+             x:DataType="vm:CostViewModel"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia">
 
     <UserControl.Resources>
         <converters:BoolToColorConverter x:Key="BoolToColorConverter" 
@@ -18,7 +19,7 @@
     <UserControl.Background>
         <SolidColorBrush Color="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#1E1E1E:#F0F0F0'}" />
     </UserControl.Background>
-    
+
     <Grid>
         <!-- Header Panel with Accent Background -->
         <Border Height="70" 
@@ -247,14 +248,9 @@
                                Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
                                HorizontalAlignment="Center"
                                Margin="0,20,0,20"/>
-                    
-                    <TextBlock Text="Sample text for this page" 
-                               FontSize="18"
-                               TextWrapping="Wrap"
-                               Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
-                               HorizontalAlignment="Center"
-                               TextAlignment="Center"
-                               Margin="0,0,0,20"/>
+
+                        <lvc:CartesianChart Series="{Binding Series}" Height="300" Width="500" />
+
                 </StackPanel>
             </Border>
         </Grid>
