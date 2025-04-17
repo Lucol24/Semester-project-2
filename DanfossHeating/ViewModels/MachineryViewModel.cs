@@ -24,11 +24,19 @@ public class MachineryViewModel : PageViewModelBase
         NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
         NavigateToMachineryCommand = new Command(() => { /* Already on settings page */ });
         NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
-        
+
         AssetManager assetManager = new AssetManager();
-        Machines = new ObservableCollection<ProductionUnit>(assetManager.GetProductionUnits());
-        Console.WriteLine($"MachineryPage constructed with {Machines.Count} machines loaded.");
-        
+        var units = assetManager.GetProductionUnits();
+
+        for (int i = 0; i < units.Count; i++)
+        {
+            units[i].ImagePath = $"avares://DanfossHeating/Assets/machine{i + 1}.png";
+            Console.WriteLine($"Loaded image path: {units[i].ImagePath}");
+
+        }
+
+        Machines = new ObservableCollection<ProductionUnit>(units);
+    
         Console.WriteLine($"MachineryViewModel created for user: {userName}");
     }
     

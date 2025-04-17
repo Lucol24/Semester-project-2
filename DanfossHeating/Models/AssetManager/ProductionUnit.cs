@@ -11,4 +11,5 @@ public class ProductionUnit
     public double? ProductionCosts { get; set; }
     public double? CO2Emissions { get; set; }
     public double? FuelConsumption { get; set; }
+    public string? ImagePath { get; set; } 
 }
