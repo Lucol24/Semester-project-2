@@ -3,6 +3,14 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# Ignore NuGet packages and build artifacts
+bin/
+obj/
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+
 # dotenv files
 .env
 
