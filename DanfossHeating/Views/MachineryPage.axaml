@@ -248,13 +248,52 @@
                                HorizontalAlignment="Center"
                                Margin="0,20,0,20"/>
                     
-                    <TextBlock Text="Sample text for this page" 
-                               FontSize="18"
-                               TextWrapping="Wrap"
-                               Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
-                               HorizontalAlignment="Center"
-                               TextAlignment="Center"
-                               Margin="0,0,0,20"/>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Machines}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Gray"
+                                            BorderThickness="1"
+                                            CornerRadius="10"
+                                            Margin="10"
+                                            Padding="10"
+                                            Width="160">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}"
+                                                    FontWeight="Bold"
+                                                    FontSize="14"
+                                                    TextAlignment="Center"
+                                                    Margin="0,0,0,8"/>
+
+                                            <TextBlock Text="{Binding MaxHeat}"
+                                                    FontWeight="Bold"
+                                                    FontSize="14"
+                                                    TextAlignment="Center"
+                                                    Margin="0,0,0,8"/>
+
+                                            <TextBlock Text="{Binding MaxElectricity}"
+                                                    FontWeight="Bold"
+                                                    FontSize="14"
+                                                    TextAlignment="Center"
+                                                    Margin="0,0,0,8"/>
+
+                                            <!-- <Image Source="{Binding ImagePath}" 
+                                                Width="120" 
+                                                Height="100" 
+                                                Stretch="UniformToFill"/> -->
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
                 </StackPanel>
             </Border>
         </Grid>

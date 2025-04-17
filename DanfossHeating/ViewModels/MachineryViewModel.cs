@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace DanfossHeating.ViewModels;
 
@@ -13,6 +14,7 @@ public class MachineryViewModel : PageViewModelBase
     public ICommand NavigateToCO2EmissionCommand { get; }
     public ICommand NavigateToMachineryCommand { get; }
     public ICommand NavigateToAboutUsCommand { get; }
+    public ObservableCollection<ProductionUnit> Machines { get; set; } = new();
     
     public MachineryViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
     {
@@ -22,6 +24,10 @@ public class MachineryViewModel : PageViewModelBase
         NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
         NavigateToMachineryCommand = new Command(() => { /* Already on settings page */ });
         NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
+        
+        AssetManager assetManager = new AssetManager();
+        Machines = new ObservableCollection<ProductionUnit>(assetManager.GetProductionUnits());
+        Console.WriteLine($"MachineryPage constructed with {Machines.Count} machines loaded.");
         
         Console.WriteLine($"MachineryViewModel created for user: {userName}");
     }
