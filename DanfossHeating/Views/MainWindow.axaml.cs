@@ -1,8 +1,10 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using System;
 using DanfossHeating.ViewModels;
+using Avalonia.Markup.Xaml;
 
 namespace DanfossHeating.Views;
 
@@ -15,6 +17,10 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+#if DEBUG
+            this.AttachDevTools();
+#endif
+            this.WindowState = WindowState.Maximized;
         
         Loaded += MainWindow_Loaded;
         DataContextChanged += MainWindow_DataContextChanged;
