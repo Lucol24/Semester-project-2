@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Linq;
-using System.Windows.Input;
 using LiveChartsCore;
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
@@ -11,9 +9,6 @@ using System.Runtime.CompilerServices;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
-using Avalonia.Interactivity;
-using System.Threading.Tasks;
-using Avalonia.Threading;
 
 namespace DanfossHeating.ViewModels;
 
@@ -29,8 +24,8 @@ public class CostViewModel : PageViewModelBase
     public ICommand NavigateToAboutUsCommand { get; }
     public ICommand OptimizeCommand { get; }
 
-    private string _selectedSeason;
-    private string _selectedScenario;
+    private string _selectedSeason = "Winter"; // Default value
+    private string _selectedScenario = "Scenario 1"; // Default value
 
     public string SelectedSeason
     {
@@ -60,7 +55,6 @@ public class CostViewModel : PageViewModelBase
         }
     }
 
-    public string[] Labels { get; set; }
     public ISeries[] Series { get; private set; } = Array.Empty<ISeries>();
     public Axis[] XAxes { get; private set; } = Array.Empty<Axis>();
     public Axis[] YAxes { get; private set; } = Array.Empty<Axis>();
@@ -208,7 +202,7 @@ public class CostViewModel : PageViewModelBase
         }
     }
 
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         base.OnPropertyChanged(propertyName);
     }

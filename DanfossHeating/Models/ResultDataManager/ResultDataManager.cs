@@ -48,7 +48,7 @@ public class ResultDataManager
                 try
                 {
                     results.Add(new ResultEntry(
-                        csv.GetField<string>("UnitName"),
+                        csv.GetField<string>("UnitName") ?? string.Empty,
                         csv.GetField<DateTime>("Timestamp"),
                         csv.GetField<double>("HeatProduced"),
                         csv.GetField<double>("ElectricityProduced"),
