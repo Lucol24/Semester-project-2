@@ -37,11 +37,11 @@ public class ResultDataManager
             using var reader = new StreamReader(_filePath);
             using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                MissingFieldFound = null // Ignora i campi mancanti
+                MissingFieldFound = null // Ignore missing fields
             });
 
-            csv.Read(); // Legge l'intestazione
-            csv.ReadHeader(); // Legge l'intestazione
+            csv.Read(); 
+            csv.ReadHeader(); 
 
             while (csv.Read())
             {

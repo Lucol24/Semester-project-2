@@ -1,61 +1,108 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
+using System.Windows.Input;
 using System.Linq;
 using System.Windows.Input;
 using LiveChartsCore;
-using LiveChartsCore.Drawing;
+using CommunityToolkit.Mvvm.Input;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
+using Avalonia.Interactivity;
+using System.Threading.Tasks;
+using Avalonia.Threading;
 
 namespace DanfossHeating.ViewModels;
 
 public class CostViewModel : PageViewModelBase
 {
     public override PageType PageType => PageType.Cost;
-    
+
     public ICommand NavigateToHomeCommand { get; }
     public ICommand NavigateToOptimizerCommand { get; }
     public ICommand NavigateToCostCommand { get; }
     public ICommand NavigateToCO2EmissionCommand { get; }
     public ICommand NavigateToMachineryCommand { get; }
     public ICommand NavigateToAboutUsCommand { get; }
+    public ICommand OptimizeCommand { get; }
+
+    private string _selectedSeason;
+    private string _selectedScenario;
+
+    public string SelectedSeason
+    {
+        get { return _selectedSeason; }
+        set
+        {
+            if (_selectedSeason != value)
+            {
+                _selectedSeason = value;
+                OnPropertyChanged();
+                Console.WriteLine($"SelectedSeason set to: {value}");
+            }
+        }
+    }
+
+    public string SelectedScenario
+    {
+        get { return _selectedScenario; }
+        set
+        {
+            if (_selectedScenario != value)
+            {
+                _selectedScenario = value;
+                OnPropertyChanged();
+                Console.WriteLine($"SelectedScenario set to: {value}");
+            }
+        }
+    }
 
     public string[] Labels { get; set; }
-    public ISeries[] Series  { get; private set; } = Array.Empty<ISeries>();
-    public Axis[] XAxes  { get; private set; } = Array.Empty<Axis>();
-    public Axis[] YAxes  { get; private set; } = Array.Empty<Axis>();
+    public ISeries[] Series { get; private set; } = Array.Empty<ISeries>();
+    public Axis[] XAxes { get; private set; } = Array.Empty<Axis>();
+    public Axis[] YAxes { get; private set; } = Array.Empty<Axis>();
 
-    
+    private Optimizer optimizer;
+    private AssetManager assetManager;
+    private SourceDataManager sourceDataManager;
+    private ResultDataManager resultDataManager;
+
     public CostViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
     {
         NavigateToHomeCommand = new Command(NavigateToHome);
         NavigateToOptimizerCommand = new Command(NavigateToOptimizer);
-        NavigateToCostCommand = new Command(() => { /* Already on cost page */ });
+        NavigateToCostCommand = new Command(NavigateToCost);
         NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
         NavigateToMachineryCommand = new Command(NavigateToMachinery);
         NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
+        OptimizeCommand = new RelayCommand(OptimizeData);
         Console.WriteLine($"CostViewModel created for user: {userName}");
 
+        // Initialize the AssetManager, SourceDataManager, and ResultDataManager
+        assetManager = new AssetManager();
+        sourceDataManager = new SourceDataManager();
+        resultDataManager = new ResultDataManager();
+        optimizer = new Optimizer(assetManager, sourceDataManager, resultDataManager);
+
         LoadChart();
-    }
-    
-    private void NavigateToHome()
-    {
-        if (MainViewModel != null)
-        {
-            var homeViewModel = new HomePageViewModel(UserName, IsDarkTheme);
-            homeViewModel.SetMainViewModel(MainViewModel);
-            MainViewModel.NavigateTo(homeViewModel);
-        }
     }
 
     private void LoadChart()
     {
-        ResultDataManager resultDataManager = new ResultDataManager();
+        if (resultDataManager == null)
+        {
+            throw new InvalidOperationException("resultDataManager is not initialized.");
+        }
+
         var results = resultDataManager.LoadResults();
+
+        if (results == null)
+        {
+            throw new InvalidOperationException("LoadResults returned null.");
+        }
 
         // Group data by unit name
         var groupedByUnit = results
@@ -135,6 +182,55 @@ public class CostViewModel : PageViewModelBase
         // Log to verify data loading
         Console.WriteLine($"Loaded {results.Count} results.");
         Console.WriteLine($"Created {seriesList.Count} series.");
+    }
+
+    private void OptimizeData()
+    {
+        try
+        {
+            if (SelectedScenario == "Scenario 1")
+            {
+                optimizer.OptimizeHeatProduction(SelectedSeason, OptimizationCriteria.Cost, false);
+            }
+            else if (SelectedScenario == "Scenario 2")
+            {
+                optimizer.OptimizeHeatProduction(SelectedSeason, OptimizationCriteria.Cost, true);
+            }
+            Console.WriteLine($"Optimizing data for season: {SelectedSeason} and is scenario2: {SelectedScenario}");
+
+            // Reload the chart with the optimized data
+            LoadChart();
+            NavigateToCost(); // Refresh the view after optimization
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in OptimizeData: {ex}");
+        }
+    }
+
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        base.OnPropertyChanged(propertyName);
+    }
+
+    private void NavigateToCost()
+    {
+        if (MainViewModel != null)
+        {
+            var viewModel = new CostViewModel(UserName, IsDarkTheme);
+            viewModel.SetMainViewModel(MainViewModel);
+            MainViewModel.NavigateTo(viewModel);
+        }
+    }
+
+    private void NavigateToHome()
+    {
+        if (MainViewModel != null)
+        {
+            var homeViewModel = new HomePageViewModel(UserName, IsDarkTheme);
+            homeViewModel.SetMainViewModel(MainViewModel);
+            MainViewModel.NavigateTo(homeViewModel);
+        }
     }
 
     private void NavigateToOptimizer()

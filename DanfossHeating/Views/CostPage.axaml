@@ -3,15 +3,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:DanfossHeating.ViewModels"
-             xmlns:converters="using:DanfossHeating.Converters"
+             xmlns:converters="clr-namespace:DanfossHeating.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DanfossHeating.Views.CostPage"
              x:DataType="vm:CostViewModel"
              xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia">
 
     <UserControl.Resources>
-        <converters:BoolToColorConverter x:Key="BoolToColorConverter" 
-                                        TrueValue="White" 
+        <converters:EnumToStringConverter x:Key="EnumToStringConverter"/>
+        <converters:BoolToColorConverter x:Key="BoolToColorConverter"
+                                        TrueValue="White"
                                         FalseValue="Black"/>
     </UserControl.Resources>
     
@@ -242,21 +243,56 @@
                     BoxShadow="0 2 10 0 #30000000"
                     Padding="20">
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Spacing="20">
-                    <TextBlock Text="Cost Page" 
-                               FontSize="32" 
-                               FontWeight="Bold" 
-                               Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
-                               HorizontalAlignment="Center"
-                               Margin="0,20,0,20"/>
+                    <TextBlock Text="Cost Page"
+                            FontSize="32"
+                            FontWeight="Bold"
+                            Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
+                            HorizontalAlignment="Center"
+                            Margin="0,20,0,20"/>
 
-                    <lvc:CartesianChart Series="{Binding Series}" 
-                            XAxes="{Binding XAxes}" 
-                            YAxes="{Binding YAxes}" 
-                            Height="600" Width="1300"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            LegendPosition="Right" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0" Spacing="40">
+                        <!-- First Column: Select Season -->
+                        <StackPanel>
+                            <TextBlock Text="Select Season" FontWeight="Bold" Margin="0,0,0,10"/>
+                            <RadioButton Content="Summer"
+                                        GroupName="SeasonGroup"
+                                        IsChecked="{Binding SelectedSeason, Converter={StaticResource EnumToStringConverter}, ConverterParameter='summer', Mode=TwoWay}"
+                                        Margin="5"/>
+                            <RadioButton Content="Winter"
+                                        GroupName="SeasonGroup"
+                                        IsChecked="{Binding SelectedSeason, Converter={StaticResource EnumToStringConverter}, ConverterParameter='winter', Mode=TwoWay}"
+                                        Margin="5"/>
+                        </StackPanel>
 
+                        <!-- Second Column: Select Scenario -->
+                        <StackPanel>
+                            <TextBlock Text="Select Scenario" FontWeight="Bold" Margin="0,0,0,10"/>
+                            <RadioButton Content="Scenario 1"
+                                        GroupName="ScenarioGroup"
+                                        IsChecked="{Binding SelectedScenario, Converter={StaticResource EnumToStringConverter}, ConverterParameter='Scenario 1', Mode=TwoWay}"
+                                        Margin="5"/>
+                            <RadioButton Content="Scenario 2"
+                                        GroupName="ScenarioGroup"
+                                        IsChecked="{Binding SelectedScenario, Converter={StaticResource EnumToStringConverter}, ConverterParameter='Scenario 2', Mode=TwoWay}"
+                                        Margin="5"/>
+                        </StackPanel>
+
+                        <!-- Third Column: Optimize Button -->
+                        <StackPanel VerticalAlignment="Center">
+                            <Button Content="Optimize"
+                                    Command="{Binding OptimizeCommand}"
+                                    Margin="5"
+                                    Padding="20,10"/>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <lvc:CartesianChart Series="{Binding Series}"
+                                        XAxes="{Binding XAxes}"
+                                        YAxes="{Binding YAxes}"
+                                        Height="600" Width="1300"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        LegendPosition="Right" />
                 </StackPanel>
             </Border>
         </Grid>
