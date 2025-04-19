@@ -23,8 +23,8 @@ public class CO2EmissionViewModel : PageViewModelBase
     public ICommand NavigateToAboutUsCommand { get; }
     public ICommand OptimizeCommand { get; }
 
-    private string _selectedSeason = "Winter"; // Default value
-    private string _selectedScenario = "Scenario 1"; // Default value
+    private string _selectedSeason = ""; // Default value
+    private string _selectedScenario = ""; // Default value
 
     public string SelectedSeason
     {

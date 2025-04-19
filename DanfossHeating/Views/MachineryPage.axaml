@@ -295,7 +295,7 @@
                     Margin="20"
                     HorizontalScrollBarVisibility="Auto"
                     VerticalScrollBarVisibility="Auto">
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="0.5*,0.5*">
 
                         <!--  Left Column: Machinery info  -->
                         <ItemsControl Grid.Column="0" ItemsSource="{Binding Machines}">
