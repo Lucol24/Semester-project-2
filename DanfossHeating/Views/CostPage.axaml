@@ -241,7 +241,7 @@
                     Margin="260,20,20,20"
                     BoxShadow="0 2 10 0 #30000000"
                     Padding="20">
-                <StackPanel>
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Spacing="20">
                     <TextBlock Text="Cost Page" 
                                FontSize="32" 
                                FontWeight="Bold" 
@@ -249,7 +249,13 @@
                                HorizontalAlignment="Center"
                                Margin="0,20,0,20"/>
 
-                        <lvc:CartesianChart Series="{Binding Series}" Height="300" Width="500" />
+                    <lvc:CartesianChart Series="{Binding Series}" 
+                            XAxes="{Binding XAxes}" 
+                            YAxes="{Binding YAxes}" 
+                            Height="600" Width="1300"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            LegendPosition="Right" />
 
                 </StackPanel>
             </Border>
