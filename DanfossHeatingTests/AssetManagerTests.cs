@@ -1,10 +1,11 @@
-﻿namespace DanfossHeatingTests;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using DanfossHeating;
 using Xunit;
+
+namespace DanfossHeatingTests;
 
 public class AssetManagerTests
 {
