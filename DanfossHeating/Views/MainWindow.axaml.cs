@@ -125,12 +125,6 @@ public partial class MainWindow : Window
             case PageType.Optimizer:
                 page = new OptimizerPage() { DataContext = viewModel };
                 break;
-            case PageType.Cost:
-                page = new CostPage("defaultUser", false) { DataContext = viewModel };
-                break;
-            case PageType.CO2Emission:
-                page = new CO2EmissionPage() { DataContext = viewModel };
-                break;
             case PageType.Machinery:
                 page = new MachineryPage() { DataContext = viewModel };
                 break;
