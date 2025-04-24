@@ -9,8 +9,6 @@ public class AboutUsViewModel : PageViewModelBase
     
     public ICommand NavigateToHomeCommand { get; }
     public ICommand NavigateToOptimizerCommand { get; }
-    public ICommand NavigateToCostCommand { get; }
-    public ICommand NavigateToCO2EmissionCommand { get; }
     public ICommand NavigateToMachineryCommand { get; }
     public ICommand NavigateToAboutUsCommand { get; }
     
@@ -18,8 +16,6 @@ public class AboutUsViewModel : PageViewModelBase
     {
         NavigateToHomeCommand = new Command(NavigateToHome);
         NavigateToOptimizerCommand = new Command(NavigateToOptimizer);
-        NavigateToCostCommand = new Command(NavigateToCost);
-        NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
         NavigateToMachineryCommand = new Command(NavigateToMachinery);
         NavigateToAboutUsCommand = new Command(() => { /* Already on about us page */ });
         
@@ -45,26 +41,7 @@ public class AboutUsViewModel : PageViewModelBase
             MainViewModel.NavigateTo(viewModel);
         }
     }
-    
-    private void NavigateToCost()
-    {
-        if (MainViewModel != null)
-        {
-            var viewModel = new CostViewModel(UserName, IsDarkTheme);
-            viewModel.SetMainViewModel(MainViewModel);
-            MainViewModel.NavigateTo(viewModel);
-        }
-    }
-    
-    private void NavigateToCO2Emission()
-    {
-        if (MainViewModel != null)
-        {
-            var viewModel = new CO2EmissionViewModel(UserName, IsDarkTheme);
-            viewModel.SetMainViewModel(MainViewModel);
-            MainViewModel.NavigateTo(viewModel);
-        }
-    }
+
     
     private void NavigateToMachinery()
     {
