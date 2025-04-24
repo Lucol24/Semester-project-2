@@ -6,9 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:DanfossHeating.ViewModels"
+    xmlns:views="using:DanfossHeating.Views"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="vm:MachineryViewModel"
+    x:Name="MachineryPageControl"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -18,13 +20,13 @@
             TrueValue="White" />
     </UserControl.Resources>
 
-    <!--  Background based on theme (light/dark)  -->
+    <!-- Background based on theme (light/dark) -->
     <UserControl.Background>
         <SolidColorBrush Color="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#1E1E1E:#F0F0F0'}" />
     </UserControl.Background>
 
     <Grid>
-        <!--  Header Panel with Accent Background  -->
+        <!-- Header Panel with Accent Background -->
         <Border
             Height="70"
             VerticalAlignment="Top"
@@ -32,13 +34,13 @@
             BoxShadow="0 2 10 0 #40000000"
             ZIndex="10">
             <Grid>
-                <!--  User Profile (Left)  -->
+                <!-- User Profile (Left) -->
                 <StackPanel
                     Margin="20,0,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <!--  Profile Circle  -->
+                    <!-- Profile Circle -->
                     <Border
                         Width="50"
                         Height="50"
@@ -56,7 +58,7 @@
                             Text="{Binding UserInitial}" />
                     </Border>
 
-                    <!--  User Name  -->
+                    <!-- User Name -->
                     <TextBlock
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
@@ -66,7 +68,7 @@
                         Text="{Binding UserName}" />
                 </StackPanel>
 
-                <!--  Theme Toggle (Right)  -->
+                <!-- Theme Toggle (Right) -->
                 <Button
                     Width="50"
                     Height="50"
@@ -80,7 +82,7 @@
                     Command="{Binding ToggleThemeCommand}"
                     CornerRadius="25">
                     <Panel>
-                        <!--  Light Theme Icon (Sun) - shown when in dark mode  -->
+                        <!-- Light Theme Icon (Sun) - shown when in dark mode -->
                         <PathIcon
                             Width="30"
                             Height="30"
@@ -88,7 +90,7 @@
                             Foreground="#FFFF00"
                             IsVisible="{Binding IsDarkTheme}" />
 
-                        <!--  Dark Theme Icon (Moon) - shown when in light mode  -->
+                        <!-- Dark Theme Icon (Moon) - shown when in light mode -->
                         <PathIcon
                             Width="30"
                             Height="30"
@@ -100,9 +102,9 @@
             </Grid>
         </Border>
 
-        <!--  Main Content Area  -->
+        <!-- Main Content Area -->
         <Grid Margin="0,70,0,0">
-            <!--  Navigation Menu  -->
+            <!-- Navigation Menu -->
             <Border
                 Width="240"
                 HorizontalAlignment="Left"
@@ -111,7 +113,7 @@
                 BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}"
                 BorderThickness="0,0,1,0">
                 <StackPanel Margin="0,15,0,0" Spacing="2">
-                    <!--  Home  -->
+                    <!-- Home -->
                     <Button
                         Height="54"
                         Margin="8,3"
@@ -138,7 +140,7 @@
                         </StackPanel>
                     </Button>
 
-                    <!--  Optimizer  -->
+                    <!-- Optimizer -->
                     <Button
                         Height="54"
                         Margin="8,3"
@@ -165,61 +167,7 @@
                         </StackPanel>
                     </Button>
 
-                    <!--  Cost  -->
-                    <Button
-                        Height="54"
-                        Margin="8,3"
-                        Padding="15,5"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Command="{Binding NavigateToCostCommand}"
-                        CornerRadius="8">
-                        <StackPanel Orientation="Horizontal">
-                            <PathIcon
-                                Width="22"
-                                Height="22"
-                                Data="M12.5 6.9C11.91 6.9 11.42 7.39 11.42 8C11.42 8.59 11.91 9.09 12.5 9.09C13.09 9.09 13.58 8.59 13.58 8C13.58 7.39 13.09 6.9 12.5 6.9M6.01 7C5.45 7 5 7.45 5 8S5.45 9 6.01 9C6.57 9 7.02 8.55 7.02 8S6.57 7 6.01 7M10 4C11.86 4 13.41 5.28 13.86 7H14.9C15.5 7 16 7.62 16 8.35V10.35C16 11.09 15.5 11.7 14.9 11.7H13.03L12.5 11.33L12 11.7H8.91C8.45 11.7 7.9 11.26 7.9 10.5S8.45 9.3 8.91 9.3H11.11L14 10.89V8.75C13.55 9.05 13.03 9.2 12.5 9.2C11.27 9.2 10.3 8.25 10.3 7S11.27 4.8 12.5 4.8C13.2 4.8 13.8 5.12 14.24 5.67H15C14.08 4.67 12.85 4 11.5 4H10M2 8C2 10.36 3.61 12.25 5.8 12.8L6.21 12C4.21 11.5 2.65 9.75 2.65 7.65C2.65 5.24 4.61 3.3 7 3.3H10.5V2H7C3.75 2 1.1 4.34 1.1 7.5V8H2M17.65 7.65C17.65 9.75 16.09 11.5 14.09 12L14.5 12.8C16.69 12.25 18.3 10.36 18.3 8H19.2V7.5C19.2 4.34 16.55 2 13.3 2H10.5V3.3H13.3C15.7 3.3 17.65 5.24 17.65 7.65Z"
-                                Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" />
-                            <TextBlock
-                                Margin="15,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="16"
-                                FontWeight="Normal"
-                                Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}"
-                                Text="Cost" />
-                        </StackPanel>
-                    </Button>
-
-                    <!--  CO2 Emission (Current Page)  -->
-                    <Button
-                        Height="54"
-                        Margin="8,3"
-                        Padding="15,5"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Command="{Binding NavigateToCO2EmissionCommand}"
-                        CornerRadius="8">
-                        <StackPanel Orientation="Horizontal">
-                            <PathIcon
-                                Width="22"
-                                Height="22"
-                                Data="M12,16C12,15.7 11.8,15.5 11.5,15.5C11.2,15.5 11,15.7 11,16C11,16.3 11.2,16.5 11.5,16.5C11.8,16.5 12,16.3 12,16M19.5,16C19.5,15.7 19.3,15.5 19,15.5C18.7,15.5 18.5,15.7 18.5,16C18.5,16.3 18.7,16.5 19,16.5C19.3,16.5 19.5,16.3 19.5,16M13.2,12.1C14,12.5 14.7,13 15.3,13.6C15.4,13.7 15.5,13.8 15.6,13.9C16.1,14.4 16.5,15 16.9,15.7C17,15.8 17,15.9 17,16C17,16.1 16.9,16.2 16.8,16.2H5.1C5,16.2 4.9,16.1 4.8,16C4.8,15.9 4.9,15.8 4.9,15.7C5.3,15 5.8,14.4 6.3,13.9C6.4,13.8 6.5,13.7 6.5,13.6C7.1,13 7.9,12.5 8.6,12.1C8.7,12.1 8.8,12 8.9,12C9,11.9 9.1,11.8 9.1,11.7C9.2,11.6 9.3,11.4 9.3,11.2C9.3,11 9.4,10.8 9.4,10.5C9.4,10.3 9.3,10.1 9.3,9.9C9.3,9.7 9.2,9.5 9.1,9.4C9.1,9.3 9,9.1 8.9,9.1C8.8,9 8.7,9 8.6,8.9C7.9,8.5 7.2,7.9 6.6,7.3C6.5,7.2 6.4,7.1 6.3,7C5.8,6.5 5.4,5.9 5,5.3C4.9,5.1 4.9,5 4.9,4.9C4.9,4.8 5,4.7 5.1,4.7H16.8C16.9,4.7 17,4.8 17.1,4.9C17.1,5 17,5.1 17,5.3C16.6,5.9 16.2,6.5 15.6,7C15.5,7.1 15.5,7.2 15.4,7.3C14.8,7.9 14,8.5 13.3,8.9C13.2,9 13.1,9 13,9.1C12.9,9.1 12.8,9.3 12.8,9.4C12.7,9.5 12.6,9.7 12.6,9.9C12.6,10.1 12.5,10.3 12.5,10.5C12.5,10.8 12.6,11 12.6,11.2C12.6,11.4 12.7,11.6 12.8,11.7C12.8,11.8 12.9,11.9 13,12C13.1,12 13.1,12 13.2,12.1M10.5,16C10.5,15.7 10.3,15.5 10,15.5C9.7,15.5 9.5,15.7 9.5,16C9.5,16.3 9.7,16.5 10,16.5C10.3,16.5 10.5,16.3 10.5,16M14.5,16C14.5,15.7 14.3,15.5 14,15.5C13.7,15.5 13.5,15.7 13.5,16C13.5,16.3 13.7,16.5 14,16.5C14.3,16.5 14.5,16.3 14.5,16M16,16C16,15.7 15.8,15.5 15.5,15.5C15.2,15.5 15,15.7 15,16C15,16.3 15.2,16.5 15.5,16.5C15.8,16.5 16,16.3 16,16M7.5,16C7.5,15.7 7.3,15.5 7,15.5C6.7,15.5 6.5,15.7 6.5,16C6.5,16.3 6.7,16.5 7,16.5C7.3,16.5 7.5,16.3 7.5,16M9,16C9,15.7 8.8,15.5 8.5,15.5C8.2,15.5 8,15.7 8,16C8,16.3 8.2,16.5 8.5,16.5C8.8,16.5 9,16.3 9,16M18,16C18,15.7 17.8,15.5 17.5,15.5C17.2,15.5 17,15.7 17,16C17,16.3 17.2,16.5 17.5,16.5C17.8,16.5 18,16.3 18,16M7,9.8C7,9.8 7.8,9.7 9,10.9C9,10.9 9,8.9 11,9C11,9 11,7 14,7C14,7 17,7 17,10C18,10 18,11 18,11C18,11 18.5,11 18.5,12C18,11.5 17.5,11.5 17.5,11.5C17.5,11.5 17,9 14,9C14,9 11,9 11,11C11,11 10,11 10,12C9,11 7,10.8 7,9.8Z"
-                                Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" />
-                            <TextBlock
-                                Margin="15,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="16"
-                                FontWeight="Normal"
-                                Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}"
-                                Text="CO2 Emission" />
-                        </StackPanel>
-                    </Button>
-
-                    <!--  Machinery  -->
+                    <!-- Machinery -->
                     <Button
                         Height="54"
                         Margin="8,3"
@@ -252,7 +200,7 @@
                         </StackPanel>
                     </Button>
 
-                    <!--  About Us  -->
+                    <!-- About Us -->
                     <Button
                         Height="54"
                         Margin="8,3"
@@ -281,7 +229,7 @@
                 </StackPanel>
             </Border>
 
-            <!--  Content Area  -->
+            <!-- Content Area -->
             <Border
                 Margin="260,20,20,20"
                 Padding="20"
@@ -291,157 +239,379 @@
                 BoxShadow="0 2 10 0 #30000000"
                 CornerRadius="8">
 
-                <ScrollViewer
-                    Margin="20"
-                    HorizontalScrollBarVisibility="Auto"
-                    VerticalScrollBarVisibility="Auto">
-                    <Grid ColumnDefinitions="0.5*,0.5*">
+                <Grid RowDefinitions="Auto,*">
+                    <!-- Title Section -->
+                    <TextBlock 
+                        Grid.Row="0"
+                        Text="Machinery Overview" 
+                        FontSize="24" 
+                        FontWeight="SemiBold" 
+                        Margin="10,0,0,20"
+                        Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" />
+                    
+                    <ScrollViewer
+                        Grid.Row="1"
+                        Margin="0"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Auto">
+                        <Grid ColumnDefinitions="0.5*,0.5*" Margin="10,0">
 
-                        <!--  Left Column: Machinery info  -->
-                        <ItemsControl Grid.Column="0" ItemsSource="{Binding Machines}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical" Spacing="20" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
+                            <!-- Left Column: Machinery info -->
+                            <ItemsControl Grid.Column="0" ItemsSource="{Binding Machines}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical" Spacing="25" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
 
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border
-                                        Width="350"
-                                        Height="350"
-                                        Margin="0,0,0,10"
-                                        BorderBrush="#D40000"
-                                        BorderThickness="2"
-                                        Padding="16"
-                                        CornerRadius="12">
-                                        <StackPanel Spacing="6">
-                                            <TextBlock
-                                                Margin="0,0,0,10"
-                                                HorizontalAlignment="Center"
-                                                FontSize="18"
-                                                FontWeight="Bold"
-                                                Text="{Binding Name}" />
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Width="380"
+                                            Margin="0,0,20,0"
+                                            Background="{Binding Path=(views:MachineryPage.IsDarkTheme), ElementName=MachineryPageControl, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#2A2A2A:#F5F5F5'}"
+                                            BorderBrush="#D40000"
+                                            BorderThickness="0,0,0,3"
+                                            BoxShadow="0 4 15 0 #25000000"
+                                            Padding="20"
+                                            CornerRadius="8">
+                                            <Grid RowDefinitions="Auto,Auto,*">
+                                                <!-- Header with machine name and icon -->
+                                                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,15">
+                                                    <TextBlock
+                                                        Grid.Column="0"
+                                                        FontSize="20"
+                                                        FontWeight="Bold"
+                                                        Foreground="#D40000"
+                                                        Text="{Binding Name}" />
+                                                    
+                                                    <PathIcon
+                                                        Grid.Column="1"
+                                                        Width="24"
+                                                        Height="24"
+                                                        Data="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"
+                                                        Foreground="#D40000" />
+                                                </Grid>
+                                                
+                                                <!-- Separator line -->
+                                                <Rectangle 
+                                                    Grid.Row="1"
+                                                    Height="1" 
+                                                    Fill="{Binding Path=(views:MachineryPage.IsDarkTheme), ElementName=MachineryPageControl, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#404040:#DDDDDD'}"
+                                                    Margin="0,0,0,15" />
+                                                
+                                                <!-- Data values with proper formatting -->
+                                                <Grid Grid.Row="2" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+                                                    <!-- Heat -->
+                                                    <Border 
+                                                        Grid.Row="0" 
+                                                        Grid.Column="0"
+                                                        Width="32" 
+                                                        Height="32" 
+                                                        Background="#15D40000" 
+                                                        CornerRadius="16"
+                                                        Margin="0,0,15,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center">
+                                                        <PathIcon
+                                                            Width="18"
+                                                            Height="18"
+                                                            Data="M17.66 11.2C17.43 10.9 17.15 10.64 16.89 10.38C16.22 9.78 15.46 9.35 14.82 8.72C13.33 7.26 13 4.85 13.95 3C13 3.23 12.17 3.75 11.46 4.32C8.87 6.4 7.85 10.07 9.07 13.22C9.11 13.32 9.15 13.42 9.15 13.55C9.15 13.77 9 13.97 8.8 14.05C8.57 14.15 8.33 14.09 8.14 13.93C8.08 13.88 8.04 13.83 8 13.76C6.87 12.33 6.69 10.28 7.45 8.64C5.78 10 4.87 12.3 5 14.47C5.06 14.97 5.12 15.47 5.29 15.97C5.43 16.57 5.7 17.17 6 17.7C7.08 19.43 8.95 20.67 10.96 20.92C13.1 21.19 15.39 20.8 17.03 19.32C18.86 17.66 19.5 15 18.56 12.72L18.43 12.46C18.22 12 17.66 11.2 17.66 11.2M14.5 17.5C14.22 17.74 13.76 18 13.4 18.1C12.28 18.5 11.16 17.94 10.5 17.28C11.69 17 12.4 16.12 12.61 15.23C12.78 14.43 12.46 13.77 12.33 13C12.21 12.26 12.23 11.63 12.5 10.94C12.69 11.32 12.89 11.7 13.13 12C13.9 13 15.11 13.44 15.37 14.8C15.41 14.94 15.43 15.08 15.43 15.23C15.46 16.05 15.1 16.95 14.5 17.5H14.5Z"
+                                                            Foreground="#D40000" />
+                                                    </Border>
+                                                    <StackPanel Grid.Row="0" Grid.Column="1" Spacing="2" Margin="0,0,0,12">
+                                                        <TextBlock 
+                                                            Text="Maximum Heat Output" 
+                                                            FontSize="13" 
+                                                            Opacity="0.7"
+                                                            FontWeight="Normal" />
+                                                        <TextBlock 
+                                                            Text="{Binding MaxHeat}" 
+                                                            FontSize="16" 
+                                                            FontWeight="SemiBold" />
+                                                    </StackPanel>
+                                                    
+                                                    <!-- Electricity -->
+                                                    <Border 
+                                                        Grid.Row="1" 
+                                                        Grid.Column="0"
+                                                        Width="32" 
+                                                        Height="32" 
+                                                        Background="#15D40000" 
+                                                        CornerRadius="16"
+                                                        Margin="0,0,15,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center">
+                                                        <PathIcon
+                                                            Width="18"
+                                                            Height="18"
+                                                            Data="M11 15H6V9H11V15M7 10V14H10V10H7M18 14H14V13H18V14M18 11H14V10H18V11M15 6H8V7H15V6M3 18A1 1 0 0 1 2 17V7A1 1 0 0 1 3 6H4V3H6V6H17V3H19V6H20A1 1 0 0 1 21 7V17A1 1 0 0 1 20 18H3Z"
+                                                            Foreground="#D40000" />
+                                                    </Border>
+                                                    <StackPanel Grid.Row="1" Grid.Column="1" Spacing="2" Margin="0,0,0,12">
+                                                        <TextBlock 
+                                                            Text="Maximum Electricity Usage" 
+                                                            FontSize="13" 
+                                                            Opacity="0.7"
+                                                            FontWeight="Normal" />
+                                                        <TextBlock 
+                                                            Text="{Binding MaxElectricity}" 
+                                                            FontSize="16" 
+                                                            FontWeight="SemiBold" />
+                                                    </StackPanel>
+                                                    
+                                                    <!-- Production Costs -->
+                                                    <Border 
+                                                        Grid.Row="2" 
+                                                        Grid.Column="0"
+                                                        Width="32" 
+                                                        Height="32" 
+                                                        Background="#15D40000" 
+                                                        CornerRadius="16"
+                                                        Margin="0,0,15,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center">
+                                                        <PathIcon
+                                                            Width="18"
+                                                            Height="18"
+                                                            Data="M20,18H4V6H20M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4M11,17H13V16H14A1,1 0 0,0 15,15V12A1,1 0 0,0 14,11H11V10H15V8H13V7H11V8H10A1,1 0 0,0 9,9V12A1,1 0 0,0 10,13H13V14H9V16H11V17Z"
+                                                            Foreground="#D40000" />
+                                                    </Border>
+                                                    <StackPanel Grid.Row="2" Grid.Column="1" Spacing="2" Margin="0,0,0,12">
+                                                        <TextBlock 
+                                                            Text="Production Costs" 
+                                                            FontSize="13" 
+                                                            Opacity="0.7"
+                                                            FontWeight="Normal" />
+                                                        <TextBlock 
+                                                            Text="{Binding ProductionCosts}" 
+                                                            FontSize="16" 
+                                                            FontWeight="SemiBold" />
+                                                    </StackPanel>
+                                                    
+                                                    <!-- CO2 Emissions -->
+                                                    <Border 
+                                                        Grid.Row="3" 
+                                                        Grid.Column="0"
+                                                        Width="32" 
+                                                        Height="32" 
+                                                        Background="#15D40000" 
+                                                        CornerRadius="16"
+                                                        Margin="0,0,15,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center">
+                                                        <PathIcon
+                                                            Width="18"
+                                                            Height="18"
+                                                            Data="M4.94,6.35C4.55,5.96 4.55,5.32 4.94,4.93C5.33,4.54 5.96,4.54 6.35,4.93L13.07,10.31L13.42,10.59C14.2,11.37 14.2,12.64 13.42,13.42C12.64,14.2 11.37,14.2 10.59,13.42L10.31,13.07L4.94,6.35M16,2A3,3 0 0,1 19,5C19,6.12 18.5,7.08 17.71,7.71L16.59,8.82C16.95,8.29 17.13,7.67 17.13,7C17.13,5.47 16.03,4.2 14.5,4.05L14.95,3.61C15.57,2.84 16.54,2.36 17.67,2.07L17.9,2H16M12.54,4.13C12.79,4.05 13.05,4 13.31,4C14.97,4 16.32,5.35 16.32,7C16.32,7.25 16.28,7.5 16.21,7.73L16.08,8.19L15.95,8.07L12.54,4.13M20.71,8.5L20.28,7.77L19.64,8.35L19,9L19.77,9.35L21.13,10.14C21.43,10.29 21.79,10.15 21.94,9.86L22,9.77C22.2,9.28 22.02,8.72 21.55,8.5H20.71Z"
+                                                            Foreground="#D40000" />
+                                                    </Border>
+                                                    <StackPanel Grid.Row="3" Grid.Column="1" Spacing="2" Margin="0,0,0,12">
+                                                        <TextBlock 
+                                                            Text="CO₂ Emissions" 
+                                                            FontSize="13" 
+                                                            Opacity="0.7"
+                                                            FontWeight="Normal" />
+                                                        <TextBlock 
+                                                            Text="{Binding CO2Emissions}" 
+                                                            FontSize="16" 
+                                                            FontWeight="SemiBold" />
+                                                    </StackPanel>
+                                                    
+                                                    <!-- Fuel Consumption -->
+                                                    <Border 
+                                                        Grid.Row="4" 
+                                                        Grid.Column="0"
+                                                        Width="32" 
+                                                        Height="32" 
+                                                        Background="#15D40000" 
+                                                        CornerRadius="16"
+                                                        Margin="0,0,15,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center">
+                                                        <PathIcon
+                                                            Width="18"
+                                                            Height="18"
+                                                            Data="M18,10A1,1 0 0,1 17,9A1,1 0 0,1 18,8A1,1 0 0,1 19,9A1,1 0 0,1 18,10M12,10H6V5H12M19.77,7.23L19.78,7.22L16.06,3.5L15,4.56L17.11,6.67C16.17,7 15.5,7.93 15.5,9A2.5,2.5 0 0,0 18,11.5C18.36,11.5 18.69,11.42 19,11.29V18.5A1,1 0 0,1 18,19.5A1,1 0 0,1 17,18.5V14C17,12.89 16.1,12 15,12H14V5C14,3.89 13.1,3 12,3H6C4.89,3 4,3.89 4,5V21H14V13.5H15.5V18.5A2.5,2.5 0 0,0 18,21A2.5,2.5 0 0,0 20.5,18.5V9C20.5,8.31 20.22,7.68 19.77,7.23Z"
+                                                            Foreground="#D40000" />
+                                                    </Border>
+                                                    <StackPanel Grid.Row="4" Grid.Column="1" Spacing="2">
+                                                        <TextBlock 
+                                                            Text="Fuel Consumption" 
+                                                            FontSize="13" 
+                                                            Opacity="0.7"
+                                                            FontWeight="Normal" />
+                                                        <TextBlock 
+                                                            Text="{Binding FuelConsumption}" 
+                                                            FontSize="16" 
+                                                            FontWeight="SemiBold" />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
 
-                                            <TextBlock>
-                                                <Run Foreground="#D40000" FontWeight="Bold" Text="🔥 Max Heat: " />
-                                                <Run Text="{Binding MaxHeat}" />
-                                            </TextBlock>
-
-                                            <TextBlock>
-                                                <Run Foreground="#D40000" FontWeight="Bold" Text="⚡ Max Electricity: " />
-                                                <Run Text="{Binding MaxElectricity}" />
-                                            </TextBlock>
-
-                                            <TextBlock>
-                                                <Run Foreground="#D40000" FontWeight="Bold" Text="💰 Production Costs: " />
-                                                <Run Text="{Binding ProductionCosts}" />
-                                            </TextBlock>
-
-                                            <TextBlock>
-                                                <Run Foreground="#D40000" FontWeight="Bold" Text="🌿 CO₂ Emissions: " />
-                                                <Run Text="{Binding CO2Emissions}" />
-                                            </TextBlock>
-
-                                            <TextBlock>
-                                                <Run Foreground="#D40000" FontWeight="Bold" Text="🛢 Fuel Consumption: " />
-                                                <Run Text="{Binding FuelConsumption}" />
-                                            </TextBlock>
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-
-                        <!--  Right Column: Machinery Pictures  -->
-                        <StackPanel
-                            Grid.Column="1"
-                            VerticalAlignment="Top"
-                            Spacing="20">
-                            <!--  Add Border around each image for styling  -->
-                            <Border
-                                Width="350"
-                                Height="350"
-                                Padding="20"
-                                Margin="0,0,0,10"
-                                BorderBrush="#D40000"
-                                BorderThickness="2"
-                                BoxShadow="0 4 12 0 #22000000"
-                                CornerRadius="8">
-                                <Image
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Source="avares://DanfossHeating/Assets/machine1.png"
-                                    Stretch="Uniform" />
-                            </Border>
-
-                            <Border
-                                Width="350"
-                                Height="350"
-                                Padding="20"
-                                Margin="0,0,0,10"
-                                BorderBrush="#D40000"
-                                BorderThickness="2"
-                                BoxShadow="0 4 12 0 #22000000"
-                                CornerRadius="8">
-                                <Image
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Source="avares://DanfossHeating/Assets/machine2.png"
-                                    Stretch="Uniform" />
-                            </Border>
-
-                            <Border
-                                Width="350"
-                                Height="350"
-                                Padding="20"
-                                Margin="0,0,0,10"
-                                BorderBrush="#D40000"
-                                BorderThickness="2"
-                                BoxShadow="0 4 12 0 #22000000"
-                                CornerRadius="8">
-                                <Image
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Source="avares://DanfossHeating/Assets/machine3.png"
-                                    Stretch="Uniform" />
-                            </Border>
-
-                            <Border
-                                Width="350"
-                                Height="350"
-                                Padding="20"
-                                Margin="0,0,0,10"
-                                BorderBrush="#D40000"
-                                BorderThickness="2"
-                                BoxShadow="0 4 12 0 #22000000"
-                                CornerRadius="8">
-                                <Image
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Source="avares://DanfossHeating/Assets/machine4.png"
-                                    Stretch="Uniform" />
-                            </Border>
-
-                            <Border
-                                Width="350"
-                                Height="350"
-                                Padding="20"
-                                Margin="0,0,0,10"
-                                BorderBrush="#D40000"
-                                BorderThickness="2"
-                                BoxShadow="0 4 12 0 #22000000"
-                                CornerRadius="8">
-                                <Image
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Source="avares://DanfossHeating/Assets/machine5.png"
-                                    Stretch="Uniform" />
-                            </Border>
-                        </StackPanel>
-
-                    </Grid>
-                </ScrollViewer>
+                            <!-- Right Column: Machinery Pictures with Captions -->
+                            <StackPanel
+                                Grid.Column="1"
+                                VerticalAlignment="Top"
+                                Spacing="25">
+                                
+                                <!-- Machine 1 -->
+                                <Border
+                                    Width="380"
+                                    Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#2A2A2A:#F5F5F5'}"
+                                    BorderBrush="#D40000"
+                                    BorderThickness="0,0,0,3"
+                                    BoxShadow="0 4 15 0 #25000000"
+                                    CornerRadius="8"
+                                    ClipToBounds="True">
+                                    <Grid RowDefinitions="Auto,Auto">
+                                        <!-- Image -->
+                                        <Image
+                                            Grid.Row="0"
+                                            Height="250"
+                                            Source="avares://DanfossHeating/Assets/machine1.png"
+                                            Stretch="Uniform" />
+                                        
+                                        <!-- Caption -->
+                                        <Border 
+                                            Grid.Row="1"
+                                            Padding="15,12"
+                                            Background="#10000000">
+                                            <TextBlock 
+                                                Text="Industrial Heat Exchanger - Model HX-5000" 
+                                                FontWeight="Medium"
+                                                HorizontalAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                
+                                <!-- Machine 2 -->
+                                <Border
+                                    Width="380"
+                                    Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#2A2A2A:#F5F5F5'}"
+                                    BorderBrush="#D40000"
+                                    BorderThickness="0,0,0,3"
+                                    BoxShadow="0 4 15 0 #25000000"
+                                    CornerRadius="8"
+                                    ClipToBounds="True">
+                                    <Grid RowDefinitions="Auto,Auto">
+                                        <!-- Image -->
+                                        <Image
+                                            Grid.Row="0"
+                                            Height="250"
+                                            Source="avares://DanfossHeating/Assets/machine2.png"
+                                            Stretch="Uniform" />
+                                        
+                                        <!-- Caption -->
+                                        <Border 
+                                            Grid.Row="1"
+                                            Padding="15,12"
+                                            Background="#10000000">
+                                            <TextBlock 
+                                                Text="Automated Boiler System - Series AB-2000" 
+                                                FontWeight="Medium"
+                                                HorizontalAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                
+                                <!-- Machine 3 -->
+                                <Border
+                                    Width="380"
+                                    Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#2A2A2A:#F5F5F5'}"
+                                    BorderBrush="#D40000"
+                                    BorderThickness="0,0,0,3"
+                                    BoxShadow="0 4 15 0 #25000000"
+                                    CornerRadius="8"
+                                    ClipToBounds="True">
+                                    <Grid RowDefinitions="Auto,Auto">
+                                        <!-- Image -->
+                                        <Image
+                                            Grid.Row="0"
+                                            Height="250"
+                                            Source="avares://DanfossHeating/Assets/machine3.png"
+                                            Stretch="Uniform" />
+                                        
+                                        <!-- Caption -->
+                                        <Border 
+                                            Grid.Row="1"
+                                            Padding="15,12"
+                                            Background="#10000000">
+                                            <TextBlock 
+                                                Text="Industrial Heating Pump - ProHeat 3500" 
+                                                FontWeight="Medium"
+                                                HorizontalAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                
+                                <!-- Machine 4 -->
+                                <Border
+                                    Width="380"
+                                    Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#2A2A2A:#F5F5F5'}"
+                                    BorderBrush="#D40000"
+                                    BorderThickness="0,0,0,3"
+                                    BoxShadow="0 4 15 0 #25000000"
+                                    CornerRadius="8"
+                                    ClipToBounds="True">
+                                    <Grid RowDefinitions="Auto,Auto">
+                                        <!-- Image -->
+                                        <Image
+                                            Grid.Row="0"
+                                            Height="250"
+                                            Source="avares://DanfossHeating/Assets/machine4.png"
+                                            Stretch="Uniform" />
+                                        
+                                        <!-- Caption -->
+                                        <Border 
+                                            Grid.Row="1"
+                                            Padding="15,12"
+                                            Background="#10000000">
+                                            <TextBlock 
+                                                Text="Smart Control Heating System - SC-9000" 
+                                                FontWeight="Medium"
+                                                HorizontalAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                
+                                <!-- Machine 5 -->
+                                <Border
+                                    Width="380"
+                                    Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#2A2A2A:#F5F5F5'}"
+                                    BorderBrush="#D40000"
+                                    BorderThickness="0,0,0,3"
+                                    BoxShadow="0 4 15 0 #25000000"
+                                    CornerRadius="8"
+                                    ClipToBounds="True">
+                                    <Grid RowDefinitions="Auto,Auto">
+                                        <!-- Image -->
+                                        <Image
+                                            Grid.Row="0"
+                                            Height="250"
+                                            Source="avares://DanfossHeating/Assets/machine5.png"
+                                            Stretch="Uniform" />
+                                        
+                                        <!-- Caption -->
+                                        <Border 
+                                            Grid.Row="1"
+                                            Padding="15,12"
+                                            Background="#10000000">
+                                            <TextBlock 
+                                                Text="Energy Efficient Heat Generator - EE-7200" 
+                                                FontWeight="Medium"
+                                                HorizontalAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
             </Border>
         </Grid>
     </Grid>
