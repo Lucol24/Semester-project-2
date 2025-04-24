@@ -24,8 +24,6 @@ public class HomePageViewModel : PageViewModelBase
 
     public ICommand NavigateToHomeCommand { get; }
     public ICommand NavigateToOptimizerCommand { get; }
-    public ICommand NavigateToCostCommand { get; }
-    public ICommand NavigateToCO2EmissionCommand { get; }
     public ICommand NavigateToMachineryCommand { get; }
     public ICommand NavigateToAboutUsCommand { get; }
 
@@ -36,8 +34,6 @@ public class HomePageViewModel : PageViewModelBase
         // Initialize navigation commands
         NavigateToHomeCommand = new Command(() => { /* Already on home page */ });
         NavigateToOptimizerCommand = new Command(NavigateToOptimizer);
-        NavigateToCostCommand = new Command(NavigateToCost);
-        NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
         NavigateToMachineryCommand = new Command(NavigateToMachinery);
         NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
 
@@ -52,8 +48,6 @@ public class HomePageViewModel : PageViewModelBase
         // Initialize navigation commands
         NavigateToHomeCommand = new Command(() => { /* Already on home page */ });
         NavigateToOptimizerCommand = new Command(NavigateToOptimizer);
-        NavigateToCostCommand = new Command(NavigateToCost);
-        NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
         NavigateToMachineryCommand = new Command(NavigateToMachinery);
         NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
 
@@ -88,26 +82,6 @@ public class HomePageViewModel : PageViewModelBase
             var optimizerViewModel = new OptimizerViewModel(UserName, IsDarkTheme);
             optimizerViewModel.SetMainViewModel(MainViewModel);
             MainViewModel.NavigateTo(optimizerViewModel);
-        }
-    }
-
-    private void NavigateToCost()
-    {
-        if (MainViewModel != null)
-        {
-            var costViewModel = new CostViewModel(UserName, IsDarkTheme);
-            costViewModel.SetMainViewModel(MainViewModel);
-            MainViewModel.NavigateTo(costViewModel);
-        }
-    }
-
-    private void NavigateToCO2Emission()
-    {
-        if (MainViewModel != null)
-        {
-            var co2ViewModel = new CO2EmissionViewModel(UserName, IsDarkTheme);
-            co2ViewModel.SetMainViewModel(MainViewModel);
-            MainViewModel.NavigateTo(co2ViewModel);
         }
     }
 

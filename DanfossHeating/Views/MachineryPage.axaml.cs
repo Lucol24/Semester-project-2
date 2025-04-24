@@ -8,6 +8,13 @@ namespace DanfossHeating.Views;
 
 public partial class MachineryPage : UserControl
 {
+    // Add attached property for theme access
+    public static readonly AttachedProperty<bool> IsDarkThemeProperty = 
+        AvaloniaProperty.RegisterAttached<MachineryPage, Control, bool>("IsDarkTheme");
+
+    public static bool GetIsDarkTheme(Control element) => element.GetValue(IsDarkThemeProperty);
+    public static void SetIsDarkTheme(Control element, bool value) => element.SetValue(IsDarkThemeProperty, value);
+
     private MachineryViewModel? _viewModel;
     
     public MachineryPage()
@@ -27,7 +34,7 @@ public partial class MachineryPage : UserControl
     private void Page_Loaded(object? sender, EventArgs e)
     {
         Console.WriteLine("MachineryPage loaded and visible");
-        UpdateThemeClass();
+        UpdateThemeValue();
     }
     
     private void Page_DataContextChanged(object? sender, EventArgs e)
@@ -43,7 +50,7 @@ public partial class MachineryPage : UserControl
         {
             Console.WriteLine($"MachineryPage received DataContext with userName: {_viewModel.UserName}");
             _viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            UpdateThemeClass();
+            UpdateThemeValue();
         }
         else
         {
@@ -55,23 +62,25 @@ public partial class MachineryPage : UserControl
     {
         if (e.PropertyName == nameof(MachineryViewModel.IsDarkTheme))
         {
-            UpdateThemeClass();
+            UpdateThemeValue();
         }
     }
     
-    private void UpdateThemeClass()
+    private void UpdateThemeValue()
     {
         try
         {
             if (_viewModel != null)
             {
+                // Update both the CSS class and the attached property
                 Classes.Set("dark", _viewModel.IsDarkTheme);
-                Console.WriteLine($"Updated MachineryPage theme class: {(_viewModel.IsDarkTheme ? "dark" : "light")}");
+                SetIsDarkTheme(this, _viewModel.IsDarkTheme);
+                Console.WriteLine($"Updated MachineryPage theme: {(_viewModel.IsDarkTheme ? "dark" : "light")}");
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error setting theme class: {ex.Message}");
+            Console.WriteLine($"Error updating theme value: {ex.Message}");
         }
     }
 }

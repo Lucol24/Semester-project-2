@@ -1,8 +1,10 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using System;
 using DanfossHeating.ViewModels;
+using Avalonia.Markup.Xaml;
 
 namespace DanfossHeating.Views;
 
@@ -15,6 +17,10 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+#if DEBUG
+            this.AttachDevTools();
+#endif
+            this.WindowState = WindowState.Maximized;
         
         Loaded += MainWindow_Loaded;
         DataContextChanged += MainWindow_DataContextChanged;
@@ -118,12 +124,6 @@ public partial class MainWindow : Window
                 break;
             case PageType.Optimizer:
                 page = new OptimizerPage() { DataContext = viewModel };
-                break;
-            case PageType.Cost:
-                page = new CostPage("defaultUser", false) { DataContext = viewModel };
-                break;
-            case PageType.CO2Emission:
-                page = new CO2EmissionPage() { DataContext = viewModel };
                 break;
             case PageType.Machinery:
                 page = new MachineryPage() { DataContext = viewModel };
