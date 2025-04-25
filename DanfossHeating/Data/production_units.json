@@ -1,24 +1,30 @@
 [
   {
     "Name": "GB1",
-    "MaxHeat": 4.0,
+    "MaxHeat": 4,
+    "MaxElectricity": null,
     "ProductionCosts": 520,
     "CO2Emissions": 175,
-    "FuelConsumption": 0.9
+    "FuelConsumption": 0.9,
+    "ImagePath": "avares://DanfossHeating/Assets/machine1.png"
   },
   {
     "Name": "GB2",
-    "MaxHeat": 3.0,
+    "MaxHeat": 3,
+    "MaxElectricity": null,
     "ProductionCosts": 560,
     "CO2Emissions": 130,
-    "FuelConsumption": 0.7
+    "FuelConsumption": 0.7,
+    "ImagePath": "avares://DanfossHeating/Assets/machine2.png"
   },
   {
     "Name": "OB1",
-    "MaxHeat": 4.0,
+    "MaxHeat": 4,
+    "MaxElectricity": null,
     "ProductionCosts": 670,
     "CO2Emissions": 330,
-    "FuelConsumption": 1.5
+    "FuelConsumption": 1.5,
+    "ImagePath": "avares://DanfossHeating/Assets/machine3.png"
   },
   {
     "Name": "GM1",
@@ -26,12 +32,16 @@
     "MaxElectricity": 2.6,
     "ProductionCosts": 990,
     "CO2Emissions": 650,
-    "FuelConsumption": 1.8
+    "FuelConsumption": 1.8,
+    "ImagePath": "avares://DanfossHeating/Assets/machine4.png"
   },
   {
     "Name": "HP1",
-    "MaxHeat": 6.0,
-    "MaxElectricity": -6.0,
-    "ProductionCosts": 60
+    "MaxHeat": 6,
+    "MaxElectricity": -6,
+    "ProductionCosts": 60,
+    "CO2Emissions": null,
+    "FuelConsumption": null,
+    "ImagePath": "avares://DanfossHeating/Assets/machine5.png"
   }
-]  
+]

@@ -20,6 +20,13 @@ namespace DanfossHeating.ViewModels;
 
 public class OptimizerViewModel : PageViewModelBase
 {
+    // Static fields to persist settings
+    private static string LastSelectedSeason = "Summer";
+    private static string LastSelectedScenario = "Scenario 1";
+    private static string LastSelectedOptimizationCriteria = "Cost";
+    private static int LastOptimizationCriteriaIndex = 0;
+    private static bool LastIsZooming = false;
+
     public override PageType PageType => PageType.Optimizer;
     
     public ICommand NavigateToHomeCommand { get; }
@@ -33,10 +40,10 @@ public class OptimizerViewModel : PageViewModelBase
     public ICommand ToggleControlsVisibilityCommand { get; }
     public ICommand DismissControlsNotificationCommand { get; }
     
-    private string _selectedSeason = "Summer"; // Default value set to Summer
-    private string _selectedScenario = "Scenario 1"; // Default value set to Scenario 1
-    private string _selectedOptimizationCriteria = "Cost"; // Default value set to Cost
-    private int _optimizationCriteriaIndex = 0; // Default to 'Cost' (index 0)
+    private string _selectedSeason; // Remove default value
+    private string _selectedScenario; // Remove default value
+    private string _selectedOptimizationCriteria; // Remove default value
+    private int _optimizationCriteriaIndex; // Remove default value
     private bool _isControlPanelVisible = true; // Default to visible
     private Easing _easingFunction = new CubicEaseOut(); // Default easing function
     private bool _showControlsNotification = true; // Show notification by default
@@ -80,14 +87,14 @@ public class OptimizerViewModel : PageViewModelBase
             if (_optimizationCriteriaIndex != value)
             {
                 _optimizationCriteriaIndex = value;
+                LastOptimizationCriteriaIndex = value; // Save the setting
                 // Convert index to actual string value
                 _selectedOptimizationCriteria = value == 0 ? "Cost" : "CO2";
+                LastSelectedOptimizationCriteria = _selectedOptimizationCriteria; // Save the criteria too
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(SelectedOptimizationCriteria)); // Also notify this property changed
                 UpdateChartTitle();
                 Console.WriteLine($"OptimizationCriteriaIndex set to: {value}, criteria: {_selectedOptimizationCriteria}");
-                
-                // Do not optimize automatically on index change
             }
         }
     }
@@ -248,6 +255,7 @@ public class OptimizerViewModel : PageViewModelBase
             if (_selectedSeason != value)
             {
                 _selectedSeason = value;
+                LastSelectedSeason = value; // Save the setting
                 OnPropertyChanged();
                 Console.WriteLine($"SelectedSeason set to: {value}");
             }
@@ -262,6 +270,7 @@ public class OptimizerViewModel : PageViewModelBase
             if (_selectedScenario != value)
             {
                 _selectedScenario = value;
+                LastSelectedScenario = value; // Save the setting
                 OnPropertyChanged();
                 Console.WriteLine($"SelectedScenario set to: {value}");
             }
@@ -302,6 +311,7 @@ public class OptimizerViewModel : PageViewModelBase
             if (_isZooming != value)
             {
                 _isZooming = value;
+                LastIsZooming = value; // Save the setting
                 OnPropertyChanged();
             }
         }
@@ -309,6 +319,13 @@ public class OptimizerViewModel : PageViewModelBase
     
     public OptimizerViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
     {
+        // Initialize fields with last used values
+        _selectedSeason = LastSelectedSeason;
+        _selectedScenario = LastSelectedScenario;
+        _selectedOptimizationCriteria = LastSelectedOptimizationCriteria;
+        _optimizationCriteriaIndex = LastOptimizationCriteriaIndex;
+        _isZooming = LastIsZooming;
+
         NavigateToHomeCommand = new Command(NavigateToHome);
         NavigateToOptimizerCommand = new Command(() => { /* Already on optimizer page */ });
         NavigateToCostCommand = new Command(NavigateToCost);
@@ -332,10 +349,10 @@ public class OptimizerViewModel : PageViewModelBase
         // Initialize chart visuals
         InitializeChartElements();
         
-        // Trigger optimization with default values immediately after initialization
-        OptimizeData(); // This will load the chart with defaults
+        // Trigger optimization with loaded values
+        OptimizeData();
         
-        Console.WriteLine($"OptimizerViewModel created for user: {userName}");
+        Console.WriteLine($"OptimizerViewModel created for user: {userName} with last settings: Season={_selectedSeason}, Scenario={_selectedScenario}, Criteria={_selectedOptimizationCriteria}");
     }
     
     private void InitializeChartElements()
@@ -436,6 +453,9 @@ public class OptimizerViewModel : PageViewModelBase
                     unitData.Where(r => r.Timestamp.Date == hourKey.Date && r.Timestamp.Hour == hourKey.Hour)
                             .Sum(r => r.HeatProduced)).ToArray();
 
+                // Check if this machine has any non-zero production values
+                bool hasNonZeroProduction = values.Any(v => Math.Abs(v) > 0.001); // Using small epsilon to account for floating point precision
+
                 // Get the max value for this series to intelligently display labels
                 double maxValue = values.Max();
                 double valueThreshold = maxValue * 0.15; // Only show labels for values > 15% of max
@@ -448,7 +468,7 @@ public class OptimizerViewModel : PageViewModelBase
                     Stroke = new SolidColorPaint(colors[colorIndex % colors.Length].WithAlpha(200)) { StrokeThickness = 1 },
                     Padding = 4, // Increase padding between columns
                     MaxBarWidth = 35, // Slightly wider bars
-                    IsVisibleAtLegend = true,
+                    IsVisibleAtLegend = hasNonZeroProduction, // Only show in legend if it has production
                     // Remove data labels from the bars - values will only appear in tooltips
                     DataLabelsFormatter = (point) => string.Empty, // Always return empty string to hide labels
                     DataLabelsPaint = new SolidColorPaint(
@@ -519,6 +539,18 @@ public class OptimizerViewModel : PageViewModelBase
 
             Console.WriteLine($"Loaded {results.Count} results");
             Console.WriteLine($"Created {seriesList.Count} series");
+            
+            // Log which machines have zero production
+            var hiddenMachines = seriesList
+                .OfType<StackedColumnSeries<double>>()
+                .Where(s => !s.IsVisibleAtLegend)
+                .Select(s => s.Name)
+                .ToList();
+                
+            if (hiddenMachines.Any())
+            {
+                Console.WriteLine($"Hiding {hiddenMachines.Count} machines with zero production from legend: {string.Join(", ", hiddenMachines)}");
+            }
             
             OnPropertyChanged(nameof(Series));
             OnPropertyChanged(nameof(XAxes));

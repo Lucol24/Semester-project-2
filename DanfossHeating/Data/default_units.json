@@ -1,0 +1,38 @@
+[
+    {
+      "Name": "GB1",
+      "MaxHeat": 4.0,
+      "ProductionCosts": 520,
+      "CO2Emissions": 175,
+      "FuelConsumption": 0.9
+    },
+    {
+      "Name": "GB2",
+      "MaxHeat": 3.0,
+      "ProductionCosts": 560,
+      "CO2Emissions": 130,
+      "FuelConsumption": 0.7
+    },
+    {
+      "Name": "OB1",
+      "MaxHeat": 4.0,
+      "ProductionCosts": 670,
+      "CO2Emissions": 330,
+      "FuelConsumption": 1.5
+    },
+    {
+      "Name": "GM1",
+      "MaxHeat": 3.5,
+      "MaxElectricity": 2.6,
+      "ProductionCosts": 990,
+      "CO2Emissions": 650,
+      "FuelConsumption": 1.8
+    },
+    {
+      "Name": "HP1",
+      "MaxHeat": 6.0,
+      "MaxElectricity": -6.0,
+      "ProductionCosts": 60
+    }
+]
+  

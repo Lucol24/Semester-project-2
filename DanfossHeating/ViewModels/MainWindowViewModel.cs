@@ -5,6 +5,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using Avalonia.Platform;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace DanfossHeating.ViewModels;
 
@@ -18,7 +19,9 @@ public partial class MainWindowViewModel : ViewModelBase
     private bool _isLoading = false;
     private double _loadingProgress = 0;
     private object? _currentPage;
-    
+    private bool _isDanfossValuesSelected;
+    private HashSet<string> _disabledMachines = new HashSet<string>();
+
     public event EventHandler<NavigationEventArgs>? NavigateToPage;
 
     public bool IsDarkTheme
@@ -61,6 +64,32 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         get => _currentPage;
         private set => SetProperty(ref _currentPage, value);
+    }
+
+    public bool IsDanfossValuesSelected
+    {
+        get => _isDanfossValuesSelected;
+        set
+        {
+            if (_isDanfossValuesSelected != value)
+            {
+                _isDanfossValuesSelected = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public HashSet<string> DisabledMachines
+    {
+        get => _disabledMachines;
+        set
+        {
+            if (_disabledMachines != value)
+            {
+                _disabledMachines = value;
+                OnPropertyChanged();
+            }
+        }
     }
     
     public ICommand ToggleThemeCommand { get; }
@@ -141,6 +170,29 @@ public partial class MainWindowViewModel : ViewModelBase
     public void NavigateTo(ViewModelBase viewModel)
     {
         Console.WriteLine($"Navigating to {viewModel.PageType}");
+        
+        // Pass the persisted states to MachineryViewModel
+        if (viewModel is MachineryViewModel vm)
+        {
+            // Set initial values
+            vm.IsDanfossValuesSelected = _isDanfossValuesSelected;
+            vm.DisabledMachines = new HashSet<string>(_disabledMachines);
+            
+            // Subscribe to changes
+            vm.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(MachineryViewModel.IsDanfossValuesSelected))
+                {
+                    _isDanfossValuesSelected = vm.IsDanfossValuesSelected;
+                    OnPropertyChanged(nameof(IsDanfossValuesSelected));
+                }
+                else if (e.PropertyName == nameof(MachineryViewModel.DisabledMachines))
+                {
+                    _disabledMachines = new HashSet<string>(vm.DisabledMachines);
+                    OnPropertyChanged(nameof(DisabledMachines));
+                }
+            };
+        }
         
         if (NavigateToPage == null)
         {

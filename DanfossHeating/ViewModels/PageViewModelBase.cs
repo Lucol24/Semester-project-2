@@ -53,7 +53,7 @@ public abstract class PageViewModelBase : ViewModelBase
         ToggleThemeCommand = new Command(ToggleTheme);
     }
     
-    public void SetMainViewModel(MainWindowViewModel mainViewModel)
+    public virtual void SetMainViewModel(MainWindowViewModel mainViewModel)
     {
         MainViewModel = mainViewModel;
     }

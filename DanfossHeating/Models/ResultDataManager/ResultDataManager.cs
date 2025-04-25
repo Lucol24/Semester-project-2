@@ -10,13 +10,7 @@ namespace DanfossHeating;
 
 public class ResultDataManager
 {
-    private readonly string _filePath;
-
-    public ResultDataManager(string filePath = null)
-    {
-        _filePath = filePath ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "result_data.csv");
-    }
-
+    private readonly string _filePath = "Data/result_data.csv";
 
     public void SaveResults(List<ResultEntry> results)
     {
