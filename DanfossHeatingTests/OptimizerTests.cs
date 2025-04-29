@@ -7,7 +7,7 @@ using Xunit;
 
 namespace DanfossHeatingTests
 {
-    public class OptimizerTests : IDisposable
+    public class OptimizerTests : IDisposable // to delete the data folder after tests
     {
         private readonly string _dataFolderPath;
         private readonly string _filePath;
