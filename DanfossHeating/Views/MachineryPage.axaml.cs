@@ -154,10 +154,6 @@ namespace DanfossHeating.Views
                         {
                             LoadDanfossDefaultValues();
                         }
-                        else
-                        {
-                            ClearAllValues();
-                        }
                     }
                 };
             }
@@ -283,11 +279,7 @@ namespace DanfossHeating.Views
                     // Apply Danfoss default values
                     LoadDanfossDefaultValues();
                 }
-                else
-                {
-                    // Clear all values
-                    ClearAllValues();
-                }
+                // Remove the else clause that was calling ClearAllValues()
             }
         }
         
@@ -1067,10 +1059,9 @@ namespace DanfossHeating.Views
                 var textBoxes = parentGrid.GetVisualDescendants().OfType<TextBox>().ToList();
 
                 // Determine machine type
-                string unitTypePrefix = unit.Name?.Length >= 2 ? unit.Name.Substring(0, 2) : string.Empty;
-                bool isGB = unitTypePrefix == "GB";
-                bool isOB = unitTypePrefix == "OB";
-                bool isHP = unitTypePrefix == "HP";
+                bool isGB = unit.Name == "GB1" || unit.Name == "GB2";
+                bool isOB = unit.Name == "OB1";
+                bool isHP = unit.Name == "HP1";
 
                 if (buttonText.Text == "Disable Machine")
                 {
@@ -1086,28 +1077,17 @@ namespace DanfossHeating.Views
                     if (machineImage != null) machineImage.Opacity = 0.5;
                     if (disabledOverlay != null) disabledOverlay.IsVisible = true;
 
-                    // Disable textboxes
+                    // Disable textboxes and set values to 0
                     foreach (var textBox in textBoxes)
                     {
-                        if (textBox.Name == "HeatOutputTextBox" ||
-                            textBox.Name == "ElectricityUsageTextBox" ||
-                            textBox.Name == "CO2EmissionsTextBox" ||
-                            textBox.Name == "ProductionCostsTextBox" ||
-                            textBox.Name == "FuelConsumptionTextBox")
+                        textBox.IsEnabled = false;
+                        
+                        bool isPermanentlyDisabled = (isGB || isOB) && textBox.Name == "ElectricityUsageTextBox" ||
+                                                   isHP && (textBox.Name == "CO2EmissionsTextBox" || textBox.Name == "FuelConsumptionTextBox");
+
+                        if (!isPermanentlyDisabled)
                         {
-                            textBox.IsEnabled = false;
-                            bool isPermanentlyDisabled = false;
-
-                            if ((isGB || isOB) && textBox.Name == "ElectricityUsageTextBox")
-                            {
-                                isPermanentlyDisabled = true;
-                            }
-                            else if (isHP && (textBox.Name == "CO2EmissionsTextBox" || textBox.Name == "FuelConsumptionTextBox"))
-                            {
-                                isPermanentlyDisabled = true;
-                            }
-
-                            textBox.Text = isPermanentlyDisabled ? string.Empty : "0";
+                            textBox.Text = "0";
                         }
                     }
                 }
@@ -1125,56 +1105,51 @@ namespace DanfossHeating.Views
                     if (machineImage != null) machineImage.Opacity = 1.0;
                     if (disabledOverlay != null) disabledOverlay.IsVisible = false;
 
-                    // Re-enable textboxes and update values based on Danfoss checkbox state
+                    // Re-enable textboxes and update values
                     foreach (var textBox in textBoxes)
                     {
-                        bool shouldAlwaysBeDisabled = false;
-
-                        // Check permanently disabled fields
                         if ((isGB || isOB) && textBox.Name == "ElectricityUsageTextBox")
                         {
-                            shouldAlwaysBeDisabled = true;
                             ConfigureFieldAsNA(cardBorder, "ElectricityUsageTextBox", "Electricity Usage (N/A)");
                         }
-                        else if (isHP && (textBox.Name == "CO2EmissionsTextBox" || textBox.Name == "FuelConsumptionTextBox"))
+                        else if (isHP && textBox.Name == "CO2EmissionsTextBox")
                         {
-                            shouldAlwaysBeDisabled = true;
-                            if (textBox.Name == "CO2EmissionsTextBox")
-                            {
-                                ConfigureFieldAsNA(cardBorder, "CO2EmissionsTextBox", "CO₂ Emissions (N/A)");
-                            }
-                            else if (textBox.Name == "FuelConsumptionTextBox")
-                            {
-                                ConfigureFieldAsNA(cardBorder, "FuelConsumptionTextBox", "Fuel Consumption (N/A)");
-                            }
+                            ConfigureFieldAsNA(cardBorder, "CO2EmissionsTextBox", "CO₂ Emissions (N/A)");
                         }
-                        else if (textBox.Name == "HeatOutputTextBox" ||
-                                 textBox.Name == "ElectricityUsageTextBox" ||
-                                 textBox.Name == "CO2EmissionsTextBox" ||
-                                 textBox.Name == "ProductionCostsTextBox" ||
-                                 textBox.Name == "FuelConsumptionTextBox")
+                        else if (isHP && textBox.Name == "FuelConsumptionTextBox")
                         {
-                            if (!shouldAlwaysBeDisabled)
+                            ConfigureFieldAsNA(cardBorder, "FuelConsumptionTextBox", "Fuel Consumption (N/A)");
+                        }
+                        else
+                        {
+                            textBox.IsEnabled = true;
+                            
+                            // If Danfoss values are selected, update with default values
+                            if (viewModel.IsDanfossValuesSelected)
                             {
-                                textBox.IsEnabled = true;
+                                var defaultUnits = LoadDefaultUnits();
+                                var defaultUnit = defaultUnits.FirstOrDefault(u => u.Name == unit.Name);
                                 
-                                // Update the value based on whether Danfoss values are selected
-                                if (viewModel.IsDanfossValuesSelected)
+                                if (defaultUnit != null)
                                 {
-                                    var value = textBox.Name switch
+                                    switch (textBox.Name)
                                     {
-                                        "HeatOutputTextBox" => unit.MaxHeat,
-                                        "ElectricityUsageTextBox" => unit.MaxElectricity,
-                                        "CO2EmissionsTextBox" => unit.CO2Emissions,
-                                        "ProductionCostsTextBox" => unit.ProductionCosts,
-                                        "FuelConsumptionTextBox" => unit.FuelConsumption,
-                                        _ => null
-                                    };
-                                    textBox.Text = value?.ToString(CultureInfo.InvariantCulture) ?? "0";
-                                }
-                                else
-                                {
-                                    textBox.Text = "0";
+                                        case "HeatOutputTextBox":
+                                            textBox.Text = defaultUnit.MaxHeat?.ToString(CultureInfo.InvariantCulture) ?? "0";
+                                            break;
+                                        case "ElectricityUsageTextBox":
+                                            textBox.Text = defaultUnit.MaxElectricity?.ToString(CultureInfo.InvariantCulture) ?? "0";
+                                            break;
+                                        case "CO2EmissionsTextBox":
+                                            textBox.Text = defaultUnit.CO2Emissions?.ToString(CultureInfo.InvariantCulture) ?? "0";
+                                            break;
+                                        case "ProductionCostsTextBox":
+                                            textBox.Text = defaultUnit.ProductionCosts?.ToString(CultureInfo.InvariantCulture) ?? "0";
+                                            break;
+                                        case "FuelConsumptionTextBox":
+                                            textBox.Text = defaultUnit.FuelConsumption?.ToString(CultureInfo.InvariantCulture) ?? "0";
+                                            break;
+                                    }
                                 }
                             }
                         }

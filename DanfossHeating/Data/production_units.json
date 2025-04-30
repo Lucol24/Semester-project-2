@@ -10,11 +10,19 @@
   },
   {
     "Name": "GB2",
+<<<<<<< HEAD
+    "MaxHeat": 0,
+    "MaxElectricity": null,
+    "ProductionCosts": 0,
+    "CO2Emissions": 0,
+    "FuelConsumption": 0,
+=======
     "MaxHeat": 3,
     "MaxElectricity": null,
     "ProductionCosts": 560,
     "CO2Emissions": 130,
     "FuelConsumption": 0.7,
+>>>>>>> 0be7b8b43e709d82df98865750270e996f246d4a
     "ImagePath": "avares://DanfossHeating/Assets/machine2.png"
   },
   {

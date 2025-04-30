@@ -253,6 +253,13 @@
                                 Foreground="#D40000"
                                 Text="Our Team" />
 
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
+                                Text="Project made by:" />
+
                             <!--  Team Information  -->
                             <Border
                                 Padding="30"
@@ -262,12 +269,12 @@
                                 BoxShadow="0 2 15 0 #30000000"
                                 CornerRadius="12">
 
-                                <Grid ColumnDefinitions="200,20,200,20,200" RowDefinitions="200,40,200,40">
+                                <Grid ColumnDefinitions="200,20,200,20,200" RowDefinitions="200,20,200,20">
 
                                     <Image
                                         Grid.Row="0"
                                         Grid.Column="0"
-                                        Source="/Assets/Lara.png" />
+                                        Source="/Assets/redSquare.png" />
 
                                     <TextBlock
                                         Grid.Row="1"

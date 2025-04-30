@@ -5,6 +5,8 @@ using System.IO;
 using System.Text.Json;
 using System.Collections.Generic;
 using System.Linq;
+using Avalonia.Data.Converters;
+using Avalonia.Data;
 
 namespace DanfossHeating.ViewModels;
 
@@ -130,7 +132,20 @@ public class MachineryViewModel : PageViewModelBase
     
     private AssetManager _assetManager;
     private List<ProductionUnit> _defaultUnits;
-    
+
+    // Dictionary to store machine type names
+    private static readonly Dictionary<string, string> MachineTypes = new()
+    {
+        { "GB1", "Gas Boiler 1" },
+        { "GB2", "Gas Boiler 2" },
+        { "OB1", "Oil Boiler 1" },
+        { "GM1", "Gas Motor 1" },
+        { "HP1", "Heat Pump 1" }
+    };
+
+    public static readonly IValueConverter MachineTypeNameConverter = new FuncValueConverter<string, string>(id =>
+        id != null && MachineTypes.TryGetValue(id, out var name) ? name : id ?? string.Empty);
+
     public MachineryViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
     {
         NavigateToHomeCommand = new Command(() => NavigateToHome());
@@ -447,16 +462,8 @@ public class MachineryViewModel : PageViewModelBase
                 OnPropertyChanged(nameof(DisabledMachines));
             }
             
-            // If Danfoss values are not selected, use zero values
-            if (!IsDanfossValuesSelected)
-            {
-                unit.MaxHeat = 0;
-                unit.MaxElectricity = unit.Name?.StartsWith("GB") == true || unit.Name == "OB1" ? null : 0;
-                unit.CO2Emissions = unit.Name == "HP1" ? null : 0;
-                unit.FuelConsumption = unit.Name == "HP1" ? null : 0;
-                unit.ProductionCosts = 0;
-            }
-            else
+            // If Danfoss values are selected, load their values, otherwise keep existing values
+            if (IsDanfossValuesSelected)
             {
                 // Load default values for this unit
                 var defaultUnits = LoadDefaultUnits();
@@ -492,6 +499,7 @@ public class MachineryViewModel : PageViewModelBase
                     unit.ProductionCosts = defaultUnit.ProductionCosts;
                 }
             }
+            // If Danfoss values are not selected, we keep the existing values
             
             // Save the updated unit
             _assetManager.SaveProductionUnit(unit);
