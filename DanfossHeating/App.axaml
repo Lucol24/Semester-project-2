@@ -7,7 +7,7 @@
 
     <Application.Resources>
         <converters:EnumToStringConverter x:Key="EnumToStringConverter"/>
-        <converters:BooleanToStringConverter x:Key="BooleanToStringConverter"/>
+        <converters:BoolToStringConverter x:Key="BoolToStringConverter"/>
     </Application.Resources>
 
     <Application.DataTemplates>
