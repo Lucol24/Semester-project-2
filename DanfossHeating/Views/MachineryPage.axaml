@@ -21,9 +21,6 @@
             
         <!-- Add the number converter -->
         <converters:StringToNumberConverter x:Key="StringToNumberConverter" />
-        
-        <!-- Add the machine type converter -->
-        <converters:MachineTypeConverter x:Key="MachineTypeConverter" />
             
         <!-- Style for the editable text boxes - simplified -->
         <Style x:Key="EditableValueTextBox" Selector="TextBox">

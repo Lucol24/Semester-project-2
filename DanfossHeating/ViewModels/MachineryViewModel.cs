@@ -138,9 +138,9 @@ public class MachineryViewModel : PageViewModelBase
     {
         { "GB1", "Gas Boiler 1" },
         { "GB2", "Gas Boiler 2" },
-        { "OB1", "Oil Boiler" },
-        { "GM1", "Gas Motor" },
-        { "HP1", "Heat Pump" }
+        { "OB1", "Oil Boiler 1" },
+        { "GM1", "Gas Motor 1" },
+        { "HP1", "Heat Pump 1" }
     };
 
     public static readonly IValueConverter MachineTypeNameConverter = new FuncValueConverter<string, string>(id =>
