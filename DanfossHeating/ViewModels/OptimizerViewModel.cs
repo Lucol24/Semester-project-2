@@ -15,6 +15,19 @@ using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView.Painting.Effects;
 using Avalonia.Animation.Easings;
 using LiveChartsCore.Drawing;
+using Avalonia.Controls;
+using Avalonia;
+using Avalonia.Platform.Storage;
+using LiveChartsCore.SkiaSharpView.Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using LiveChartsCore.SkiaSharpView.SKCharts;
+using Avalonia.Media.Imaging;
+using Avalonia.Skia;
+using Avalonia.Threading;
+using Avalonia.Layout;
+using Avalonia.VisualTree;
+using DanfossHeating.Views;
+using System.Threading.Tasks;
 
 namespace DanfossHeating.ViewModels;
 
@@ -39,6 +52,7 @@ public class OptimizerViewModel : PageViewModelBase
     public ICommand ResetZoomCommand { get; }
     public ICommand ToggleControlsVisibilityCommand { get; }
     public ICommand DismissControlsNotificationCommand { get; }
+    public ICommand ExportChartCommand { get; }
     
     private string _selectedSeason; // Remove default value
     private string _selectedScenario; // Remove default value
@@ -246,6 +260,22 @@ public class OptimizerViewModel : PageViewModelBase
     private double _chartHeight = 500;
     private double _chartWidth = 800;
     private bool _isZooming = false;
+    private CartesianChart? _chartControl;
+
+    private string? _exportSuccessMessage;
+    private bool _showExportSuccessNotification;
+
+    public string? ExportSuccessMessage
+    {
+        get => _exportSuccessMessage;
+        set => SetProperty(ref _exportSuccessMessage, value);
+    }
+
+    public bool ShowExportSuccessNotification
+    {
+        get => _showExportSuccessNotification;
+        set => SetProperty(ref _showExportSuccessNotification, value);
+    }
 
     public string SelectedSeason
     {
@@ -336,6 +366,7 @@ public class OptimizerViewModel : PageViewModelBase
         ResetZoomCommand = new RelayCommand(ResetZoom);
         ToggleControlsVisibilityCommand = new RelayCommand(ToggleControlsVisibility);
         DismissControlsNotificationCommand = new RelayCommand(DismissControlsNotification);
+        ExportChartCommand = new RelayCommand(ExportChart);
         
         // Make sure the controls notification is shown by default
         _showControlsNotification = true;
@@ -611,6 +642,106 @@ public class OptimizerViewModel : PageViewModelBase
     {
         ShowControlsNotification = false;
         Console.WriteLine("Controls notification dismissed");
+    }
+    
+    public void SetChartControl(CartesianChart chart)
+    {
+        _chartControl = chart;
+        Console.WriteLine("Chart control reference set in ViewModel");
+    }
+
+    private async void ExportChart()
+    {
+        try
+        {
+            if (_chartControl == null)
+            {
+                Console.WriteLine("Chart control reference not found");
+                return;
+            }
+
+            var app = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+            var mainWindow = app?.MainWindow;
+            if (mainWindow == null)
+            {
+                Console.WriteLine("Window not found");
+                return;
+            }
+
+            // Create file picker options
+            var options = new FilePickerSaveOptions
+            {
+                Title = "Save Chart",
+                DefaultExtension = ".png",
+                ShowOverwritePrompt = true,
+                FileTypeChoices = new []
+                {
+                    new FilePickerFileType("PNG Image") { Patterns = new[] { "*.png" } }
+                },
+                SuggestedFileName = $"HeatProduction_{DateTime.Now:yyyyMMdd_HHmmss}.png"
+            };
+
+            // Show save dialog
+            var file = await mainWindow.StorageProvider.SaveFilePickerAsync(options);
+            if (file == null) return;
+
+            // Create a bitmap with increased height (1.05x taller)
+            var pixelSize = new PixelSize(
+                (int)_chartControl.Bounds.Width,
+                (int)(_chartControl.Bounds.Height * 1.05) // Make the output taller
+            );
+
+            // Ensure we're on the UI thread
+            await Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                try 
+                {
+                    using (var bitmap = new RenderTargetBitmap(pixelSize))
+                    {
+                        // First measure the control with the increased height
+                        _chartControl.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                        
+                        // Then arrange it with the increased height
+                        var size = new Size(_chartControl.Bounds.Width, _chartControl.Bounds.Height * 1.05);
+                        _chartControl.Arrange(new Rect(new Point(0, 0), size));
+                        
+                        // Render the chart to the bitmap
+                        bitmap.Render(_chartControl);
+
+                        // Save the bitmap as PNG
+                        using (var stream = await file.OpenWriteAsync())
+                        {
+                            bitmap.Save(stream);
+                        }
+                    }
+                    Console.WriteLine($"Chart exported successfully to: {file.Path.LocalPath}");
+                    
+                    // Show success notification
+                    ExportSuccessMessage = $"Chart exported successfully to {file.Name}!";
+                    ShowExportSuccessNotification = true;
+
+                    // Auto-hide notification after 4 seconds
+                    await Task.Delay(4000);
+                    ShowExportSuccessNotification = false;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error during chart rendering/saving: {ex.Message}");
+                    ExportSuccessMessage = "Error exporting chart. Please try again.";
+                    ShowExportSuccessNotification = true;
+                    await Task.Delay(4000);
+                    ShowExportSuccessNotification = false;
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in ExportChart: {ex.Message}");
+            ExportSuccessMessage = "Error exporting chart. Please try again.";
+            ShowExportSuccessNotification = true;
+            await Task.Delay(4000);
+            ShowExportSuccessNotification = false;
+        }
     }
     
     // Navigation methods remain the same

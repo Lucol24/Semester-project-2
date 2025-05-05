@@ -285,14 +285,37 @@
                         <!-- Replace Grid with a responsive layout -->
                         <Grid RowDefinitions="Auto,Auto"> 
                             
-                            <!-- Zoom Toggle (Top Right Corner) -->
-                            <ToggleSwitch Grid.Row="0" 
-                                          IsChecked="{Binding IsZooming}"
-                                          OnContent="Zoom On"
-                                          OffContent="Zoom Off"
-                                          VerticalAlignment="Top" 
-                                          HorizontalAlignment="Right"
-                                          Margin="0,0,10,10" />
+                            <!-- Zoom Toggle and Export Button -->
+                            <StackPanel Grid.Row="0" 
+                                      Orientation="Vertical"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Top"
+                                      Margin="0,0,10,10"
+                                      Spacing="10">
+                                <ToggleSwitch IsChecked="{Binding IsZooming}"
+                                             OnContent="Zoom On"
+                                             OffContent="Zoom Off"/>
+                                
+                                <Button Command="{Binding ExportChartCommand}"
+                                       Content="Export Graph"
+                                       Height="32"
+                                       FontSize="14"
+                                       Padding="15,0"
+                                       Background="#D40000"
+                                       Foreground="White"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       CornerRadius="4">
+                                    <Button.Styles>
+                                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="#B80000"/>
+                                        </Style>
+                                        <Style Selector="Button:pressed /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="#900000"/>
+                                        </Style>
+                                    </Button.Styles>
+                                </Button>
+                            </StackPanel>
 
                             <!-- Control Options using WrapPanel for responsiveness -->
                             <WrapPanel Grid.Row="0" 
@@ -425,44 +448,59 @@
                     </Border>
                     
                     <!-- Chart Area with Enhanced Visuals -->
-                    <Border Grid.Row="3" 
-                            Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#303030:#F8F8F8'}"
-                            CornerRadius="6"
-                            BoxShadow="0 2 8 1 #18000000"
-                            Padding="15,10,15,15"
-                            Margin="0,0,0,0">
-                        <Grid RowDefinitions="Auto,*">
-                            <!-- Zoom Instructions -->
-                            <TextBlock Text="Use mouse wheel to zoom, drag to pan ✨"
-                                      IsVisible="{Binding IsZooming}"
-                                      Opacity="0.7"
-                                      FontSize="12"
-                                      HorizontalAlignment="Right"
-                                      VerticalAlignment="Top"
-                                      ZIndex="10"
-                                      Margin="0,0,5,5"
-                                      Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
-                            
-                            <!-- Professional Interactive Chart -->
-                            <lvc:CartesianChart Grid.Row="1"
-                                                Series="{Binding Series}"
-                                                XAxes="{Binding XAxes}"
-                                                YAxes="{Binding YAxes}"
-                                                Title="{Binding Title}"
-                                                ZoomMode="{Binding IsZooming, Converter={StaticResource EnumToStringConverter}, ConverterParameter='true:X:None'}"
-                                                TooltipPosition="Top"
-                                                TooltipBackgroundPaint="{Binding TooltipBackgroundPaint}"
-                                                TooltipTextPaint="{Binding TooltipTextPaint}"
-                                                LegendPosition="Top"
-                                                LegendTextPaint="{Binding LegendTextPaint}"
-                                                LegendBackgroundPaint="{Binding LegendBackgroundPaint}"
-                                                DrawMarginFrame="{Binding IsDarkTheme, Converter={StaticResource EnumToStringConverter}, ConverterParameter='true:#454545:#FFFFFF'}"
-                                                AnimationsSpeed="00:00:00.500"
-                                                EasingFunction="{Binding EasingFunction}"
-                                                Margin="0,0,0,0"
-                                                Name="chart"/>
-                        </Grid>
-                    </Border>
+                    <Grid Grid.Row="3" RowDefinitions="Auto,*">
+                        <!-- Zoom Instructions -->
+                        <TextBlock Text="Use mouse wheel to zoom, drag to pan ✨"
+                                  IsVisible="{Binding IsZooming}"
+                                  Opacity="0.7"
+                                  FontSize="12"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Top"
+                                  ZIndex="10"
+                                  Margin="0,0,5,5"
+                                  Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
+                        
+                        <!-- Professional Interactive Chart -->
+                        <lvc:CartesianChart Grid.Row="1"
+                                            x:Name="chart"
+                                            Series="{Binding Series}"
+                                            XAxes="{Binding XAxes}"
+                                            YAxes="{Binding YAxes}"
+                                            Title="{Binding Title}"
+                                            ZoomMode="{Binding IsZooming, Converter={StaticResource EnumToStringConverter}, ConverterParameter='true:X:None'}"
+                                            TooltipPosition="Top"
+                                            TooltipBackgroundPaint="{Binding TooltipBackgroundPaint}"
+                                            TooltipTextPaint="{Binding TooltipTextPaint}"
+                                            LegendPosition="Top"
+                                            LegendTextPaint="{Binding LegendTextPaint}"
+                                            LegendBackgroundPaint="{Binding LegendBackgroundPaint}"
+                                            DrawMarginFrame="{Binding IsDarkTheme, Converter={StaticResource EnumToStringConverter}, ConverterParameter='true:#454545:#FFFFFF'}"
+                                            AnimationsSpeed="00:00:00.500"
+                                            EasingFunction="{Binding EasingFunction}"
+                                            Margin="0,0,0,15"/>
+
+                        <!-- Export Success Notification -->
+                        <Border Grid.Row="0" Grid.RowSpan="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="0,0,0,30"
+                                Padding="15,10"
+                                Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#4CAF50:#DFF0D8'}"
+                                BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#388E3C:#D6E9C6'}"
+                                BorderThickness="1"
+                                CornerRadius="6"
+                                BoxShadow="0 2 8 0 #20000000"
+                                IsVisible="{Binding ShowExportSuccessNotification}"
+                                ZIndex="20">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="✅" FontSize="16" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding ExportSuccessMessage}"
+                                           Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#FFFFFF:#3C763D'}"
+                                           FontSize="14"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
                 </Grid>
             </Border>
         </Grid>

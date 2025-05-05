@@ -14,6 +14,7 @@ public partial class OptimizerPage : PageBase
 {
     private OptimizerViewModel? _viewModel;
     private const double SMALL_SCREEN_WIDTH_THRESHOLD = 800;
+    private CartesianChart? _chart;
     
     public OptimizerPage()
     {
@@ -28,12 +29,33 @@ public partial class OptimizerPage : PageBase
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+        _chart = this.FindControl<CartesianChart>("chart");
+        if (_chart != null)
+        {
+            Console.WriteLine("Found chart control during initialization");
+        }
     }
     
     private void Page_Loaded(object? sender, EventArgs e)
     {
         Console.WriteLine("OptimizerPage loaded and visible");
         UpdateThemeClass();
+        
+        // Try to find chart again if not found during initialization
+        if (_chart == null)
+        {
+            _chart = this.FindControl<CartesianChart>("chart");
+            if (_chart != null)
+            {
+                Console.WriteLine("Found chart control after page load");
+            }
+        }
+        
+        // Pass the chart reference to the ViewModel if available
+        if (_viewModel != null && _chart != null)
+        {
+            _viewModel.SetChartControl(_chart);
+        }
     }
     
     private void Page_DataContextChanged(object? sender, EventArgs e)
@@ -50,6 +72,12 @@ public partial class OptimizerPage : PageBase
             Console.WriteLine($"OptimizerPage received DataContext with userName: {_viewModel.UserName}");
             _viewModel.PropertyChanged += ViewModel_PropertyChanged;
             UpdateThemeClass();
+            
+            // Pass the chart reference to the new ViewModel if available
+            if (_chart != null)
+            {
+                _viewModel.SetChartControl(_chart);
+            }
         }
         else
         {
@@ -86,8 +114,7 @@ public partial class OptimizerPage : PageBase
         if (_viewModel != null)
         {
             // Adjust chart size based on container size
-            var chart = this.FindControl<CartesianChart>("chart");
-            if (chart != null)
+            if (_chart != null)
             {
                 // Calculate appropriate padding based on screen size
                 double horizontalPadding = e.NewSize.Width < SMALL_SCREEN_WIDTH_THRESHOLD ? 20 : 100;
