@@ -267,27 +267,11 @@
                                     <Image
                                         Grid.Row="0"
                                         Grid.Column="0"
-                                        Source="/Assets/Lara.png" />
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="SemiBold"
-                                        Foreground="#D40000"
-                                        Text="Lara"
-                                        TextAlignment="Center"
-                                        TextWrapping="Wrap" />
-
-                                    <Image
-                                        Grid.Row="0"
-                                        Grid.Column="2"
                                         Source="/Assets/Carolina.png" />
 
                                     <TextBlock
                                         Grid.Row="1"
-                                        Grid.Column="2"
+                                        Grid.Column="0"
                                         HorizontalAlignment="Center"
                                         FontSize="20"
                                         FontWeight="SemiBold"
@@ -298,8 +282,24 @@
 
                                     <Image
                                         Grid.Row="0"
+                                        Grid.Column="2"
+                                        Source="/Assets/Gabriele.png" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Center"
+                                        FontSize="20"
+                                        FontWeight="SemiBold"
+                                        Foreground="#D40000"
+                                        Text="Gabriele"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+
+                                    <Image
+                                        Grid.Row="0"
                                         Grid.Column="4"
-                                        Source="/Assets/redSquare.png" />
+                                        Source="/Assets/Lara.png" />
 
                                     <TextBlock
                                         Grid.Row="1"
@@ -308,7 +308,7 @@
                                         FontSize="20"
                                         FontWeight="SemiBold"
                                         Foreground="#D40000"
-                                        Text="Mats"
+                                        Text="Lara"
                                         TextAlignment="Center"
                                         TextWrapping="Wrap" />
 
@@ -331,7 +331,7 @@
                                     <Image
                                         Grid.Row="2"
                                         Grid.Column="2"
-                                        Source="/Assets/Gabriele.png" />
+                                        Source="/Assets/Manish.png" />
 
                                     <TextBlock
                                         Grid.Row="3"
@@ -340,14 +340,14 @@
                                         FontSize="20"
                                         FontWeight="SemiBold"
                                         Foreground="#D40000"
-                                        Text="Gabriele"
+                                        Text="Manish"
                                         TextAlignment="Center"
                                         TextWrapping="Wrap" />
 
                                     <Image
                                         Grid.Row="2"
                                         Grid.Column="4"
-                                        Source="/Assets/Manish.png" />
+                                        Source="/Assets/redSquare.png" />
 
                                     <TextBlock
                                         Grid.Row="3"
@@ -356,7 +356,7 @@
                                         FontSize="20"
                                         FontWeight="SemiBold"
                                         Foreground="#D40000"
-                                        Text="Manish"
+                                        Text="Mats"
                                         TextAlignment="Center"
                                         TextWrapping="Wrap" />
                                 </Grid>
