@@ -253,13 +253,6 @@
                                 Foreground="#D40000"
                                 Text="Our Team" />
 
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                FontSize="18"
-                                FontWeight="SemiBold"
-                                Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
-                                Text="Project made by:" />
-
                             <!--  Team Information  -->
                             <Border
                                 Padding="30"
@@ -269,12 +262,12 @@
                                 BoxShadow="0 2 15 0 #30000000"
                                 CornerRadius="12">
 
-                                <Grid ColumnDefinitions="200,20,200,20,200" RowDefinitions="200,20,200,20">
+                                <Grid ColumnDefinitions="200,20,200,20,200" RowDefinitions="200,50,200,50">
 
                                     <Image
                                         Grid.Row="0"
                                         Grid.Column="0"
-                                        Source="/Assets/redSquare.png" />
+                                        Source="/Assets/Lara.png" />
 
                                     <TextBlock
                                         Grid.Row="1"
@@ -290,7 +283,7 @@
                                     <Image
                                         Grid.Row="0"
                                         Grid.Column="2"
-                                        Source="/Assets/redSquare.png" />
+                                        Source="/Assets/Carolina.png" />
 
                                     <TextBlock
                                         Grid.Row="1"
@@ -322,7 +315,7 @@
                                     <Image
                                         Grid.Row="2"
                                         Grid.Column="0"
-                                        Source="/Assets/redSquare.png" />
+                                        Source="/Assets/Luigi.png" />
 
                                     <TextBlock
                                         Grid.Row="3"
@@ -338,7 +331,7 @@
                                     <Image
                                         Grid.Row="2"
                                         Grid.Column="2"
-                                        Source="/Assets/redSquare.png" />
+                                        Source="/Assets/Gabriele.png" />
 
                                     <TextBlock
                                         Grid.Row="3"
@@ -354,7 +347,7 @@
                                     <Image
                                         Grid.Row="2"
                                         Grid.Column="4"
-                                        Source="/Assets/redSquare.png" />
+                                        Source="/Assets/Manish.png" />
 
                                     <TextBlock
                                         Grid.Row="3"
