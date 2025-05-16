@@ -29,12 +29,16 @@ public class ResultDataManagerTests
 
     [Fact]
     public void File_Saved()
-    {
-        // Arrange
+    {        // Arrange
         Console.WriteLine("\n==> [RDM] Testing if new data is saved to the CSV file");
 
         // Ensure the Data folder exists
-        string dataFolderPath = Path.GetDirectoryName(_filePath);
+        string? dataFolderPath = Path.GetDirectoryName(_filePath);
+        if (dataFolderPath == null)
+        {
+            throw new InvalidOperationException("Unable to determine the data folder path.");
+        }
+        
         if (!Directory.Exists(dataFolderPath))
         {
             Directory.CreateDirectory(dataFolderPath);
