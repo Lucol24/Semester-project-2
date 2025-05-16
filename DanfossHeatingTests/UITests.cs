@@ -42,10 +42,9 @@ public class UITests
         {
             machine.MaxHeat = 999;
             machine.ProductionCosts = 999;
-        }
-
-        // Act
+        }        // Act
         var restoreMethod = machineryPage.GetType().GetMethod("RestoreOriginalValues", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        Assert.NotNull(restoreMethod); // Ensure the method exists
         restoreMethod.Invoke(machineryPage, null);
 
         // Assert
