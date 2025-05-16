@@ -20,8 +20,16 @@
     <UserControl.Background>
         <SolidColorBrush Color="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#1E1E1E:#F0F0F0'}" />
     </UserControl.Background>
-    
-    <Grid>
+      <Grid>        <!-- Optimizer Image -->
+        <Image 
+            Source="/Assets/Danffy/optimizer.png"
+            Width="300"
+            Height="330"
+            Margin="20,300,0,20"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Left"
+            ZIndex="99" />
+
         <!-- Header Panel with Accent Background -->
         <Border Height="70" 
                 VerticalAlignment="Top"
@@ -135,10 +143,82 @@
                                       FontSize="16" 
                                       FontWeight="SemiBold" 
                                       Foreground="White" 
-                                      VerticalAlignment="Center"
-                                      Margin="15,0,0,0"/>
+                                      VerticalAlignment="Center"                                      Margin="15,0,0,0"/>
                         </StackPanel>
                     </Button>
+                      <!-- Additional Insights Title -->
+                    <TextBlock Text="Additional Insights"
+                            Margin="8,15,8,10"
+                            HorizontalAlignment="Center"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}"/><StackPanel Orientation="Horizontal" 
+                              Margin="8,0,8,8" 
+                              Spacing="4" 
+                              HorizontalAlignment="Center">                        <!-- Electricity Prices Button -->
+                        <Button Command="{Binding ShowElectricityPricesCommand}"                                Height="45"
+                                Width="45"
+                                Background="Transparent"
+                                BorderThickness="2"
+                                BorderBrush="#D40000"
+                                Padding="0"
+                                HorizontalAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                CornerRadius="8"
+                                ToolTip.Tip="Electricity Prices"
+                                IsVisible="{Binding SelectedScenario, Converter={StaticResource EnumToStringConverter}, ConverterParameter='Scenario 2'}">                            <TextBlock Text="⚡"
+                                     FontSize="18"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"/>                            <Button.Styles>                                <Style Selector="Button:pressed /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="#B80000"/>
+                                </Style>
+                                <Style Selector="Button /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="{Binding ShowingElectricityPrices, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#D40000:Transparent'}"/>
+                                </Style>
+                            </Button.Styles>
+                        </Button>                        <!-- Production Costs Button -->
+                        <Button Command="{Binding ShowProductionCostsCommand}"                                Height="45"
+                                Width="45"
+                                Background="Transparent"
+                                BorderThickness="2"
+                                BorderBrush="#D40000"
+                                Padding="0"
+                                HorizontalAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                CornerRadius="8"
+                                ToolTip.Tip="Production Costs">                            <TextBlock Text="💰"
+                                     FontSize="18"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"/>                            <Button.Styles>                                <Style Selector="Button:pressed /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="#B80000"/>
+                                </Style>
+                                <Style Selector="Button /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="{Binding ShowingProductionCosts, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#D40000:Transparent'}"/>
+                                </Style>
+                            </Button.Styles>
+                        </Button>                        <!-- CO2 Emissions Button -->
+                        <Button Command="{Binding ShowCO2EmissionsCommand}"                                Height="45"
+                                Width="45"
+                                Background="Transparent"
+                                BorderThickness="2"
+                                BorderBrush="#D40000"
+                                Padding="0"
+                                HorizontalAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                CornerRadius="8"
+                                ToolTip.Tip="CO2 Emissions">                            <TextBlock Text="🌱"
+                                     FontSize="18"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"/>                            <Button.Styles>
+                                <Style Selector="Button:pressed /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="#B80000"/>
+                                </Style>
+                                <Style Selector="Button /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="{Binding ShowingCO2Emissions, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#D40000:Transparent'}"/>
+                                </Style>
+                            </Button.Styles>
+                        </Button>
+                    </StackPanel>
                     
                     <!-- Machinery -->
                     <Button Command="{Binding NavigateToMachineryCommand}"
@@ -182,8 +262,7 @@
                                       FontWeight="Normal" 
                                       Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E0E0E0:#333333'}" 
                                       VerticalAlignment="Center"
-                                      Margin="15,0,0,0"/>
-                        </StackPanel>
+                                      Margin="15,0,0,0"/>                        </StackPanel>
                     </Button>
                 </StackPanel>
             </Border>
@@ -201,7 +280,7 @@
                     <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,20">
                         <!-- Header Text (Centered) -->
                         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Text="Heat Production Optimizer" 
+                            <TextBlock Text="Optimizer" 
                                        FontSize="28"
                                        FontWeight="Bold" 
                                        Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
@@ -418,32 +497,32 @@
                                     </StackPanel>
                                 </Border>
                             </WrapPanel>
-
-                            <!-- Action Buttons - Responsive Width -->
-                            <Button Grid.Row="1" 
-                                    Command="{Binding OptimizeCommand}"
-                                    Content="Optimize"
-                                    Height="45"
-                                    FontSize="18"
-                                    Padding="30,10" 
-                                    HorizontalAlignment="Stretch"
-                                    MinWidth="200"
-                                    MaxWidth="{Binding ButtonMaxWidth}"
-                                    Margin="5,0"
-                                    Background="#D40000"
-                                    Foreground="White"
-                                    CornerRadius="5"
-                                    HorizontalContentAlignment="Center"
-                                    Classes="PrimaryButton">
-                                <Button.Styles>
-                                    <Style Selector="Button:pointerover /template/ ContentPresenter">
-                                        <Setter Property="Background" Value="#B80000"/>
-                                    </Style>
-                                    <Style Selector="Button:pressed /template/ ContentPresenter">
-                                        <Setter Property="Background" Value="#900000"/>
-                                    </Style>
-                                </Button.Styles>
-                            </Button>
+                              <!-- Action Buttons -->                            <StackPanel Grid.Row="1" 
+                                      Orientation="Horizontal" 
+                                      HorizontalAlignment="Center" 
+                                      Spacing="15"
+                                      Margin="0,1,0,0">
+                                
+                                <Button Command="{Binding OptimizeCommand}"
+                                        Content="Optimize"
+                                        Height="48"
+                                        FontSize="22"
+                                        Padding="20,10"
+                                        Width="450"
+                                        Background="#D40000"
+                                        Foreground="White"
+                                        CornerRadius="5"
+                                        HorizontalContentAlignment="Center">
+                                    <Button.Styles>
+                                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="#B80000"/>
+                                        </Style>
+                                        <Style Selector="Button:pressed /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="#900000"/>
+                                        </Style>
+                                    </Button.Styles>
+                                </Button>
+                            </StackPanel>
                         </Grid>
                     </Border>
                     

@@ -25,6 +25,17 @@
     </UserControl.Background>
     
     <UserControl.Styles>
+        <!-- Navigation Link Button -->
+        <Style Selector="Button.navLink">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="#D40000"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        
         <!-- Background color based on theme -->
         <Style Selector="UserControl">
             <Style.Animations>
@@ -221,9 +232,36 @@
         <Style Selector="PathIcon.navIcon.active">
             <Setter Property="Foreground" Value="White"/>
         </Style>
+
+        <!-- Map Image Hover Effect -->
+        <Style Selector="Border.mapImage">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.3" Easing="CircularEaseOut"/>
+                    <ThicknessTransition Property="Margin" Duration="0:0:0.3" Easing="CircularEaseOut"/>
+                </Transitions>
+            </Setter>
+            <Setter Property="RenderTransform" Value="none"/>
+            <Setter Property="ZIndex" Value="0"/>
+        </Style>
+        
+        <Style Selector="Border.mapImage:pointerover">
+            <Setter Property="RenderTransform" Value="scale(1.25)"/>
+            <Setter Property="ZIndex" Value="10"/>
+        </Style>
     </UserControl.Styles>
 
     <Grid>
+        <!-- Home Image -->
+        <Image 
+            Source="/Assets/Danffy/home.png"
+            Width="250"
+            Height="800"
+            Margin="0,0,0,20"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Left"
+            ZIndex="99" />
+
         <!-- Header Panel with Accent Background -->
         <Border Height="70" 
                 VerticalAlignment="Top"
@@ -435,10 +473,9 @@
                                 </Border>
 
                                 <!-- Content Area -->
-                                <Grid Grid.Row="1" Margin="40,30,40,30" RowDefinitions="Auto,Auto,Auto,Auto">
-                                    <!-- Main Description with Image -->
-                                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,30">
-                                        <!-- Main Text -->
+                                <Grid Grid.Row="1" Margin="40,30,40,30" RowDefinitions="Auto,Auto,Auto,Auto">                                    <!-- Main Description with Images -->
+                                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto" Margin="0,0,0,60">
+                                        <!-- Combined Main Text -->
                                         <TextBlock Grid.Column="0" 
                                                    TextWrapping="Wrap" 
                                                    LineHeight="30"
@@ -448,172 +485,219 @@
                                                    Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}">
                                             <Run Text="This Optimizer helps the city of Heatington optimize heat production for over 1600 buildings. Instead of manually planning heat schedules, our app automatically finds the most cost-efficient way to produce heat using a mix of boilers and "/>
                                             <Run Text="Combined Heat and Power (CHP)" FontWeight="Bold" Foreground="#D40000"/>
-                                            <Run Text=" units, which simultaneously generate electricity and useful heat."/>
+                                            <Run Text=" units. These CHP systems capture and utilize the heat that would otherwise be wasted during electricity generation, making the entire process more efficient and environmentally friendly."/>
                                         </TextBlock>
                                         
                                         <!-- Image 1 - City Map -->
                                         <Border Grid.Column="1"
-                                                Width="320"
-                                                Height="240"
+                                                Classes="mapImage"
+                                                Width="280"
+                                                Height="200"
                                                 CornerRadius="12"
                                                 BoxShadow="0 8 20 0 #40000000"
                                                 ClipToBounds="True"
-                                                Margin="0,0,0,0">
+                                                Margin="0,0,15,0">
                                             <Panel>
-                                                <Image Source="/Assets/img1.png" 
-                                                       Stretch="UniformToFill">
-                                                    <Image.Transitions>
-                                                        <Transitions>
-                                                            <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.5"/>
-                                                        </Transitions>
-                                                    </Image.Transitions>
-                                                </Image>
+                                                <Image Source="/Assets/map1.png" 
+                                                       Stretch="UniformToFill"/>
                                                 <Border Background="#10000000" CornerRadius="12"/>
                                             </Panel>
                                         </Border>
-                                    </Grid>
 
-                                    <!-- Focus Points -->
-                                    <StackPanel Grid.Row="1" Margin="0,0,0,40">
-                                        <TextBlock Text="We focus on:" 
-                                                   FontWeight="Bold" 
-                                                   FontSize="24" 
-                                                   Margin="0,0,0,20"
-                                                   Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
-                                        
-                                        <!-- Focus Points Cards -->
-                                        <UniformGrid Columns="3" Margin="0,10,0,0" Height="130">
-                                            <!-- Cost Reduction -->
-                                            <Border Margin="0,0,10,0"
-                                                    Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#252525:#F8F8F8'}}"
-                                                    BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}}"
-                                                    BoxShadow="0 4 12 0 #30000000"
-                                                    BorderThickness="1"
-                                                    CornerRadius="12"
-                                                    Padding="20">
-                                                <Grid RowDefinitions="Auto,*">
-                                                    <TextBlock Text="💰" FontSize="28" HorizontalAlignment="Center"/>
-                                                    <TextBlock Grid.Row="1" 
-                                                               Text="Reducing heat production costs" 
-                                                               FontSize="16"
-                                                               TextWrapping="Wrap"
-                                                               TextAlignment="Center"
-                                                               Margin="0,12,0,0"
-                                                               FontWeight="SemiBold"
-                                                               Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
-                                                </Grid>
-                                            </Border>
-                                            
-                                            <!-- Profit Increase -->
-                                            <Border Margin="5,0,5,0"
-                                                    Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#252525:#F8F8F8'}}"
-                                                    BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}}"
-                                                    BoxShadow="0 4 12 0 #30000000"
-                                                    BorderThickness="1"
-                                                    CornerRadius="12"
-                                                    Padding="20">
-                                                <Grid RowDefinitions="Auto,*">
-                                                    <TextBlock Text="⚡" FontSize="28" HorizontalAlignment="Center"/>
-                                                    <TextBlock Grid.Row="1" 
-                                                               Text="Increasing profit from electricity sales" 
-                                                               FontSize="16"
-                                                               TextWrapping="Wrap"
-                                                               TextAlignment="Center"
-                                                               Margin="0,12,0,0"
-                                                               FontWeight="SemiBold"
-                                                               Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
-                                                </Grid>
-                                            </Border>
-                                            
-                                            <!-- Sustainability -->
-                                            <Border Margin="10,0,0,0"
-                                                    Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#252525:#F8F8F8'}}"
-                                                    BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}}"
-                                                    BoxShadow="0 4 12 0 #30000000"
-                                                    BorderThickness="1"
-                                                    CornerRadius="12"
-                                                    Padding="20">
-                                                <Grid RowDefinitions="Auto,*">
-                                                    <TextBlock Text="🌱" FontSize="28" HorizontalAlignment="Center"/>
-                                                    <TextBlock Grid.Row="1" 
-                                                               Text="Making energy use smarter and sustainable" 
-                                                               FontSize="16"
-                                                               TextWrapping="Wrap"
-                                                               TextAlignment="Center"
-                                                               Margin="0,12,0,0"
-                                                               FontWeight="SemiBold"
-                                                               Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
-                                                </Grid>
-                                            </Border>
-                                        </UniformGrid>
-                                    </StackPanel>
-
-                                    <!-- What We're Solving Section with Image - Danfoss machines provided -->
-                                    <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,35">
-                                        <!-- Explanatory Text -->
-                                        <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,30,0">
-                                            <TextBlock Text="How the system works" 
-                                                      FontWeight="Bold"
-                                                      Foreground="#D40000"
-                                                      FontSize="24"
-                                                      Margin="0,0,0,15"/>
-                                            <TextBlock TextWrapping="Wrap"
-                                                      LineHeight="28"
-                                                      FontSize="17"
-                                                      Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}">
-                                                Combined Heat and Power (CHP) systems capture and utilize the heat that would otherwise be wasted during electricity generation, making the entire process more efficient and environmentally friendly.
-                                            </TextBlock>
-                                        </StackPanel>
-                                        
-                                        <!-- Image 2 - Enhanced and moved to right -->
-                                        <Border Grid.Column="1"
-                                                Width="320"
-                                                Height="240"
+                                        <!-- Image 2 - System Map -->
+                                        <Border Grid.Column="2"
+                                                Classes="mapImage"
+                                                Width="280"
+                                                Height="200"
                                                 CornerRadius="12"
                                                 BoxShadow="0 8 20 0 #40000000"
                                                 ClipToBounds="True">
                                             <Panel>
-                                                <Image Source="/Assets/img2.png" 
-                                                       Stretch="UniformToFill">
-                                                    <Image.Transitions>
-                                                        <Transitions>
-                                                            <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.5"/>
-                                                        </Transitions>
-                                                    </Image.Transitions>
-                                                </Image>
+                                                <Image Source="/Assets/map2.png" 
+                                                       Stretch="UniformToFill"/>
                                                 <Border Background="#10000000" CornerRadius="12"/>
                                             </Panel>
                                         </Border>
                                     </Grid>
 
-                                    <!-- What We're Solving Section -->
-                                    <Border Grid.Row="3"
-                                            Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#302F2F:#F5F5F5'}}"
-                                            BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}}"
-                                            BorderThickness="1"
-                                            CornerRadius="16"
-                                            Padding="30"
-                                            BoxShadow="0 4 14 0 #30000000">
-                                        <StackPanel>
-                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                                    <!-- Focus Points and System Diagram -->
+                                    <Grid Grid.Row="1" ColumnDefinitions="Auto,*" Margin="0,0,0,40">
+                                        <!-- Focus Points Section -->
+                                        <StackPanel Grid.Column="0" Width="300" Margin="0,0,30,0">
+                                            <TextBlock Text="This project is focused on" 
+                                                       FontWeight="Bold" 
+                                                       FontSize="24" 
+                                                       Margin="0,0,0,20"
+                                                       Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
+                                            
+                                            <!-- Focus Points Cards -->
+                                            <StackPanel Spacing="15">
+                                                <!-- Cost Reduction -->
+                                                <Border Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#252525:#F8F8F8'}}"
+                                                        BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}}"
+                                                        BoxShadow="0 4 12 0 #30000000"
+                                                        BorderThickness="1"
+                                                        CornerRadius="12"
+                                                        Padding="15">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="💰" FontSize="24" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                        <TextBlock Text="Reducing heat production costs" 
+                                                                   FontSize="14"
+                                                                   TextWrapping="Wrap"
+                                                                   VerticalAlignment="Center"
+                                                                   FontWeight="SemiBold"
+                                                                   Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
+                                                    </StackPanel>
+                                                </Border>
+                                                
+                                                <!-- Profit Increase -->
+                                                <Border Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#252525:#F8F8F8'}}"
+                                                        BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}}"
+                                                        BoxShadow="0 4 12 0 #30000000"
+                                                        BorderThickness="1"
+                                                        CornerRadius="12"
+                                                        Padding="15">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="⚡" FontSize="24" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                        <TextBlock Text="Increasing profit from electricity" 
+                                                                   FontSize="14"
+                                                                   TextWrapping="Wrap"
+                                                                   VerticalAlignment="Center"
+                                                                   FontWeight="SemiBold"
+                                                                   Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
+                                                    </StackPanel>
+                                                </Border>
+                                                
+                                                <!-- Sustainability -->
+                                                <Border Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#252525:#F8F8F8'}}"
+                                                        BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}}"
+                                                        BoxShadow="0 4 12 0 #30000000"
+                                                        BorderThickness="1"
+                                                        CornerRadius="12"
+                                                        Padding="15">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="🌱" FontSize="24" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                        <TextBlock Text="Integrating sustainable energy" 
+                                                                   FontSize="14"
+                                                                   TextWrapping="Wrap"
+                                                                   VerticalAlignment="Center"
+                                                                   FontWeight="SemiBold"
+                                                                   Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </StackPanel>
+                                        </StackPanel>                                        <!-- System Diagram Section -->
+                                        <Grid Grid.Column="1" RowDefinitions="Auto,Auto">                                            <!-- Main System Diagram Image -->
+                                            <Border BorderBrush="#D40000"
+                                                    BorderThickness="3"
+                                                    CornerRadius="16"                                                    BoxShadow="0 8 20 0 #40000000"
+                                                    ClipToBounds="False"
+                                                    Background="Transparent"
+                                                    Padding="0,0,0,3">
+                                                <Panel>
+                                                    <Image Source="/Assets/map3.png"
+                                                           IsVisible="{Binding !IsDarkTheme}"
+                                                           Stretch="Uniform"
+                                                           Height="265"
+                                                           Margin="3,3,3,0"/>
+                                                    <Image Source="/Assets/map4.png"
+                                                           IsVisible="{Binding IsDarkTheme}"
+                                                           Stretch="Uniform"
+                                                           Height="265"
+                                                           Margin="3,3,3,0"/>
+                                                </Panel>
+                                            </Border>
+                                            
+                                            <!-- System Description -->
+                                            <Border Grid.Row="1"
+                                                    Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#252525:#F8F8F8'}}"
+                                                    BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="12"
+                                                    Padding="20"
+                                                    BoxShadow="0 4 12 0 #30000000"
+                                                    Margin="-330,20,0,0">                                                <TextBlock TextWrapping="Wrap"
+                                                           LineHeight="24"
+                                                           FontSize="16"
+                                                           Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}">
+                                                    🔥 Head to the <Button Classes="navLink" Command="{Binding NavigateToOptimizerCommand}"><TextBlock Text="Optimizer" FontWeight="Bold" Foreground="#D40000" VerticalAlignment="Center"/></Button> section to run a 2-week heat production plan for the city of Heatington! Choose your <Run Text="season" FontWeight="Bold"/>, pick a scenario based on machinery usage (set in the <Button Classes="navLink" Command="{Binding NavigateToMachineryCommand}"><TextBlock Text="Machinery" FontWeight="Bold" Foreground="#D40000" VerticalAlignment="Center"/></Button> 🛠️), and optimize based on <Run Text="cost" FontWeight="Bold"/> or <Run Text="CO₂" FontWeight="Bold"/> 🌍. When you're done, <Run Text="zoom" FontWeight="Bold"/> into specific parts of the graph 📈 and <Run Text="export" FontWeight="Bold"/> your results for future viewing! Click the icons for <Run Text="additional insights" FontWeight="Bold"/> to receive complementary data about your chosen scenario and season, such as electricity prices and production costs❗
+                                                </TextBlock>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>                                    <!-- Bottom Section with Danffy and What We're Solving -->
+                                    <Grid Grid.Row="2" ColumnDefinitions="Auto,*" Margin="0,0,0,0">                                        <!-- Danffy Image Section -->
+                                        <Border Grid.Column="0"
+                                                Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#252525:#F8F8F8'}}"
+                                                BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}}"
+                                                BorderThickness="1"
+                                                CornerRadius="16"
+                                                Margin="0,0,20,0"
+                                                BoxShadow="0 4 12 0 #30000000">
+                                            <StackPanel Width="240" Margin="16">
+                                                <Border CornerRadius="12"
+                                                        BoxShadow="0 4 12 0 #30000000"
+                                                        ClipToBounds="True"
+                                                        Margin="0,0,0,12">
+                                                    <Image Source="/Assets/Danffy/main.png"
+                                                           Stretch="UniformToFill"
+                                                           Height="240"/>
+                                                </Border>                                                <TextBlock TextAlignment="Center"
+                                                           TextWrapping="Wrap"
+                                                           FontSize="14"
+                                                           Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
+                                                           Opacity="0.8">
+                                                    <Run Text="I'm "/><Run Text="Danffy" FontWeight="Bold"/><Run Text=" — I'll guide you through the app with tips and reminders along the way!"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Border>                                        <!-- What We're Solving Section -->
+                                        <StackPanel Grid.Column="1" Margin="30,0,0,0">
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                                                 <TextBlock Text="🔍" 
                                                            FontSize="26"
                                                            VerticalAlignment="Center"
                                                            Margin="0,0,15,0"/>
-                                                <TextBlock Text="What We're Solving"
-                                                           FontWeight="Bold"
-                                                           FontSize="24"
-                                                           Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="4"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Text="What We're Solving"
+                                                              FontWeight="Bold"
+                                                              FontSize="24"
+                                                              Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"/>
+                                                    <Border Grid.Row="1" 
+                                                            Height="3" 
+                                                            Background="#D40000" 
+                                                            CornerRadius="1"
+                                                            Width="90"
+                                                            HorizontalAlignment="Left"
+                                                            Margin="2,0,0,0">
+                                                        <Border.Effect>
+                                                            <DropShadowEffect BlurRadius="4" 
+                                                                            Color="#40D40000" 
+                                                                            OffsetX="0" 
+                                                                            OffsetY="1"/>
+                                                        </Border.Effect>
+                                                    </Border>                                                </Grid>
+                                            </StackPanel>                                            <StackPanel Spacing="20" Margin="0,25,0,0">                                                <TextBlock TextWrapping="Wrap"
+                                                           LineHeight="30"
+                                                           FontSize="17"
+                                                           Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}">
+                                                    🏭 <Run Text="In Heatington" FontWeight="Bold"/>, heat is delivered via a district heating system—hot water sent from plants to buildings. The goal is to schedule heat production in a way that's both efficient and profitable, using smart optimization techniques.
+                                                </TextBlock>                                                <TextBlock TextWrapping="Wrap"
+                                                           LineHeight="30"
+                                                           FontSize="17"
+                                                           Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}">
+                                                    📊 <Run Text="Explore optimized heat results" FontWeight="Bold"/> and filter specific data on our Optimizer page. On the Machinery page, view your available machines, check their details, edit values, and disable them to simulate downtimes or compare graphs based on cost or environmental impact. 🌿
+                                                </TextBlock>                                                <TextBlock TextWrapping="Wrap"
+                                                           LineHeight="30"
+                                                           FontSize="17"
+                                                           Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}">
+                                                    👀 <Run Text="Keep an eye out for Danffy!" FontWeight="Bold"/> He'll be around the app to share helpful reminders and interesting facts about different aspects of our optimization. Watch for his red and blue banners on the Optimizer and Machinery pages. 🎯 Thanks for using our app!
+                                                </TextBlock>
                                             </StackPanel>
-                                            
-                                            <TextBlock TextWrapping="Wrap"
-                                                       LineHeight="30"
-                                                       FontSize="17"
-                                                       Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}">
-                                                In Heatington, heat is delivered via a district heating system—hot water sent from plants to buildings. The goal is to schedule heat production in a way that's both efficient and profitable, using smart optimization techniques.
-                                            </TextBlock>
                                         </StackPanel>
-                                    </Border>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Border>
