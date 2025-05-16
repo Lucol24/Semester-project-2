@@ -18,12 +18,53 @@
             TrueValue="White" />
     </UserControl.Resources>
 
+    <UserControl.Styles>
+        <Style Selector="Border.hoverable">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
+                </Transitions>
+            </Setter>
+            <Setter Property="RenderTransform" Value="scale(1)"/>
+        </Style>
+        <Style Selector="Border.hoverable:pointerover">
+            <Setter Property="RenderTransform" Value="scale(1.02)"/>
+        </Style>
+        <Style Selector="Border.hoverable:pointerover Image">
+            <Setter Property="Opacity" Value="1"/>
+        </Style>
+        <Style Selector="Border.hoverable:pointerover > Grid > Image.colorVersion">
+            <Setter Property="Opacity" Value="1"/>
+        </Style>
+        <Style Selector="Border.hoverImage:pointerover Image.colorVersion">
+            <Setter Property="Opacity" Value="1"/>
+        </Style>
+        <Style Selector="Border.hoverImage:not(:pointerover) > Panel > Image.colorVersion">
+            <Setter Property="Opacity" Value="0"/>
+        </Style>
+        <Style Selector="Border.hoverImage:pointerover > Panel > Image.colorVersion">
+            <Setter Property="Opacity" Value="1"/>
+        </Style>
+        <Style Selector="Border.hoverImage:pointerover > Panel > Image.greyVersion">
+            <Setter Property="Opacity" Value="0"/>
+        </Style>
+    </UserControl.Styles>
+
     <!--  Background based on theme (light/dark)  -->
     <UserControl.Background>
         <SolidColorBrush Color="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#1E1E1E:#F0F0F0'}" />
-    </UserControl.Background>
+    </UserControl.Background>    
+    <Grid>        
+        <!-- About Image -->
+        <Image 
+            Source="/Assets/Danffy/about.png"
+            Width="380"
+            Height="460"
+            Margin="40,300,0,20"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Left"
+            ZIndex="99" />
 
-    <Grid>
         <!--  Header Panel with Accent Background  -->
         <Border
             Height="70"
@@ -239,127 +280,312 @@
                 <ScrollViewer>
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel MaxWidth="2000" Spacing="30">
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                FontSize="32"
-                                FontWeight="Bold"
-                                Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
-                                Text="About Us" />
+                            <!-- Header Section -->
+                            <StackPanel Spacing="20">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="36"
+                                    FontWeight="Bold"
+                                    Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
+                                    Text="About Our Team" />
+                                
+                                <TextBlock
+                                    MaxWidth="800"
+                                    HorizontalAlignment="Center"
+                                    TextAlignment="Center"
+                                    FontSize="18"
+                                    Foreground="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}}"
+                                    TextWrapping="Wrap"
+                                    Text="Made by SDU Sønderborg Software Engineering Students (2nd Semester)" />
+                            </StackPanel>
 
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                FontSize="24"
-                                FontWeight="Bold"
-                                Foreground="#D40000"
-                                Text="Our Team" />
-
-                            <!--  Team Information  -->
+                            <!-- Team Grid -->
                             <Border
-                                Padding="30"
+                                Margin="0,20"
+                                Padding="40"
                                 Background="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#303030:#F5F5F5'}"
                                 BorderBrush="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#40FFFFFF:#20000000'}"
                                 BorderThickness="1"
-                                BoxShadow="0 2 15 0 #30000000"
-                                CornerRadius="12">
+                                BoxShadow="0 4 20 0 #30000000"
+                                CornerRadius="16">
 
-                                <Grid ColumnDefinitions="200,20,200,20,200" RowDefinitions="200,50,200,50">
+                                <UniformGrid 
+                                    Columns="3" 
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    MaxWidth="900"
+                                    Rows="2">
+                                    <!-- Team Members -->
+                                    <Border Margin="12" Padding="6">
+                                        <StackPanel>
+                                            <Border
+                                                Classes="hoverable hoverImage"
+                                                CornerRadius="12"
+                                                ClipToBounds="True"
+                                                BoxShadow="0 4 12 0 #40000000"
+                                                Background="#10000000">
+                                                <Panel>
+                                                    <Image 
+                                                        Classes="greyVersion"
+                                                        Source="/Assets/Group3/Carolina_Grey.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                    <Image 
+                                                        Classes="colorVersion"
+                                                        Source="/Assets/Group3/Carolina.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                </Panel>
+                                            </Border>
+                                            <TextBlock
+                                                Margin="0,12,0,0"
+                                                HorizontalAlignment="Center"
+                                                FontSize="22"
+                                                FontWeight="Bold"
+                                                Foreground="#D40000"
+                                                Text="Carolina" />
+                                        </StackPanel>
+                                    </Border>
 
-                                    <Image
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Source="/Assets/Carolina.png" />
+                                    <Border Margin="12" Padding="6">
+                                        <StackPanel>
+                                            <Border
+                                                Classes="hoverable hoverImage"
+                                                CornerRadius="12"
+                                                ClipToBounds="True"
+                                                BoxShadow="0 4 12 0 #40000000"
+                                                Background="#10000000">
+                                                <Panel>
+                                                    <Image 
+                                                        Classes="greyVersion"
+                                                        Source="/Assets/Group3/Gabriele_Grey.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                    <Image 
+                                                        Classes="colorVersion"
+                                                        Source="/Assets/Group3/Gabriele.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                </Panel>
+                                            </Border>
+                                            <TextBlock
+                                                Margin="0,12,0,0"
+                                                HorizontalAlignment="Center"
+                                                FontSize="22"
+                                                FontWeight="Bold"
+                                                Foreground="#D40000"
+                                                Text="Gabriele" />
+                                        </StackPanel>
+                                    </Border>
 
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="SemiBold"
-                                        Foreground="#D40000"
-                                        Text="Carolina"
-                                        TextAlignment="Center"
-                                        TextWrapping="Wrap" />
+                                    <Border Margin="12" Padding="6">
+                                        <StackPanel>
+                                            <Border
+                                                Classes="hoverable hoverImage"
+                                                CornerRadius="12"
+                                                ClipToBounds="True"
+                                                BoxShadow="0 4 12 0 #40000000"
+                                                Background="#10000000">
+                                                <Panel>
+                                                    <Image 
+                                                        Classes="greyVersion"
+                                                        Source="/Assets/Group3/Lara_Grey.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                    <Image 
+                                                        Classes="colorVersion"
+                                                        Source="/Assets/Group3/Lara.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                </Panel>
+                                            </Border>
+                                            <TextBlock
+                                                Margin="0,12,0,0"
+                                                HorizontalAlignment="Center"
+                                                FontSize="22"
+                                                FontWeight="Bold"
+                                                Foreground="#D40000"
+                                                Text="Lara" />
+                                        </StackPanel>
+                                    </Border>
 
-                                    <Image
-                                        Grid.Row="0"
-                                        Grid.Column="2"
-                                        Source="/Assets/Gabriele.png" />
+                                    <Border Margin="12" Padding="6">
+                                        <StackPanel>
+                                            <Border
+                                                Classes="hoverable hoverImage"
+                                                CornerRadius="12"
+                                                ClipToBounds="True"
+                                                BoxShadow="0 4 12 0 #40000000"
+                                                Background="#10000000">
+                                                <Panel>
+                                                    <Image 
+                                                        Classes="greyVersion"
+                                                        Source="/Assets/Group3/Luigi_Grey.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                    <Image 
+                                                        Classes="colorVersion"
+                                                        Source="/Assets/Group3/Luigi.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                </Panel>
+                                            </Border>
+                                            <TextBlock
+                                                Margin="0,12,0,0"
+                                                HorizontalAlignment="Center"
+                                                FontSize="22"
+                                                FontWeight="Bold"
+                                                Foreground="#D40000"
+                                                Text="Luigi" />
+                                        </StackPanel>
+                                    </Border>
 
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="2"
-                                        HorizontalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="SemiBold"
-                                        Foreground="#D40000"
-                                        Text="Gabriele"
-                                        TextAlignment="Center"
-                                        TextWrapping="Wrap" />
+                                    <Border Margin="12" Padding="6">
+                                        <StackPanel>
+                                            <Border
+                                                Classes="hoverable hoverImage"
+                                                CornerRadius="12"
+                                                ClipToBounds="True"
+                                                BoxShadow="0 4 12 0 #40000000"
+                                                Background="#10000000">
+                                                <Panel>
+                                                    <Image 
+                                                        Classes="greyVersion"
+                                                        Source="/Assets/Group3/Manish_Grey.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                    <Image 
+                                                        Classes="colorVersion"
+                                                        Source="/Assets/Group3/Manish.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                </Panel>
+                                            </Border>
+                                            <TextBlock
+                                                Margin="0,12,0,0"
+                                                HorizontalAlignment="Center"
+                                                FontSize="22"
+                                                FontWeight="Bold"
+                                                Foreground="#D40000"
+                                                Text="Manish" />
+                                        </StackPanel>
+                                    </Border>
 
-                                    <Image
-                                        Grid.Row="0"
-                                        Grid.Column="4"
-                                        Source="/Assets/Lara.png" />
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="4"
-                                        HorizontalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="SemiBold"
-                                        Foreground="#D40000"
-                                        Text="Lara"
-                                        TextAlignment="Center"
-                                        TextWrapping="Wrap" />
-
-                                    <Image
-                                        Grid.Row="2"
-                                        Grid.Column="0"
-                                        Source="/Assets/Luigi.png" />
-
-                                    <TextBlock
-                                        Grid.Row="3"
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="SemiBold"
-                                        Foreground="#D40000"
-                                        Text="Luigi"
-                                        TextAlignment="Center"
-                                        TextWrapping="Wrap" />
-
-                                    <Image
-                                        Grid.Row="2"
-                                        Grid.Column="2"
-                                        Source="/Assets/Manish.png" />
-
-                                    <TextBlock
-                                        Grid.Row="3"
-                                        Grid.Column="2"
-                                        HorizontalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="SemiBold"
-                                        Foreground="#D40000"
-                                        Text="Manish"
-                                        TextAlignment="Center"
-                                        TextWrapping="Wrap" />
-
-                                    <Image
-                                        Grid.Row="2"
-                                        Grid.Column="4"
-                                        Source="/Assets/Mats.png" />
-
-                                    <TextBlock
-                                        Grid.Row="3"
-                                        Grid.Column="4"
-                                        HorizontalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="SemiBold"
-                                        Foreground="#D40000"
-                                        Text="Mats"
-                                        TextAlignment="Center"
-                                        TextWrapping="Wrap" />
-                                </Grid>
+                                    <Border Margin="12" Padding="6">
+                                        <StackPanel>
+                                            <Border
+                                                Classes="hoverable hoverImage"
+                                                CornerRadius="12"
+                                                ClipToBounds="True"
+                                                BoxShadow="0 4 12 0 #40000000"
+                                                Background="#10000000">
+                                                <Panel>
+                                                    <Image 
+                                                        Classes="greyVersion"
+                                                        Source="/Assets/Group3/Mats_Grey.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                    <Image 
+                                                        Classes="colorVersion"
+                                                        Source="/Assets/Group3/Mats.png" 
+                                                        Stretch="UniformToFill" 
+                                                        Width="220"
+                                                        Height="220">
+                                                        <Image.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                                                            </Transitions>
+                                                        </Image.Transitions>
+                                                    </Image>
+                                                </Panel>
+                                            </Border>
+                                            <TextBlock
+                                                Margin="0,12,0,0"
+                                                HorizontalAlignment="Center"
+                                                FontSize="22"
+                                                FontWeight="Bold"
+                                                Foreground="#D40000"
+                                                Text="Mats" />
+                                        </StackPanel>
+                                    </Border>
+                                </UniformGrid>
                             </Border>
                         </StackPanel>
                     </Grid>
