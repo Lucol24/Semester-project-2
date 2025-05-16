@@ -16,6 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Xunit.SkippableFact" Version="1.5.23" />
+    <PackageReference Include="Avalonia.Headless.XUnit" Version="11.2.5" />
   </ItemGroup>
 
   <ItemGroup>
