@@ -51,10 +51,12 @@ public class OptimizerViewModel : PageViewModelBase
     public ICommand OptimizeCommand { get; }
     public ICommand ResetZoomCommand { get; }
     public ICommand ToggleControlsVisibilityCommand { get; }
-    public ICommand DismissControlsNotificationCommand { get; }
-    public ICommand ExportChartCommand { get; }
+    public ICommand DismissControlsNotificationCommand { get; }    public ICommand ExportChartCommand { get; }
+    public ICommand ShowElectricityPricesCommand { get; }
+    public ICommand ShowProductionCostsCommand { get; }
+    public ICommand ShowCO2EmissionsCommand { get; }
     
-    private string _selectedSeason; // Remove default value
+    private string _selectedSeason;// Remove default value
     private string _selectedScenario; // Remove default value
     private string _selectedOptimizationCriteria; // Remove default value
     private int _optimizationCriteriaIndex; // Remove default value
@@ -88,6 +90,46 @@ public class OptimizerViewModel : PageViewModelBase
                 _isCompactMode = value;
                 OnPropertyChanged(nameof(IsCompactMode));
                 // You can add responsive layout logic here if needed
+            }
+        }
+    }    private bool _showingElectricityPrices = false;
+    public bool ShowingElectricityPrices
+    {
+        get => _showingElectricityPrices;
+        private set
+        {
+            if (_showingElectricityPrices != value)
+            {
+                _showingElectricityPrices = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private bool _showingCO2Emissions = false; 
+    public bool ShowingCO2Emissions
+    {
+        get => _showingCO2Emissions;
+        private set
+        {
+            if (_showingCO2Emissions != value)
+            {
+                _showingCO2Emissions = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private bool _showingProductionCosts = false;
+    public bool ShowingProductionCosts
+    {
+        get => _showingProductionCosts;
+        private set
+        {
+            if (_showingProductionCosts != value)
+            {
+                _showingProductionCosts = value;
+                OnPropertyChanged();
             }
         }
     }
@@ -275,37 +317,33 @@ public class OptimizerViewModel : PageViewModelBase
     {
         get => _showExportSuccessNotification;
         set => SetProperty(ref _showExportSuccessNotification, value);
-    }
-
-    public string SelectedSeason
-    {
-        get { return _selectedSeason; }
-        set
+    }        public string SelectedSeason
         {
-            if (_selectedSeason != value)
+            get { return _selectedSeason; }
+            set
             {
-                _selectedSeason = value;
-                LastSelectedSeason = value; // Save the setting
-                OnPropertyChanged();
-                Console.WriteLine($"SelectedSeason set to: {value}");
+                if (_selectedSeason != value)
+                {
+                    _selectedSeason = value;
+                    LastSelectedSeason = value; // Save the setting
+                    OnPropertyChanged();
+                    Console.WriteLine($"SelectedSeason set to: {value}");
+                }
+            }
+        }        public string SelectedScenario
+        {
+            get { return _selectedScenario; }
+            set
+            {
+                if (_selectedScenario != value)
+                {
+                    _selectedScenario = value;
+                    LastSelectedScenario = value; // Save the setting
+                    OnPropertyChanged();
+                    Console.WriteLine($"SelectedScenario set to: {value}");
+                }
             }
         }
-    }
-
-    public string SelectedScenario
-    {
-        get { return _selectedScenario; }
-        set
-        {
-            if (_selectedScenario != value)
-            {
-                _selectedScenario = value;
-                LastSelectedScenario = value; // Save the setting
-                OnPropertyChanged();
-                Console.WriteLine($"SelectedScenario set to: {value}");
-            }
-        }
-    }
 
     public double ChartHeight
     {
@@ -346,8 +384,7 @@ public class OptimizerViewModel : PageViewModelBase
             }
         }
     }
-    
-    public OptimizerViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
+      public OptimizerViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
     {
         // Initialize fields with last used values
         _selectedSeason = LastSelectedSeason;
@@ -356,17 +393,21 @@ public class OptimizerViewModel : PageViewModelBase
         _optimizationCriteriaIndex = LastOptimizationCriteriaIndex;
         _isZooming = LastIsZooming;
 
+        // Initialize Commands
+
         NavigateToHomeCommand = new Command(NavigateToHome);
         NavigateToOptimizerCommand = new Command(() => { /* Already on optimizer page */ });
         NavigateToCostCommand = new Command(NavigateToCost);
         NavigateToCO2EmissionCommand = new Command(NavigateToCO2Emission);
-        NavigateToMachineryCommand = new Command(NavigateToMachinery);
-        NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
+        NavigateToMachineryCommand = new Command(NavigateToMachinery);        NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
         OptimizeCommand = new RelayCommand(OptimizeData);
         ResetZoomCommand = new RelayCommand(ResetZoom);
         ToggleControlsVisibilityCommand = new RelayCommand(ToggleControlsVisibility);
         DismissControlsNotificationCommand = new RelayCommand(DismissControlsNotification);
         ExportChartCommand = new RelayCommand(ExportChart);
+        ShowElectricityPricesCommand = new RelayCommand(ShowElectricityPrices);
+        ShowProductionCostsCommand = new RelayCommand(ShowProductionCosts);
+        ShowCO2EmissionsCommand = new RelayCommand(ShowCO2Emissions);
         
         // Make sure the controls notification is shown by default
         _showControlsNotification = true;
@@ -409,6 +450,8 @@ public class OptimizerViewModel : PageViewModelBase
     
     private void LoadChart()
     {
+        _showingElectricityPrices = false;
+
         try
         {
             var results = resultDataManager.LoadResults();
@@ -524,13 +567,12 @@ public class OptimizerViewModel : PageViewModelBase
             XAxes = new Axis[]
             {
                 new Axis
-                {
-                    Labels = allLabels, 
+                {                    Labels = allLabels, 
                     LabelsRotation = 45,
                     MinStep = 1, 
                     ForceStepToMin = false, 
                     Padding = new Padding(5, 20, 5, 0), 
-                    TextSize = 14,
+                    TextSize = 11, // Match insights charts text size
                     SeparatorsPaint = axisSeparatorPaint, // Apply theme paint
                     TicksPaint = axisTicksPaint,          // Apply theme paint
                     LabelsPaint = axisLabelPaint,         // Apply theme paint
@@ -742,6 +784,360 @@ public class OptimizerViewModel : PageViewModelBase
             await Task.Delay(4000);
             ShowExportSuccessNotification = false;
         }
+    }      private void ShowElectricityPrices()
+    {
+        ShowingElectricityPrices = true;
+        ShowingProductionCosts = false;
+        ShowingCO2Emissions = false;
+
+        // Get the heat demands for the current season and extract electricity prices
+        var demands = _selectedSeason.ToLower() == "summer" 
+            ? sourceDataManager.GetSummerHeatDemands()
+            : sourceDataManager.GetWinterHeatDemands();
+            
+        var times = demands.Select(d => d.TimeFrom.ToString("HH:00")).ToArray();
+        var prices = demands.Select(d => d.ElectricityPrice).ToArray();
+
+        // Define theme-aware colors
+        var priceLineColor = IsDarkTheme ? SKColors.DodgerBlue : SKColor.Parse("#0078D4");
+        var fillColor = IsDarkTheme ? 
+            SKColor.Parse("#200078D4") : // Darker theme: lighter blue with transparency
+            SKColor.Parse("#150078D4");  // Light theme: slightly more transparent
+        var axisLabelColor = IsDarkTheme ? SKColors.White : SKColors.Black;
+        var axisSeparatorColor = IsDarkTheme ? SKColor.Parse("#404040") : SKColor.Parse("#DFDFDF");
+        var pointColor = SKColors.Red; // Changed to red
+
+        // Create series for electricity prices
+        Series = new ISeries[]
+        {
+            new LineSeries<double>
+            {
+                Name = "Electricity Price",
+                Values = prices,                Stroke = new SolidColorPaint(priceLineColor) { StrokeThickness = 2.5f },
+                GeometryFill = new SolidColorPaint(SKColors.White),
+                GeometryStroke = new SolidColorPaint(SKColors.Red) { StrokeThickness = 1.5f },
+                GeometrySize = 8,
+                Fill = new SolidColorPaint(fillColor),
+                LineSmoothness = 0.2 // Subtle curve that maintains data accuracy
+            }
+        };
+
+        // Enhanced X-axis configuration
+        XAxes = new Axis[]
+        {
+            new Axis
+            {
+                Name = "Date and Time",
+                NameTextSize = 20, // Increased to match optimizer
+                NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
+                Labels = demands.Select(d => d.TimeFrom.ToString("dd/MM HH:00")).ToArray(), // Shorter date format
+                LabelsRotation = 45, // Angled for better readability
+                TextSize = 11,
+                LabelsPaint = new SolidColorPaint(axisLabelColor),
+                SeparatorsPaint = new SolidColorPaint(axisSeparatorColor) { StrokeThickness = 0.5f },
+                ShowSeparatorLines = true,
+                MinStep = Math.Max(1, demands.Count() / 12), // Show roughly 12 labels
+                Padding = new LiveChartsCore.Drawing.Padding(5)
+            }
+        };
+
+        // Enhanced Y-axis configuration
+        YAxes = new Axis[]
+        {
+            new Axis
+            {
+                Name = "Price (DKK/kWh)",
+                NameTextSize = 20, // Increased to match optimizer
+                NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
+                LabelsPaint = new SolidColorPaint(axisLabelColor),
+                TextSize = 11,
+                Labeler = (value) => $"{value:F2}",
+                MinLimit = 0,
+                SeparatorsPaint = new SolidColorPaint(axisSeparatorColor) { StrokeThickness = 0.5f },
+                ShowSeparatorLines = true,
+                MinStep = 0.1, // Ensure reasonable price increments
+                Padding = new LiveChartsCore.Drawing.Padding(5)
+            }
+        };
+
+        // Enhanced title with theme-aware color
+        Title = new LabelVisual
+        {
+            Text = $"Electricity Prices - {_selectedSeason} {_selectedScenario}",
+            TextSize = 20,
+            Paint = new SolidColorPaint(axisLabelColor),
+            Padding = new LiveChartsCore.Drawing.Padding(15)
+        };
+        
+        OnPropertyChanged(nameof(Series));
+        OnPropertyChanged(nameof(XAxes));
+        OnPropertyChanged(nameof(YAxes));
+        OnPropertyChanged(nameof(Title));
+    }    private void ShowProductionCosts() 
+    {
+        ShowingElectricityPrices = false;
+        ShowingProductionCosts = true;
+        ShowingCO2Emissions = false;
+
+        // First optimize data for current settings
+        OptimizeData();
+
+        // Then update chart with production costs
+        var results = resultDataManager.LoadResults();
+        if (results == null || !results.Any())
+        {
+            Series = Array.Empty<ISeries>();
+            UpdateChartTitle();
+            return;
+        }
+
+        // Group data by unit name and time
+        var groupedByTime = results
+            .GroupBy(r => r.Timestamp)
+            .OrderBy(g => g.Key)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        // Extract all timestamps and create labels
+        var timestamps = groupedByTime.Keys.ToList();
+        var labels = timestamps.Select(t => t.ToString("dd/MM HH:00")).ToArray();
+
+        // Define theme-aware colors
+        var axisLabelColor = IsDarkTheme ? SKColors.White : SKColors.Black;
+        var axisSeparatorColor = IsDarkTheme ? SKColor.Parse("#404040") : SKColor.Parse("#DFDFDF");
+
+        var colors = new[]
+        {
+            SKColors.MediumSeaGreen,
+            SKColors.DodgerBlue,
+            SKColors.Orange,
+            SKColors.HotPink
+        };
+
+        // Create series for each unit's production costs
+        var seriesList = new List<ISeries>();
+        var uniqueUnits = results.Select(r => r.UnitName).Distinct().ToList();
+        int colorIndex = 0;
+
+        foreach (var unit in uniqueUnits)
+        {            var values = timestamps.Select(time =>
+                groupedByTime[time]
+                    .Where(r => r.UnitName == unit)
+                    .Select(r => -r.ProductionCost) // Invert values so costs are negative (going down) and earnings are positive (going up)
+                    .DefaultIfEmpty(0)
+                    .First()
+            ).ToArray();
+
+            if (values.Any(v => v != 0)) // Show if there are any non-zero values
+            {
+                // Calculate the threshold dynamically based on zoom state and data
+                var maxValue = values.Max();
+                var thresholdPercentage = IsZooming ? 0.15 : 0.55; // Show fewer labels when not zoomed
+                var threshold = maxValue * thresholdPercentage;
+
+                // Add a StackedColumnSeries for better visual consistency
+                seriesList.Add(new StackedColumnSeries<double>
+                {
+                    Name = $"{unit}",
+                    Values = values,
+                    Fill = new SolidColorPaint(colors[colorIndex % colors.Length]),
+                    Stroke = new SolidColorPaint(colors[colorIndex % colors.Length].WithAlpha(200)) { StrokeThickness = 1 },
+                    Padding = 4,
+                    MaxBarWidth = 35,
+                    IsVisibleAtLegend = true,                    DataLabelsFormatter = (point) => string.Empty, // No labels above bars
+                    DataLabelsPaint = new SolidColorPaint(
+                        IsDarkTheme ? SKColors.White.WithAlpha(240) : SKColors.Black.WithAlpha(220)
+                    )
+                });
+                colorIndex++;
+            }
+        }
+
+        Series = seriesList.ToArray();
+
+        // Enhanced X-axis configuration
+        XAxes = new Axis[]
+        {
+            new Axis
+            {
+                Name = "Time",
+                NameTextSize = 20,
+                NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
+                Labels = labels,
+                LabelsRotation = 45,
+                TextSize = 11,
+                LabelsPaint = new SolidColorPaint(axisLabelColor),
+                SeparatorsPaint = new SolidColorPaint(axisSeparatorColor) { StrokeThickness = 0.5f },
+                ShowSeparatorLines = true,
+                MinStep = Math.Max(1, labels.Length / 12),
+                Padding = new LiveChartsCore.Drawing.Padding(5)
+            }
+        };        // Enhanced Y-axis configuration
+        YAxes = new Axis[]
+        {
+            new Axis
+            {
+                Name = "Production Cost (DKK)",
+                NameTextSize = 20,
+                NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
+                LabelsPaint = new SolidColorPaint(axisLabelColor),
+                TextSize = 11,
+                Labeler = (value) => $"{value:F0}",
+                // Remove MinLimit to allow negative values
+                SeparatorsPaint = new SolidColorPaint(axisSeparatorColor) { StrokeThickness = 0.5f },
+                ShowSeparatorLines = true,
+                MinStep = 100,
+                Position = AxisPosition.Start,
+                Padding = new LiveChartsCore.Drawing.Padding(5)
+            }
+        };
+
+        // Enhanced title with theme-aware color
+        Title = new LabelVisual
+        {
+            Text = $"Production Costs - {_selectedSeason} {_selectedScenario}",
+            TextSize = 20,
+            Paint = new SolidColorPaint(axisLabelColor),
+            Padding = new LiveChartsCore.Drawing.Padding(15)
+        };
+
+        OnPropertyChanged(nameof(Series));
+        OnPropertyChanged(nameof(XAxes));
+        OnPropertyChanged(nameof(YAxes));
+        OnPropertyChanged(nameof(Title));
+    }
+      private void ShowCO2Emissions()
+    {
+        ShowingElectricityPrices = false;
+        ShowingProductionCosts = false;
+        ShowingCO2Emissions = true;
+
+        // First optimize data for current settings
+        OptimizeData();
+
+        // Then update chart with CO2 emissions
+        var results = resultDataManager.LoadResults();
+        if (results == null || !results.Any())
+        {
+            Series = Array.Empty<ISeries>();
+            UpdateChartTitle();
+            return;
+        }
+
+        // Group data by unit name and time
+        var groupedByTime = results
+            .GroupBy(r => r.Timestamp)
+            .OrderBy(g => g.Key)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        // Extract all timestamps and create labels
+        var timestamps = groupedByTime.Keys.ToList();
+        var labels = timestamps.Select(t => t.ToString("dd/MM HH:00")).ToArray();
+
+        // Define theme-aware colors
+        var axisLabelColor = IsDarkTheme ? SKColors.White : SKColors.Black;
+        var axisSeparatorColor = IsDarkTheme ? SKColor.Parse("#404040") : SKColor.Parse("#DFDFDF");        var colors = new[]
+        {
+            SKColors.MediumSeaGreen,  // Green for biomass/sustainable
+            SKColor.Parse("#1E88E5"),  // Blue for clean energy
+            SKColor.Parse("#FFA726"),  // Orange for mixed sources
+            SKColor.Parse("#D81B60")   // Pink/Red for high emissions
+        };
+
+        // Create series for each unit's CO2 emissions
+        var seriesList = new List<ISeries>();
+        var uniqueUnits = results.Select(r => r.UnitName).Distinct().ToList();
+        int colorIndex = 0;
+
+        foreach (var unit in uniqueUnits)
+        {
+            var values = timestamps.Select(time =>
+                groupedByTime[time]
+                    .Where(r => r.UnitName == unit)
+                    .Select(r => r.CO2Emissions) // CO2 emissions are already in the right direction
+                    .DefaultIfEmpty(0)
+                    .First()
+            ).ToArray();
+
+            if (values.Any(v => v != 0)) // Show if there are any non-zero values
+            {
+                // Calculate the threshold dynamically based on zoom state and data
+                var maxValue = values.Max();
+                var thresholdPercentage = IsZooming ? 0.15 : 0.55; // Show fewer labels when not zoomed
+                var threshold = maxValue * thresholdPercentage;
+
+                // Add a StackedColumnSeries for better visual consistency
+                seriesList.Add(new StackedColumnSeries<double>
+                {
+                    Name = $"{unit}",
+                    Values = values,
+                    Fill = new SolidColorPaint(colors[colorIndex % colors.Length]),
+                    Stroke = new SolidColorPaint(colors[colorIndex % colors.Length].WithAlpha(200)) { StrokeThickness = 1 },
+                    Padding = 4,
+                    MaxBarWidth = 35,
+                    IsVisibleAtLegend = true,
+                    DataLabelsFormatter = (point) => string.Empty, // No labels above bars
+                    DataLabelsPaint = new SolidColorPaint(
+                        IsDarkTheme ? SKColors.White.WithAlpha(240) : SKColors.Black.WithAlpha(220)
+                    )
+                });
+                colorIndex++;
+            }
+        }
+
+        Series = seriesList.ToArray();
+
+        // Enhanced X-axis configuration
+        XAxes = new Axis[]
+        {
+            new Axis
+            {
+                Name = "Time",
+                NameTextSize = 20,
+                NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
+                Labels = labels,
+                LabelsRotation = 45,
+                TextSize = 11,
+                LabelsPaint = new SolidColorPaint(axisLabelColor),
+                SeparatorsPaint = new SolidColorPaint(axisSeparatorColor) { StrokeThickness = 0.5f },
+                ShowSeparatorLines = true,
+                MinStep = Math.Max(1, labels.Length / 12),
+                Padding = new LiveChartsCore.Drawing.Padding(5)
+            }
+        };
+
+        // Enhanced Y-axis configuration
+        YAxes = new Axis[]
+        {
+            new Axis
+            {
+                Name = "CO₂ Emissions (kg)",
+                NameTextSize = 20,
+                NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
+                LabelsPaint = new SolidColorPaint(axisLabelColor),
+                TextSize = 11,
+                Labeler = (value) => $"{value:F0}",
+                MinLimit = 0,
+                SeparatorsPaint = new SolidColorPaint(axisSeparatorColor) { StrokeThickness = 0.5f },
+                ShowSeparatorLines = true,
+                MinStep = 50,
+                Position = AxisPosition.Start,
+                Padding = new LiveChartsCore.Drawing.Padding(5)
+            }
+        };
+
+        // Enhanced title with theme-aware color
+        Title = new LabelVisual
+        {
+            Text = $"CO₂ Emissions - {_selectedSeason} {_selectedScenario}",
+            TextSize = 20,
+            Paint = new SolidColorPaint(axisLabelColor),
+            Padding = new LiveChartsCore.Drawing.Padding(15)
+        };
+
+        OnPropertyChanged(nameof(Series));
+        OnPropertyChanged(nameof(XAxes));
+        OnPropertyChanged(nameof(YAxes));
+        OnPropertyChanged(nameof(Title));
     }
     
     // Navigation methods remain the same
@@ -792,11 +1188,19 @@ public class OptimizerViewModel : PageViewModelBase
         // Update all theme-dependent visual properties by modifying existing paint objects
         UpdateChartThemeProperties(); 
         
-        // Reloading the chart might still be necessary if axis structures or series need fundamental changes based on theme,
-        // but for simple color changes, UpdateChartThemeProperties + notifications *should* be enough.
-        // However, LoadChart ensures axes are created with the correct theme paints initially.
-        // Let's keep LoadChart for robustness, as it re-evaluates everything based on the current IsDarkTheme.
-        LoadChart(); 
+        // Reload the appropriate chart based on current view
+        if (_showingElectricityPrices)
+        {
+            ShowElectricityPrices();
+        }
+        else if (_showingCO2Emissions)
+        {
+            ShowCO2Emissions();
+        }
+        else
+        {
+            ShowProductionCosts();
+        }
     }
 
     // Helper method to update all theme-dependent paint properties
