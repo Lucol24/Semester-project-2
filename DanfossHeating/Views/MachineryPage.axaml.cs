@@ -251,13 +251,14 @@ namespace DanfossHeating.Views
             }
         }
         
+        // Priority for the last chart displayed for the machinery chosen
         private void SetupDanfossValuesCheckbox()
         {
             try
             {
                 // Find the Danfoss Values checkbox
                 var danfossValuesCheckbox = this.FindControl<CheckBox>("DanfossValuesCheckbox");
-                
+
                 if (danfossValuesCheckbox != null)
                 {
                     // Add direct event handler for the checkbox
