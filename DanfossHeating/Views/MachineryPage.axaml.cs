@@ -81,7 +81,7 @@ namespace DanfossHeating.Views
                 // Preload all machine images
                 for (int i = 1; i <= 5; i++)
                 {
-                    var uri = new Uri($"avares://DanfossHeating/Assets/machine{i}.png");
+                    var uri = new Uri($"avares://DanfossHeating/Assets/Machines/machine{i}.png");
                     using var assetStream = AssetLoader.Open(uri);
                     var bitmap = new Bitmap(assetStream);
                     _machineImages[$"machine{i}"] = bitmap;
