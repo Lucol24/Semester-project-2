@@ -306,6 +306,7 @@ namespace DanfossHeating.Views
             }
         }
         
+        // Event handler for Scenario 2 checkbox
         private void Scenario2Checkbox_IsCheckedChanged(object? sender, RoutedEventArgs e)
         {
             if (sender is CheckBox checkbox)
@@ -317,7 +318,7 @@ namespace DanfossHeating.Views
                     {
                         _scenario1Checkbox.IsChecked = false;
                     }
-                    
+
                     // Apply Scenario 2 values
                     LoadScenario2Values();
                 }
