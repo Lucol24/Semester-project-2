@@ -283,6 +283,7 @@ namespace DanfossHeating.Views
             }
         }
         
+        // Load Danfoss default values         
         private void Scenario1Checkbox_IsCheckedChanged(object? sender, RoutedEventArgs e)
         {
             if (sender is CheckBox checkbox)
@@ -294,7 +295,7 @@ namespace DanfossHeating.Views
                     {
                         _scenario2Checkbox.IsChecked = false;
                     }
-                    
+
                     // Apply Scenario 1 values
                     LoadScenario1Values();
                 }
