@@ -39,9 +39,17 @@
     <!-- Background based on theme (light/dark) -->
     <UserControl.Background>
         <SolidColorBrush Color="{Binding IsDarkTheme, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#1E1E1E:#F0F0F0'}" />
-    </UserControl.Background>
+    </UserControl.Background>    <Grid>
+        <!-- Machinery Image -->
+        <Image 
+            Source="/Assets/Danffy/machinery.png"
+            Width="270"
+            Height="800"
+            Margin="0,0,0,20"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Left"
+            ZIndex="99" />
 
-    <Grid>
         <!-- Header Panel with Accent Background -->
         <Border
             Height="70"
