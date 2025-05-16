@@ -251,13 +251,14 @@ namespace DanfossHeating.Views
             }
         }
         
+        // Priority for the last chart displayed for the machinery chosen
         private void SetupDanfossValuesCheckbox()
         {
             try
             {
                 // Find the Danfoss Values checkbox
                 var danfossValuesCheckbox = this.FindControl<CheckBox>("DanfossValuesCheckbox");
-                
+
                 if (danfossValuesCheckbox != null)
                 {
                     // Add direct event handler for the checkbox
@@ -283,6 +284,7 @@ namespace DanfossHeating.Views
             }
         }
         
+        // Load Danfoss default values         
         private void Scenario1Checkbox_IsCheckedChanged(object? sender, RoutedEventArgs e)
         {
             if (sender is CheckBox checkbox)
@@ -294,7 +296,7 @@ namespace DanfossHeating.Views
                     {
                         _scenario2Checkbox.IsChecked = false;
                     }
-                    
+
                     // Apply Scenario 1 values
                     LoadScenario1Values();
                 }
@@ -306,6 +308,7 @@ namespace DanfossHeating.Views
             }
         }
         
+        // Event handler for Scenario 2 checkbox
         private void Scenario2Checkbox_IsCheckedChanged(object? sender, RoutedEventArgs e)
         {
             if (sender is CheckBox checkbox)
@@ -317,7 +320,7 @@ namespace DanfossHeating.Views
                     {
                         _scenario1Checkbox.IsChecked = false;
                     }
-                    
+
                     // Apply Scenario 2 values
                     LoadScenario2Values();
                 }
