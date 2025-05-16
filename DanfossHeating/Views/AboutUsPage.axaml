@@ -347,7 +347,7 @@
                                     <Image
                                         Grid.Row="2"
                                         Grid.Column="4"
-                                        Source="/Assets/redSquare.png" />
+                                        Source="/Assets/Mats.png" />
 
                                     <TextBlock
                                         Grid.Row="3"
