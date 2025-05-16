@@ -16,7 +16,7 @@ namespace DanfossHeatingTests;
 public class UITests
 {
     [AvaloniaFact]
-    public void HomePage_DataContext_Sets_UserName_And_Updates_Theme()
+    public void HomePage_DataContext_Sets_UserName_And_Updates_Theme()  // Test for homepage -> when the username is recieved it triggers the logic for the thee in the homepage.
     {
         // Arrange
         var homePage = new HomePage();
@@ -30,7 +30,7 @@ public class UITests
     }
 
     [AvaloniaFact]
-    public void MachineryPage_RestoreOriginalValues_Resets_Fields()
+    public void MachineryPage_RestoreOriginalValues_Resets_Fields()  // Test for machinery -> it checks if the original values are restored as expected after resetting them.
     {
         // Arrange
         var machineryPage = new MachineryPage();
