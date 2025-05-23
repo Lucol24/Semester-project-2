@@ -15,8 +15,12 @@ namespace DanfossHeatingTests;
 
 public class UITests
 {
+    /// <summary>
+    /// This test verifies that when the DataContext of the HomePage is set, the UserName property is correctly assigned
+    /// and that the logic to update the theme based on the username is triggered.
+    /// </summary>
     [AvaloniaFact]
-    public void HomePage_DataContext_Sets_UserName_And_Updates_Theme()  // Test for homepage -> when the username is recieved it triggers the logic for the thee in the homepage.
+    public void HomePage_DataContext_ShouldSetUserName_And_UpdateTheme()
     {
         // Arrange
         var homePage = new HomePage();
@@ -29,8 +33,13 @@ public class UITests
         Assert.Equal("TestUser", ((HomePageViewModel)homePage.DataContext).UserName);
     }
 
+    /// <summary>
+    /// This test verifies that when the "RestoreOriginalValues" method is invoked on the MachineryPage, 
+    /// it correctly resets the fields (such as MaxHeat and ProductionCosts) to their original values.
+    /// It checks that values which were changed are restored to their initial state.
+    /// </summary>
     [AvaloniaFact]
-    public void MachineryPage_RestoreOriginalValues_Resets_Fields()  // Test for machinery -> it checks if the original values are restored as expected after resetting them.
+    public void MachineryPage_ShouldRestoreOriginalValues_WhenReset()  // Test for machinery -> it checks if the original values are restored as expected after resetting them.
     {
         // Arrange
         var machineryPage = new MachineryPage();
@@ -42,7 +51,9 @@ public class UITests
         {
             machine.MaxHeat = 999;
             machine.ProductionCosts = 999;
-        }        // Act
+        }
+
+        // Act
         var restoreMethod = machineryPage.GetType().GetMethod("RestoreOriginalValues", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         Assert.NotNull(restoreMethod); // Ensure the method exists
         restoreMethod.Invoke(machineryPage, null);
@@ -54,5 +65,4 @@ public class UITests
             Assert.NotEqual(999, machine.ProductionCosts); // Should be reset to original
         }
     }
-
 }

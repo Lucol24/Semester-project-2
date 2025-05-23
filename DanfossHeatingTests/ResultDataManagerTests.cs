@@ -19,17 +19,26 @@ public class ResultDataManagerTests
         _fileExists = File.Exists(_filePath);
     }
 
-    [Fact] // if the file exists
-    public void File_Exists_WhenCSVFileIsPresent()
+    /// <summary>
+    /// This test verifies that the CSV file exists and is accessible.
+    /// It checks that the _fileExists flag is true, indicating the file is present in the expected location.
+    /// </summary>
+    [Fact]
+    public void File_ShouldExist_WhenCSVFileIsPresent()
     {
         Console.WriteLine("\n==> [RDM] Testing CSV file existence");
         Assert.True(_fileExists, "Result Data CSV file is missing!");
         Console.WriteLine("|> Test complete - CSV file exists and is accessible\n");
     }
 
+    /// <summary>
+    /// This test verifies that new data is successfully saved to the CSV file.
+    /// It checks that the file is created, and that the data saved to the file matches the expected data.
+    /// </summary>
     [Fact]
-    public void File_Saved()
-    {        // Arrange
+    public void SaveResults_ShouldSaveDataToCSVFile()
+    {
+        // Arrange
         Console.WriteLine("\n==> [RDM] Testing if new data is saved to the CSV file");
 
         // Ensure the Data folder exists

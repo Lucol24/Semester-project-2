@@ -19,16 +19,25 @@ public class SourceDataManagerTests
         _fileExists = File.Exists(_filePath);
     }
 
+    /// <summary>
+    /// This test verifies that the Heat Demand CSV file exists and is accessible.
+    /// It checks that the _fileExists flag is true, indicating the file is present in the expected location.
+    /// </summary>
     [Fact]
-    public void File_Exists_WhenCSVFileIsPresent()
+    public void File_ShouldExist_WhenHeatDemandCSVFileIsPresent()
     {
         Console.WriteLine("\n==> [SDM] Testing CSV file existence");
         Assert.True(_fileExists, "Heat Demand CSV file is missing!");
         Console.WriteLine("|> Test complete - CSV file exists and is accessible\n");
     }
 
+    /// <summary>
+    /// This test verifies that both winter and summer heat demand data exist and are not empty.
+    /// It ensures that the data for both seasons can be loaded correctly from the CSV file.
+    /// If the Heat Demand CSV file is missing, the test is skipped.
+    /// </summary>
     [SkippableFact]
-    public void LoadHeatDemand_EnsuresWinterAndSummerDataExist()
+    public void LoadHeatDemand_ShouldEnsureWinterAndSummerDataExist()
     {
         Skip.IfNot(_fileExists, "Skipping test: Heat Demand CSV file is missing!");
 
@@ -47,8 +56,13 @@ public class SourceDataManagerTests
         Console.WriteLine($"    Summer entries: {summerDemands.Count}\n");
     }
 
+    /// <summary>
+    /// This test verifies that all heat demand entries for both winter and summer have a valid electricity price greater than zero.
+    /// It ensures that the electricity price for each demand entry is positive, as this is a necessary condition for valid data.
+    /// If the Heat Demand CSV file is missing, the test is skipped.
+    /// </summary>
     [SkippableFact]
-    public void AllHeatDemands_ShouldHaveElectricityPriceGreaterThanZero()
+    public void LoadHeatDemand_ShouldEnsureElectricityPriceIsGreaterThanZero()
     {
         Skip.IfNot(_fileExists, "Skipping test: Heat Demand CSV file is missing!");
 
