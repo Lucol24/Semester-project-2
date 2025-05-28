@@ -55,9 +55,9 @@ public class CostViewModel : PageViewModelBase
         }
     }
 
-    public ISeries[] Series { get; private set; } = Array.Empty<ISeries>();
-    public Axis[] XAxes { get; private set; } = Array.Empty<Axis>();
-    public Axis[] YAxes { get; private set; } = Array.Empty<Axis>();
+    public ISeries[] Series { get; private set; } = [];
+    public Axis[] XAxes { get; private set; } = [];
+    public Axis[] YAxes { get; private set; } = [];
 
     private Optimizer optimizer;
     private AssetManager assetManager;
@@ -154,24 +154,22 @@ public class CostViewModel : PageViewModelBase
 
         Series = seriesList.ToArray();
 
-        XAxes = new Axis[]
-        {
-            new Axis
-            {
+        XAxes =
+        [
+            new() {
                 Labels = labels,
                 LabelsRotation = 30,
                 MinStep = 6, // Set the minimum step to 1 hour
             }
-        };
+        ];
 
-        YAxes = new Axis[]
-        {
-            new Axis
-            {
+        YAxes =
+        [
+            new() {
                 Name = "Heat Produced (MWh)",
                 MinLimit = 0 // Set the minimum of the Y-axis to zero
             }
-        };
+        ];
 
         // Log to verify data loading
         Console.WriteLine($"Loaded {results.Count} results.");

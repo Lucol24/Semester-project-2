@@ -153,15 +153,14 @@ public class CO2EmissionViewModel : PageViewModelBase
 
         Series = seriesList.ToArray();
 
-        XAxes = new Axis[]
-        {
-            new Axis
-            {
+        XAxes =
+        [
+            new() {
                 Labels = labels,
                 LabelsRotation = 30,
                 MinStep = 6, // Set the minimum step to 1 hour
             }
-        };
+        ];
 
         YAxes = new Axis[]
         {

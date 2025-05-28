@@ -20,7 +20,7 @@ public partial class MainWindow : Window
 #if DEBUG
             this.AttachDevTools();
 #endif
-            this.WindowState = WindowState.Maximized;
+            WindowState = WindowState.Maximized;
         
         Loaded += MainWindow_Loaded;
         DataContextChanged += MainWindow_DataContextChanged;

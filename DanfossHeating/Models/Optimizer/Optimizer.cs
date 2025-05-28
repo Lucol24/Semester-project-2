@@ -74,16 +74,15 @@ public class Optimizer
             .ToList<dynamic>();
     }
 
-    private List<dynamic> SortUnitsByEcologicalImpact(List<ProductionUnit> units)
+    private static List<dynamic> SortUnitsByEcologicalImpact(List<ProductionUnit> units)
     {
-        return units
+        return [.. units
             .Select(unit => new
             {
                 Unit = unit,
                 CO2Impact = unit.CO2Emissions ?? 0
             })
-            .OrderBy(x => x.CO2Impact) // Sort from lowest (best) to highest CO2 emissions
-            .ToList<dynamic>();
+            .OrderBy(x => x.CO2Impact)];
     }
 
     private List<ProductionUnit> GetScenarioUnits(bool isScenario2)
@@ -102,7 +101,7 @@ public class Optimizer
     }
 
     // New shared method for electricity impact calculation
-    private double CalculateElectricityImpact(ProductionUnit unit, HeatDemand demand, double heatAmount, bool isScenario2)
+    private static double CalculateElectricityImpact(ProductionUnit unit, HeatDemand demand, double heatAmount, bool isScenario2)
     {
         if (!isScenario2 || !unit.MaxElectricity.HasValue)
             return 0;
@@ -148,7 +147,7 @@ public class Optimizer
         );
     }
 
-    private void AddToSchedule(List<ProductionSchedule> schedules, ResultEntry resultEntry)
+    private static void AddToSchedule(List<ProductionSchedule> schedules, ResultEntry resultEntry)
     {
         var schedule = schedules.FirstOrDefault(s => s.UnitName == resultEntry.UnitName);
         if (schedule == null)

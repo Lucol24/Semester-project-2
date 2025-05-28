@@ -15,7 +15,7 @@ public class AssetManager
         LoadProductionUnits();
     }
 
-    private void LogError(string message)
+    private static void LogError(string message)
     {
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine(message);

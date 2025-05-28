@@ -56,13 +56,13 @@ namespace DanfossHeating.Views
             set => SetValue(IsDarkThemeProperty, value);
         }
 
-        private Dictionary<TextBox, Border> _validationBanners = new Dictionary<TextBox, Border>();
+        private Dictionary<TextBox, Border> _validationBanners = [];
         
         // Direct reference to checkboxes for scenario selection
         private CheckBox? _scenario1Checkbox;
         private CheckBox? _scenario2Checkbox;
 
-        private Dictionary<string, IImage> _machineImages = new Dictionary<string, IImage>();
+        private Dictionary<string, IImage> _machineImages = [];
 
         public MachineryPage()
         {
@@ -251,37 +251,36 @@ namespace DanfossHeating.Views
             }
         }
         
-        private void SetupDanfossValuesCheckbox()
-        {
-            try
-            {
-                // Find the Danfoss Values checkbox
-                var danfossValuesCheckbox = this.FindControl<CheckBox>("DanfossValuesCheckbox");
+        // private void SetupDanfossValuesCheckbox()
+        // {
+        //     try
+        //     {
+        //         // Find the Danfoss Values checkbox
+        //         var danfossValuesCheckbox = this.FindControl<CheckBox>("DanfossValuesCheckbox");
                 
-                if (danfossValuesCheckbox != null)
-                {
-                    // Add direct event handler for the checkbox
-                    danfossValuesCheckbox.IsCheckedChanged += DanfossValuesCheckbox_IsCheckedChanged;
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error setting up Danfoss Values checkbox: {ex.Message}");
-            }
-        }
+        //         if (danfossValuesCheckbox != null)
+        //         {
+        //             // Add direct event handler for the checkbox
+        //             danfossValuesCheckbox.IsCheckedChanged += DanfossValuesCheckbox_IsCheckedChanged;
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         System.Diagnostics.Debug.WriteLine($"Error setting up Danfoss Values checkbox: {ex.Message}");
+        //     }
+        // }
         
-        private void DanfossValuesCheckbox_IsCheckedChanged(object? sender, RoutedEventArgs e)
-        {
-            if (sender is CheckBox checkbox)
-            {
-                if (checkbox.IsChecked == true)
-                {
-                    // Apply Danfoss default values
-                    LoadDanfossDefaultValues();
-                }
-                // Remove the else clause that was calling ClearAllValues()
-            }
-        }
+        // private void DanfossValuesCheckbox_IsCheckedChanged(object? sender, RoutedEventArgs e)
+        // {
+        //     if (sender is CheckBox checkbox)
+        //     {
+        //         if (checkbox.IsChecked == true)
+        //         {
+        //             // Apply Danfoss default values
+        //             LoadDanfossDefaultValues();
+        //         }
+        //     }
+        // }
         
         private void Scenario1Checkbox_IsCheckedChanged(object? sender, RoutedEventArgs e)
         {
@@ -429,7 +428,7 @@ namespace DanfossHeating.Views
             }
         }
         
-        private List<ProductionUnit> LoadDefaultUnits()
+        private static List<ProductionUnit> LoadDefaultUnits()
         {
             try
             {
@@ -894,7 +893,7 @@ namespace DanfossHeating.Views
         }
         
         // Helper method to configure a field as N/A
-        private void ConfigureFieldAsNA(Border card, string textBoxName, string labelText)
+        private static void ConfigureFieldAsNA(Border card, string textBoxName, string labelText)
         {
             var textBox = card.FindDescendantOfType<TextBox>(tb => tb.Name == textBoxName);
             
@@ -978,7 +977,7 @@ namespace DanfossHeating.Views
             }
         }
 
-        // Add the missing SaveButton_Click handler
+        // Used in the Save Button
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             // TODO: Implement logic to save changes for the specific machine
@@ -1023,6 +1022,7 @@ namespace DanfossHeating.Views
             }
         }
 
+        // Used in the Enable/Disable Button
         private void ToggleEnableButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is ProductionUnit unit &&
@@ -1308,7 +1308,7 @@ namespace DanfossHeating.Views
         }
 
         // Helper to get the field name associated with a TextBox
-        private string GetFieldName(TextBox textBox)
+        private static string GetFieldName(TextBox textBox)
         {
             string fieldName = "this field";
             // Try finding the TextBlock label within the same parent Grid row
@@ -1329,13 +1329,13 @@ namespace DanfossHeating.Views
                  // Simple fallback: remove "TextBox" suffix
                  fieldName = textBox.Name.Replace("TextBox", "");
                  // Optional: Add spaces before capital letters for better readability
-                 fieldName = Regex.Replace(fieldName, "([A-Z])", " $1").Trim();
+                 fieldName = MyRegex().Replace(fieldName, " $1").Trim();
             }
             return fieldName;
         }
 
         // Updated FindValidationBanner method - More targeted search
-        private Border? FindValidationBanner(Control control)
+        private static Border? FindValidationBanner(Control control)
         {
             // Search upwards for the root container of the DataTemplate instance.
             // This is often a ContentPresenter or the direct root element of the template.
@@ -1521,101 +1521,101 @@ namespace DanfossHeating.Views
             }
         }
         
-        // Clear all values when checkbox is unchecked
-        private void ClearAllValues()
-        {
-            // Get all machine cards
-            var itemsControl = this.FindControl<ItemsControl>("MachinesItemsControl");
-            if (itemsControl == null) return;
+        // // Clear all values when checkbox is unchecked
+        // private void ClearAllValues()
+        // {
+        //     // Get all machine cards
+        //     var itemsControl = this.FindControl<ItemsControl>("MachinesItemsControl");
+        //     if (itemsControl == null) return;
             
-            // Find all cards in the ItemsControl
-            var cards = itemsControl.GetVisualDescendants()
-                .OfType<Border>()
-                .Where(b => b.Width == 280 && b.Name != "ValidationBanner")
-                .ToList();
+        //     // Find all cards in the ItemsControl
+        //     var cards = itemsControl.GetVisualDescendants()
+        //         .OfType<Border>()
+        //         .Where(b => b.Width == 280 && b.Name != "ValidationBanner")
+        //         .ToList();
             
-            foreach (var card in cards)
-            {
-                // Find the machine name in this card
-                var nameTextBlock = card.FindDescendantOfType<TextBlock>(tb => 
-                    tb.FontSize == 16 && tb.FontWeight == FontWeight.Bold);
+        //     foreach (var card in cards)
+        //     {
+        //         // Find the machine name in this card
+        //         var nameTextBlock = card.FindDescendantOfType<TextBlock>(tb => 
+        //             tb.FontSize == 16 && tb.FontWeight == FontWeight.Bold);
                 
-                if (nameTextBlock == null) continue;
+        //         if (nameTextBlock == null) continue;
                 
-                string machineName = nameTextBlock.Text ?? string.Empty;
+        //         string machineName = nameTextBlock.Text ?? string.Empty;
                 
-                // Determine which fields should remain empty based on machine type
-                bool isGB = machineName == "GB1" || machineName == "GB2";
-                bool isOB = machineName == "OB1";
-                bool isHP = machineName == "HP1";
+        //         // Determine which fields should remain empty based on machine type
+        //         bool isGB = machineName == "GB1" || machineName == "GB2";
+        //         bool isOB = machineName == "OB1";
+        //         bool isHP = machineName == "HP1";
                 
-                // Find all the text boxes for this machine
-                var textBoxes = card.GetVisualDescendants().OfType<TextBox>().ToList();
+        //         // Find all the text boxes for this machine
+        //         var textBoxes = card.GetVisualDescendants().OfType<TextBox>().ToList();
                 
-                // Set values appropriately - 0 for regular fields, empty for permanently disabled fields
-                foreach (var textBox in textBoxes)
-                {
-                    bool isPermanentlyDisabled = false;
+        //         // Set values appropriately - 0 for regular fields, empty for permanently disabled fields
+        //         foreach (var textBox in textBoxes)
+        //         {
+        //             bool isPermanentlyDisabled = false;
                     
-                    // Check if this is a permanently disabled field
-                    if ((isGB || isOB) && textBox.Name == "ElectricityUsageTextBox") {
-                        isPermanentlyDisabled = true;
-                    }
-                    else if (isHP && (textBox.Name == "CO2EmissionsTextBox" || textBox.Name == "FuelConsumptionTextBox")) {
-                        isPermanentlyDisabled = true;
-                    }
+        //             // Check if this is a permanently disabled field
+        //             if ((isGB || isOB) && textBox.Name == "ElectricityUsageTextBox") {
+        //                 isPermanentlyDisabled = true;
+        //             }
+        //             else if (isHP && (textBox.Name == "CO2EmissionsTextBox" || textBox.Name == "FuelConsumptionTextBox")) {
+        //                 isPermanentlyDisabled = true;
+        //             }
                     
-                    // Set to empty for permanently disabled fields, 0 for others
-                    if (isPermanentlyDisabled) {
-                        textBox.Text = ""; // Keep permanently disabled fields empty
-                    } else if (textBox.Name == "HeatOutputTextBox" || 
-                        textBox.Name == "ElectricityUsageTextBox" || 
-                        textBox.Name == "CO2EmissionsTextBox" || 
-                        textBox.Name == "ProductionCostsTextBox" || 
-                        textBox.Name == "FuelConsumptionTextBox") {
-                        textBox.Text = "0";
-                    }
-                }
-            }
+        //             // Set to empty for permanently disabled fields, 0 for others
+        //             if (isPermanentlyDisabled) {
+        //                 textBox.Text = ""; // Keep permanently disabled fields empty
+        //             } else if (textBox.Name == "HeatOutputTextBox" || 
+        //                 textBox.Name == "ElectricityUsageTextBox" || 
+        //                 textBox.Name == "CO2EmissionsTextBox" || 
+        //                 textBox.Name == "ProductionCostsTextBox" || 
+        //                 textBox.Name == "FuelConsumptionTextBox") {
+        //                 textBox.Text = "0";
+        //             }
+        //         }
+        //     }
             
-            // Trigger save for each machine to persist changes
-            if (DataContext is MachineryViewModel viewModel)
-            {
-                foreach (var machine in viewModel.Machines)
-                {
-                    bool isGB = machine.Name == "GB1" || machine.Name == "GB2";
-                    bool isOB = machine.Name == "OB1";
-                    bool isHP = machine.Name == "HP1";
+        //     // Trigger save for each machine to persist changes
+        //     if (DataContext is MachineryViewModel viewModel)
+        //     {
+        //         foreach (var machine in viewModel.Machines)
+        //         {
+        //             bool isGB = machine.Name == "GB1" || machine.Name == "GB2";
+        //             bool isOB = machine.Name == "OB1";
+        //             bool isHP = machine.Name == "HP1";
                     
-                    // Set the model values
-                    machine.MaxHeat = 0;
+        //             // Set the model values
+        //             machine.MaxHeat = 0;
                     
-                    // Handle special cases for model properties
-                    if (isGB || isOB) {
-                        machine.MaxElectricity = null; // Keep null for GB and OB units
-                    } else {
-                        machine.MaxElectricity = 0;
-                    }
+        //             // Handle special cases for model properties
+        //             if (isGB || isOB) {
+        //                 machine.MaxElectricity = null; // Keep null for GB and OB units
+        //             } else {
+        //                 machine.MaxElectricity = 0;
+        //             }
                     
-                    if (isHP) {
-                        machine.CO2Emissions = null; // Keep null for HP unit
-                        machine.FuelConsumption = null; // Keep null for HP unit
-                    } else {
-                        machine.CO2Emissions = 0;
-                        machine.FuelConsumption = 0;
-                    }
+        //             if (isHP) {
+        //                 machine.CO2Emissions = null; // Keep null for HP unit
+        //                 machine.FuelConsumption = null; // Keep null for HP unit
+        //             } else {
+        //                 machine.CO2Emissions = 0;
+        //                 machine.FuelConsumption = 0;
+        //             }
                     
-                    machine.ProductionCosts = 0;
+        //             machine.ProductionCosts = 0;
                     
-                    viewModel.SaveMachine(machine);
-                }
-            }
+        //             viewModel.SaveMachine(machine);
+        //         }
+        //     }
             
-            // Make sure special fields remain properly configured
-            ConfigureSpecialFields();
+        //     // Make sure special fields remain properly configured
+        //     ConfigureSpecialFields();
             
-            System.Diagnostics.Debug.WriteLine("Cleared all values (set to 0, kept special fields empty)");
-        }
+        //     System.Diagnostics.Debug.WriteLine("Cleared all values (set to 0, kept special fields empty)");
+        // }
 
         private void InitializeComponent()
         {
@@ -1642,5 +1642,8 @@ namespace DanfossHeating.Views
                 popup.IsOpen = false;
             }
         }
+
+        [GeneratedRegex("([A-Z])")]
+        private static partial Regex MyRegex();
     }
 }

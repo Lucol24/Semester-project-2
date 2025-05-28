@@ -20,7 +20,7 @@ public partial class MainWindowViewModel : ViewModelBase
     private double _loadingProgress = 0;
     private object? _currentPage;
     private bool _isDanfossValuesSelected;
-    private HashSet<string> _disabledMachines = new HashSet<string>();
+    private HashSet<string> _disabledMachines = [];
 
     public event EventHandler<NavigationEventArgs>? NavigateToPage;
 

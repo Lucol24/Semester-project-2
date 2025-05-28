@@ -228,25 +228,25 @@ public class OptimizerViewModel : PageViewModelBase
     }
 
     // Plain season options
-    public List<string> SeasonOptions { get; } = new List<string> 
-    { 
+    public List<string> SeasonOptions { get; } =
+    [
         "Summer", 
         "Winter" 
-    };
+    ];
 
     // Plain scenario options
-    public List<string> ScenarioOptions { get; } = new List<string> 
-    { 
+    public List<string> ScenarioOptions { get; } =
+    [
         "Scenario 1", 
         "Scenario 2" 
-    };
+    ];
 
     // Plain optimization criteria options
-    public List<string> OptimizationOptions { get; } = new List<string> 
-    { 
+    public List<string> OptimizationOptions { get; } =
+    [
         "Cost", 
         "CO2" 
-    };
+    ];
 
     // Animation easing function property
     public Easing EasingFunction
@@ -263,29 +263,27 @@ public class OptimizerViewModel : PageViewModelBase
     }
 
     // Chart data and settings
-    public ISeries[] Series { get; private set; } = Array.Empty<ISeries>();
-    public Axis[] XAxes { get; set; } = new Axis[]
-    {
-        new Axis
-        {
+    public ISeries[] Series { get; private set; } = [];
+    public Axis[] XAxes { get; set; } =
+    [
+        new() {
             Name = "Time",
             NameTextSize = 40, // Increase from default (much larger title)
             NamePaint = new SolidColorPaint(SKColors.Gray),
             LabelsPaint = new SolidColorPaint(SKColors.Gray),
             TextSize = 14, // Increase label text size from default (typically 11)
         }
-    };
-    public Axis[] YAxes { get; set; } = new Axis[]
-    {
-        new Axis
-        {
+    ];
+    public Axis[] YAxes { get; set; } =
+    [
+        new() {
             Name = "Energy Production (kWh)",
             NameTextSize = 20, // Increase from default (much larger title)
             NamePaint = new SolidColorPaint(SKColors.Gray),
             LabelsPaint = new SolidColorPaint(SKColors.Gray),
             TextSize = 20, // Increase label text size
         }
-    };
+    ];
     
     // Chart design elements - Initialize paints here
     public LabelVisual Title { get; set; } = new LabelVisual { Paint = new SolidColorPaint(), TextSize = 25, Padding = new LiveChartsCore.Drawing.Padding(15) };
@@ -590,10 +588,9 @@ public class OptimizerViewModel : PageViewModelBase
             };
 
             // Enhanced Y-axis configuration using the defined paints
-            YAxes = new Axis[]
-            {
-                new Axis
-                {
+            YAxes =
+            [
+                new() {
                     Name = "Heat Produced (MWh)",
                     NamePaint = axisNamePaint,            // Apply theme paint
                     NameTextSize = 20,
@@ -605,7 +602,7 @@ public class OptimizerViewModel : PageViewModelBase
                     LabelsPaint = axisLabelPaint,         // Apply theme paint
                     Labeler = (value) => value.ToString("N2") 
                 }
-            };
+            ];
 
             // Update the chart title (which also updates its paint color)
             UpdateChartTitle();
@@ -716,10 +713,10 @@ public class OptimizerViewModel : PageViewModelBase
                 Title = "Save Chart",
                 DefaultExtension = ".png",
                 ShowOverwritePrompt = true,
-                FileTypeChoices = new []
-                {
+                FileTypeChoices =
+                [
                     new FilePickerFileType("PNG Image") { Patterns = new[] { "*.png" } }
-                },
+                ],
                 SuggestedFileName = $"HeatProduction_{DateTime.Now:yyyyMMdd_HHmmss}.png"
             };
 
@@ -751,10 +748,8 @@ public class OptimizerViewModel : PageViewModelBase
                         bitmap.Render(_chartControl);
 
                         // Save the bitmap as PNG
-                        using (var stream = await file.OpenWriteAsync())
-                        {
-                            bitmap.Save(stream);
-                        }
+                        using var stream = await file.OpenWriteAsync();
+                        bitmap.Save(stream);
                     }
                     Console.WriteLine($"Chart exported successfully to: {file.Path.LocalPath}");
                     
@@ -808,8 +803,8 @@ public class OptimizerViewModel : PageViewModelBase
         var pointColor = SKColors.Red; // Changed to red
 
         // Create series for electricity prices
-        Series = new ISeries[]
-        {
+        Series =
+        [
             new LineSeries<double>
             {
                 Name = "Electricity Price",
@@ -820,13 +815,12 @@ public class OptimizerViewModel : PageViewModelBase
                 Fill = new SolidColorPaint(fillColor),
                 LineSmoothness = 0.2 // Subtle curve that maintains data accuracy
             }
-        };
+        ];
 
         // Enhanced X-axis configuration
-        XAxes = new Axis[]
-        {
-            new Axis
-            {
+        XAxes =
+        [
+            new() {
                 Name = "Date and Time",
                 NameTextSize = 20, // Increased to match optimizer
                 NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
@@ -837,15 +831,14 @@ public class OptimizerViewModel : PageViewModelBase
                 SeparatorsPaint = new SolidColorPaint(axisSeparatorColor) { StrokeThickness = 0.5f },
                 ShowSeparatorLines = true,
                 MinStep = Math.Max(1, demands.Count() / 12), // Show roughly 12 labels
-                Padding = new LiveChartsCore.Drawing.Padding(5)
+                Padding = new Padding(5)
             }
-        };
+        ];
 
         // Enhanced Y-axis configuration
-        YAxes = new Axis[]
-        {
-            new Axis
-            {
+        YAxes =
+        [
+            new() {
                 Name = "Price (DKK/kWh)",
                 NameTextSize = 20, // Increased to match optimizer
                 NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
@@ -856,9 +849,9 @@ public class OptimizerViewModel : PageViewModelBase
                 SeparatorsPaint = new SolidColorPaint(axisSeparatorColor) { StrokeThickness = 0.5f },
                 ShowSeparatorLines = true,
                 MinStep = 0.1, // Ensure reasonable price increments
-                Padding = new LiveChartsCore.Drawing.Padding(5)
+                Padding = new Padding(5)
             }
-        };
+        ];
 
         // Enhanced title with theme-aware color
         Title = new LabelVisual
@@ -866,7 +859,7 @@ public class OptimizerViewModel : PageViewModelBase
             Text = $"Electricity Prices - {_selectedSeason} {_selectedScenario}",
             TextSize = 20,
             Paint = new SolidColorPaint(axisLabelColor),
-            Padding = new LiveChartsCore.Drawing.Padding(15)
+            Padding = new Padding(15)
         };
         
         OnPropertyChanged(nameof(Series));
@@ -955,10 +948,9 @@ public class OptimizerViewModel : PageViewModelBase
         Series = seriesList.ToArray();
 
         // Enhanced X-axis configuration
-        XAxes = new Axis[]
-        {
-            new Axis
-            {
+        XAxes =
+        [
+            new() {
                 Name = "Time",
                 NameTextSize = 20,
                 NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
@@ -969,13 +961,12 @@ public class OptimizerViewModel : PageViewModelBase
                 SeparatorsPaint = new SolidColorPaint(axisSeparatorColor) { StrokeThickness = 0.5f },
                 ShowSeparatorLines = true,
                 MinStep = Math.Max(1, labels.Length / 12),
-                Padding = new LiveChartsCore.Drawing.Padding(5)
+                Padding = new Padding(5)
             }
-        };        // Enhanced Y-axis configuration
-        YAxes = new Axis[]
-        {
-            new Axis
-            {
+        ];        // Enhanced Y-axis configuration
+        YAxes =
+        [
+            new() {
                 Name = "Production Cost (DKK)",
                 NameTextSize = 20,
                 NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
@@ -987,9 +978,9 @@ public class OptimizerViewModel : PageViewModelBase
                 ShowSeparatorLines = true,
                 MinStep = 100,
                 Position = AxisPosition.Start,
-                Padding = new LiveChartsCore.Drawing.Padding(5)
+                Padding = new Padding(5)
             }
-        };
+        ];
 
         // Enhanced title with theme-aware color
         Title = new LabelVisual
@@ -997,7 +988,7 @@ public class OptimizerViewModel : PageViewModelBase
             Text = $"Production Costs - {_selectedSeason} {_selectedScenario}",
             TextSize = 20,
             Paint = new SolidColorPaint(axisLabelColor),
-            Padding = new LiveChartsCore.Drawing.Padding(15)
+            Padding = new Padding(15)
         };
 
         OnPropertyChanged(nameof(Series));
@@ -1087,10 +1078,9 @@ public class OptimizerViewModel : PageViewModelBase
         Series = seriesList.ToArray();
 
         // Enhanced X-axis configuration
-        XAxes = new Axis[]
-        {
-            new Axis
-            {
+        XAxes =
+        [
+            new() {
                 Name = "Time",
                 NameTextSize = 20,
                 NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
@@ -1101,15 +1091,14 @@ public class OptimizerViewModel : PageViewModelBase
                 SeparatorsPaint = new SolidColorPaint(axisSeparatorColor) { StrokeThickness = 0.5f },
                 ShowSeparatorLines = true,
                 MinStep = Math.Max(1, labels.Length / 12),
-                Padding = new LiveChartsCore.Drawing.Padding(5)
+                Padding = new Padding(5)
             }
-        };
+        ];
 
         // Enhanced Y-axis configuration
-        YAxes = new Axis[]
-        {
-            new Axis
-            {
+        YAxes =
+        [
+            new() {
                 Name = "CO₂ Emissions (kg)",
                 NameTextSize = 20,
                 NamePaint = new SolidColorPaint(axisLabelColor) { StrokeThickness = 1 },
@@ -1121,9 +1110,9 @@ public class OptimizerViewModel : PageViewModelBase
                 ShowSeparatorLines = true,
                 MinStep = 50,
                 Position = AxisPosition.Start,
-                Padding = new LiveChartsCore.Drawing.Padding(5)
+                Padding = new Padding(5)
             }
-        };
+        ];
 
         // Enhanced title with theme-aware color
         Title = new LabelVisual
@@ -1131,7 +1120,7 @@ public class OptimizerViewModel : PageViewModelBase
             Text = $"CO₂ Emissions - {_selectedSeason} {_selectedScenario}",
             TextSize = 20,
             Paint = new SolidColorPaint(axisLabelColor),
-            Padding = new LiveChartsCore.Drawing.Padding(15)
+            Padding = new Padding(15)
         };
 
         OnPropertyChanged(nameof(Series));

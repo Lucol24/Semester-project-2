@@ -122,7 +122,7 @@ public class MachineryViewModel : PageViewModelBase
     }
     
     // Replace the SaveMachinesCommand with individual commands for each machine
-    private Dictionary<string, ICommand> _saveMachineCommands = new Dictionary<string, ICommand>();
+    private Dictionary<string, ICommand> _saveMachineCommands = [];
     
     // Current unit to save - mark as nullable
     private ProductionUnit? _currentUnit;
@@ -148,11 +148,11 @@ public class MachineryViewModel : PageViewModelBase
 
     public MachineryViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
     {
-        NavigateToHomeCommand = new Command(() => NavigateToHome());
-        NavigateToOptimizerCommand = new Command(() => NavigateToOptimizer());
+        NavigateToHomeCommand = new Command(NavigateToHome);
+        NavigateToOptimizerCommand = new Command(NavigateToOptimizer);
         NavigateToMachineryCommand = new Command(() => { /* Already on settings page */ });
-        NavigateToAboutUsCommand = new Command(() => NavigateToAboutUs());
-        SaveMachineCommand = new Command(() => SaveCurrentMachine());
+        NavigateToAboutUsCommand = new Command(NavigateToAboutUs);
+        SaveMachineCommand = new Command(SaveCurrentMachine);
         
         // Initialize scenario commands
         LoadScenario1Command = new Command(() => IsScenario1Selected = !IsScenario1Selected);
@@ -200,7 +200,7 @@ public class MachineryViewModel : PageViewModelBase
     }
     
     // Load default units from default_units.json
-    private List<ProductionUnit> LoadDefaultUnits()
+    private static List<ProductionUnit> LoadDefaultUnits()
     {
         try
         {
@@ -378,11 +378,11 @@ public class MachineryViewModel : PageViewModelBase
         }
     }
     
-    // Method to set current machine before saving
-    public void PrepareForSave(ProductionUnit unit)
-    {
-        _currentUnit = unit;
-    }
+    // // Method to set current machine before saving
+    // public void PrepareForSave(ProductionUnit unit)
+    // {
+    //     _currentUnit = unit;
+    // }
     
     // Method to save the current unit
     private void SaveCurrentMachine()
