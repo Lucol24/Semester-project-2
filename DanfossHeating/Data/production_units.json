@@ -1,10 +1,10 @@
 [
   {
     "Name": "GB1",
-    "MaxHeat": 312312312,
+    "MaxHeat": 4,
     "MaxElectricity": null,
-    "ProductionCosts": 1,
-    "CO2Emissions": 3,
+    "ProductionCosts": 520,
+    "CO2Emissions": 175,
     "FuelConsumption": 0.9,
     "ImagePath": "avares://DanfossHeating/Assets/machine1.png"
   },

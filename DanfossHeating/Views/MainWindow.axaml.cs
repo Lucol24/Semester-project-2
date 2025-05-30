@@ -100,16 +100,15 @@ public partial class MainWindow : Window
             Console.WriteLine("ERROR: MainContent is still null!");
             return;
         }
-            
+
         // Cast the ViewModel to ViewModelBase to access PageType
-        var viewModel = e.ViewModel as ViewModelBase;
-        if (viewModel == null)
+        if (e.ViewModel is not ViewModelBase viewModel)
         {
             Console.WriteLine($"ERROR: ViewModel is not of type ViewModelBase: {e.ViewModel.GetType().Name}");
             return;
         }
-        
-        UserControl? page = null;
+
+        UserControl? page;
         
         // Pass the main view model to page view models for navigation
         if (viewModel is HomePageViewModel homeViewModel && _viewModel != null)

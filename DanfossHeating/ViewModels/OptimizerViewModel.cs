@@ -454,13 +454,13 @@ public class OptimizerViewModel : PageViewModelBase
         {
             var results = resultDataManager.LoadResults();
 
-            if (results == null || !results.Any())
+            if (results == null || results.Count == 0)
             {
                 Console.WriteLine("No results data available to display");
                 // Set up empty chart
-                Series = Array.Empty<ISeries>();
-                XAxes = new[] { new Axis { Name = "Time" } };
-                YAxes = new[] { new Axis { Name = "Heat Produced (MWh)" } };
+                Series = [];
+                XAxes = [new Axis { Name = "Time" }];
+                YAxes = [new Axis { Name = "Heat Produced (MWh)" }];
                 return;
             }
 
@@ -877,7 +877,7 @@ public class OptimizerViewModel : PageViewModelBase
 
         // Then update chart with production costs
         var results = resultDataManager.LoadResults();
-        if (results == null || !results.Any())
+        if (results == null || results.Count == 0)
         {
             Series = Array.Empty<ISeries>();
             UpdateChartTitle();
@@ -1007,7 +1007,7 @@ public class OptimizerViewModel : PageViewModelBase
 
         // Then update chart with CO2 emissions
         var results = resultDataManager.LoadResults();
-        if (results == null || !results.Any())
+        if (results == null || results.Count == 0)
         {
             Series = Array.Empty<ISeries>();
             UpdateChartTitle();

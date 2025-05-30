@@ -58,10 +58,10 @@ public class CO2EmissionViewModel : PageViewModelBase
     public Axis[] XAxes { get; private set; } = Array.Empty<Axis>();
     public Axis[] YAxes { get; private set; } = Array.Empty<Axis>();
 
-    private Optimizer optimizer;
-    private AssetManager assetManager;
-    private SourceDataManager sourceDataManager;
-    private ResultDataManager resultDataManager;
+    private readonly Optimizer optimizer;
+    private readonly AssetManager assetManager;
+    private readonly SourceDataManager sourceDataManager;
+    private readonly ResultDataManager resultDataManager;
     
     public CO2EmissionViewModel(string userName, bool isDarkTheme) : base(userName, isDarkTheme)
     {

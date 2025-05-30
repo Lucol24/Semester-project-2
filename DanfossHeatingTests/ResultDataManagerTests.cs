@@ -54,7 +54,7 @@ public class ResultDataManagerTests
         }
 
         // Create a new instance of ResultDataManager
-        ResultDataManager resultDataManager = new ResultDataManager(_filePath);
+        ResultDataManager resultDataManager = new(_filePath);
 
         // Prepare test data
         var testResults = new List<ResultEntry>

@@ -122,16 +122,16 @@ public class MachineryViewModel : PageViewModelBase
     }
     
     // Replace the SaveMachinesCommand with individual commands for each machine
-    private Dictionary<string, ICommand> _saveMachineCommands = [];
+    private readonly Dictionary<string, ICommand> _saveMachineCommands = [];
     
     // Current unit to save - mark as nullable
-    private ProductionUnit? _currentUnit;
+    private readonly ProductionUnit? _currentUnit;
     public ICommand SaveMachineCommand { get; }
     
     public ObservableCollection<ProductionUnit> Machines { get; set; } = new();
     
-    private AssetManager _assetManager;
-    private List<ProductionUnit> _defaultUnits;
+    private readonly AssetManager _assetManager;
+    private readonly List<ProductionUnit> _defaultUnits;
 
     // Dictionary to store machine type names
     private static readonly Dictionary<string, string> MachineTypes = new()
@@ -377,13 +377,7 @@ public class MachineryViewModel : PageViewModelBase
             Console.WriteLine($"Error loading Scenario 2: {ex.Message}");
         }
     }
-    
-    // // Method to set current machine before saving
-    // public void PrepareForSave(ProductionUnit unit)
-    // {
-    //     _currentUnit = unit;
-    // }
-    
+
     // Method to save the current unit
     private void SaveCurrentMachine()
     {
