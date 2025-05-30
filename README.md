@@ -108,11 +108,28 @@ DanfossHeatingTests/
 
 ## 🖼️ Screenshots & Assets
 
-   ![Welcome Page](DanfossHeating/Assets/README/welcome_page.png)
-   ![Main UI](DanfossHeating/Assets/README/main_ui.png)
-   ![Dark Mode](DanfossHeating/Assets/README/dark_mode.png)
-   ![Machinery Configuration](DanfossHeating/Assets/README/machinery_page.png)
-   ![Electricity Prices](DanfossHeating/Assets/README/electricity_prices.png)
-   ![Production Cost](DanfossHeating/Assets/README/production_cost.png)
-   ![CO₂ Emissions Chart](DanfossHeating/Assets/README/CO2_emissions.png)
-   ![Optimizer Flow](DanfossHeating/Assets/README/optimizer_diagram.png)
+Below is a quick visual tour of the app’s main features:
+
+- **Welcome Screen**  
+  ![Welcome Page](DanfossHeating/Assets/README/welcome_page.png)
+
+- **Main Interface**  
+  ![Main UI](DanfossHeating/Assets/README/main_ui.png)
+
+- **Dark Mode**  
+  ![Dark Mode](DanfossHeating/Assets/README/dark_mode.png)
+
+- **Machinery Configuration**  
+  ![Machinery Configuration](DanfossHeating/Assets/README/machinery_page.png)
+
+- **Electricity Prices**  
+  ![Electricity Prices](DanfossHeating/Assets/README/electricity_prices.png)
+
+- **Production Cost Overview**  
+  ![Production Cost](DanfossHeating/Assets/README/production_cost.png)
+
+- **CO₂ Emissions Chart**  
+  ![CO₂ Emissions Chart](DanfossHeating/Assets/README/CO2_emissions.png)
+
+- **Optimizer Schedule Flow**  
+  ![Optimizer Flow](DanfossHeating/Assets/README/optimizer_diagram.png)
