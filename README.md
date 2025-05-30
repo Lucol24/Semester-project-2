@@ -38,12 +38,12 @@ This app automates district heating schedules for the city of Heatington. It fin
   - **Optimizer (OPT)**: Core logic for schedule generation.
   - **Data Visualization (DV)**: Graphs for demand, production, costs, and emissions.
 - **Unit Testing**: Verifies that methods and modules work correctly. We wrote:
-- 4 tests for Asset Manager (AM)
-- 3 for Source Data Manager (SDM)
-- 3 for Optimizer (OPT)
-- 2 for Result Data Manager (RDM)
-- 2 for User Interface (UI)
-- 4 functional tests
+    - 4 tests for Asset Manager (AM)
+    - 3 for Source Data Manager (SDM)
+    - 3 for Optimizer (OPT)
+    - 2 for Result Data Manager (RDM)
+    - 2 for User Interface (UI)
+    - 4 functional tests
 
 ## 👥 Contributors
 
@@ -110,13 +110,13 @@ DanfossHeatingTests/
 
 Below is a quick visual tour of the app’s main features:
 
-- **Welcome Screen**  
+- **Welcome Page**  
   ![Welcome Page](DanfossHeating/Assets/README/welcome_page.png)
 
 - **Home Page**  
   ![Main UI](DanfossHeating/Assets/README/main_ui.png)
 
-- **Dark Mode**  
+- **Dark Mode Overview**  
   ![Dark Mode](DanfossHeating/Assets/README/dark_mode.png)
 
 - **Machinery Configuration**  
