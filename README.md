@@ -113,7 +113,7 @@ Below is a quick visual tour of the app’s main features:
 - **Welcome Screen**  
   ![Welcome Page](DanfossHeating/Assets/README/welcome_page.png)
 
-- **Main Interface**  
+- **Home Page**  
   ![Main UI](DanfossHeating/Assets/README/main_ui.png)
 
 - **Dark Mode**  
@@ -121,6 +121,9 @@ Below is a quick visual tour of the app’s main features:
 
 - **Machinery Configuration**  
   ![Machinery Configuration](DanfossHeating/Assets/README/machinery_page.png)
+
+- **Optimizer Schedule Flow**  
+  ![Optimizer Flow](DanfossHeating/Assets/README/optimizer_diagram.png)
 
 - **Electricity Prices**  
   ![Electricity Prices](DanfossHeating/Assets/README/electricity_prices.png)
@@ -130,6 +133,3 @@ Below is a quick visual tour of the app’s main features:
 
 - **CO₂ Emissions Chart**  
   ![CO₂ Emissions Chart](DanfossHeating/Assets/README/CO2_emissions.png)
-
-- **Optimizer Schedule Flow**  
-  ![Optimizer Flow](DanfossHeating/Assets/README/optimizer_diagram.png)
