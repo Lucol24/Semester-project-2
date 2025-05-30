@@ -108,11 +108,11 @@ DanfossHeatingTests/
 
 ## 🖼️ Screenshots & Assets
 
-   ![Welcome Page](Assets/README/DanfossHeating\Assets\README\welcome_page.png)
-   ![Main UI](Assets/README/DanfossHeating\Assets\README\main_ui.png)
-   ![Dark Mode](Assets/README/DanfossHeating\Assets\README\dark_mode.png)
-   ![Machinery Configuration](Assets/README/DanfossHeating\Assets\README\machinery_page.png)
-   ![Electricity Prices](Assets/README/DanfossHeating\Assets\README\electricity_prices.png)
+   ![Welcome Page](/DanfossHeating\Assets\README\welcome_page.png)
+   ![Main UI](DanfossHeating/Assets/README/main_ui.png)
+   ![Dark Mode](Assets\README\dark_mode.png)
+   ![Machinery Configuration](Assets/README/machinery_page.png)
+   ![Electricity Prices](/DanfossHeating\Assets\README\electricity_prices.png)
    ![Production Cost](DanfossHeating\Assets\README\production_cost.png)
-   ![CO₂ Emissions Chart](Assets/README/DanfossHeating\Assets\README\CO2_emissions.png)
-   ![Optimizer Flow](Assets/README/DanfossHeating\Assets\README\optimizer_diagram.png)
+   ![CO₂ Emissions Chart](/DanfossHeating\Assets\README\CO2_emissions.png)
+   ![Optimizer Flow](/DanfossHeating\Assets\README\optimizer_diagram.png)
