@@ -6,7 +6,6 @@ using System.Text.Json;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Data.Converters;
-using Avalonia.Data;
 
 namespace DanfossHeating.ViewModels;
 
@@ -120,12 +119,9 @@ public class MachineryViewModel : PageViewModelBase
             }
         }
     }
-    
-    // Replace the SaveMachinesCommand with individual commands for each machine
+      // Dictionary holding save commands for each machine
     private readonly Dictionary<string, ICommand> _saveMachineCommands = [];
     
-    // Current unit to save - mark as nullable
-    private readonly ProductionUnit? _currentUnit;
     public ICommand SaveMachineCommand { get; }
     
     public ObservableCollection<ProductionUnit> Machines { get; set; } = new();
@@ -376,14 +372,13 @@ public class MachineryViewModel : PageViewModelBase
         {
             Console.WriteLine($"Error loading Scenario 2: {ex.Message}");
         }
-    }
-
-    // Method to save the current unit
+    }    // Method to save the current unit
     private void SaveCurrentMachine()
     {
-        if (_currentUnit != null)
+        // Use the existing SaveMachine method for all machines that need saving
+        foreach (var unit in Machines)
         {
-            SaveMachine(_currentUnit);
+            SaveMachine(unit);
         }
     }
     

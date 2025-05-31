@@ -28,7 +28,6 @@ public partial class App : Application
             
             desktop.MainWindow = mainWindow;
             
-            // Subscribe to unhandled exceptions
             AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
             {
                 Console.WriteLine($"UNHANDLED EXCEPTION: {args.ExceptionObject}");

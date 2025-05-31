@@ -1,8 +1,6 @@
 using System;
 using System.Windows.Input;
-using Avalonia;
 using Avalonia.Media.Imaging;
-using Avalonia.Styling;
 
 namespace DanfossHeating.ViewModels;
 public class HomePageViewModel : PageViewModelBase

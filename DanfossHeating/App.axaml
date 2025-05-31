@@ -17,6 +17,4 @@
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
-
-    <!-- Make sure there are no references to PageTemplate here -->
 </Application>

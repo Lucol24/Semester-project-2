@@ -1,15 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Avalonia.Controls;
-using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
-using Avalonia.Threading;
-using DanfossHeating;
 using DanfossHeating.ViewModels;
 using DanfossHeating.Views;
-using Xunit;
 
 namespace DanfossHeatingTests;
 

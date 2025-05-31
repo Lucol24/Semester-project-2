@@ -1,11 +1,8 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using DanfossHeating.ViewModels;
 using System;
 using System.ComponentModel;
-using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Avalonia;
 
 namespace DanfossHeating.Views;

@@ -4,7 +4,6 @@ using System.Windows.Input;
 using System.Linq;
 using LiveChartsCore;
 using CommunityToolkit.Mvvm.Input;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;

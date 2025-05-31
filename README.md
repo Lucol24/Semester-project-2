@@ -8,15 +8,19 @@ This application uses CSV and JSON files in the `/Data` folder. You can test the
 Run the application in two modes:
 
 - **GUI mode:** From the project root, run:
-  ```
+
+  ```bash
   dotnet run
   ```
+
   This starts the Avalonia-based graphical interface.
 
 - **Console mode:** From the project root, run:
-  ```
+
+  ```bash
   dotnet run -- --term
   ```
+
   This starts the original console-only version.
 
 The application is written in **C#**.
@@ -38,12 +42,12 @@ This app automates district heating schedules for the city of Heatington. It fin
   - **Optimizer (OPT)**: Core logic for schedule generation.
   - **Data Visualization (DV)**: Graphs for demand, production, costs, and emissions.
 - **Unit Testing**: Verifies that methods and modules work correctly. We wrote:
-    - 4 tests for Asset Manager (AM)
-    - 3 for Source Data Manager (SDM)
-    - 3 for Optimizer (OPT)
-    - 2 for Result Data Manager (RDM)
-    - 2 for User Interface (UI)
-    - 4 functional tests
+  - 4 tests for Asset Manager (AM)
+  - 3 for Source Data Manager (SDM)
+  - 3 for Optimizer (OPT)
+  - 2 for Result Data Manager (RDM)
+  - 2 for User Interface (UI)
+  - 4 functional tests
 
 ## 👥 Contributors
 
@@ -89,11 +93,14 @@ DanfossHeatingTests/
 ## 🔧 How to Run
 
 1. **App:** Open a terminal in the `DanfossHeating` folder and run:
-   ```
+
+   ```bash
    dotnet run
    ```
+
 2. **Tests:** Open a terminal in `DanfossHeatingTests` and run:
-   ```
+
+   ```bash
    dotnet test
    ```
 

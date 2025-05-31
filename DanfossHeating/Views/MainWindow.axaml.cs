@@ -4,7 +4,6 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using System;
 using DanfossHeating.ViewModels;
-using Avalonia.Markup.Xaml;
 
 namespace DanfossHeating.Views;
 
